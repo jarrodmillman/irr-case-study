@@ -1,0 +1,42 @@
+digraph {
+	graph [bb="-106.36,-106.83,91.579,114.28"];
+	node [label="\N",
+		shape=box
+	];
+	1	 [height=0.5,
+		label="Understand problem",
+		pos="-62.363,96.096",
+		width=1.7778];
+	2	 [height=0.5,
+		label="Acquire data",
+		pos="100,96.284",
+		width=1.1944];
+	1 -> 2;
+	3	 [height=0.5,
+		label="Design algorithm",
+		pos="35.579,38.87",
+		width=1.5556];
+	1 -> 3;
+	6	 [height=0.5,
+		label="Reflect and synthesize",
+		pos="8.1005,-88.826",
+		width=0.77778];
+	1 -> 6;
+	2 -> 1;
+	2 -> 3;
+	2 -> 5;
+	3 -> 1;
+	4	 [height=0.5,
+		label="Implement code",
+		pos="55.559,-18.627",
+		width=0.625];
+	3 -> 4;
+	6 -> 1;
+	4 -> 3;
+	5	 [height=0.5,
+		label="Analyze data",
+		pos="178.362,-50.796",
+		width=0.86111];
+	4 -> 5;
+	5 -> 6;
+}

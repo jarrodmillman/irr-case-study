@@ -1,4 +1,5 @@
 \documentclass[]{article}
+\usepackage{graphicx}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -49,41 +50,151 @@
 
 \begin{document}
 
-\subparagraph{Introduction}\label{introduction}
+\title{Reproducible Applied Statistics:\\
+Is tagging of therapist-patient interactions reliable?\thanks{Submitted
+to \url{https://github.com/BIDS/repro-case-studies}.
+}}
 
-\emph{Please answer these introductory questions for your case study in
-a few sentences.}
+\author{K. Jarrod Millman (JM)\\ Division of Biostatistics, UC Berkeley \and
+Kellie Ottoboni (KO)\\ Department of Statistics, UC Berkeley \and
+Naomi A. P. Stark (NS)\\ Department of Philosophy, University of Pennsylvania \and
+Philip B. Stark (PS)\\ Department of Statistics, UC Berkeley
+}
+
+
+\maketitle
+
+
+\section{Introduction}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Who are you and what is your research field? Include your name,
-  affiliation, discipline, and the background or context of your overall
-  research that is necessary specifically to introduce your specific
-  case study.
+  Who are you and what is your research field?
 \end{enumerate}
 
-\begin{itemize}
+%\begin{itemize}
+%\itemsep1pt\parskip0pt\parsep0pt
+%\item
+%  K. Jarrod Millman, Division of Biostatistics, UC Berkeley PhD student
+%  in biostatistics; background in scientific computing and neuroscience
+%\item
+%  Kellie Ottoboni, Department of Statistics, UC Berkeley PhD student in
+%  statistics
+%\item
+%  Naomi A.P. Stark, Department of Philosophy, University of Pennsylvania
+%  Undergraduate in bioethics; background in therapy with children on the
+%  autistic spectrum
+%\item
+%  Philip B. Stark, Department of Statistics, UC Berkeley Faculty in
+%  statistics; background in physical science
+%\end{itemize}
+
+We are three applied statisticians~(JM,~KO,~PS) at Berkeley working with a
+domain specialist~(NP) at the University of Pennsylvania. Our case study
+involves assessing inter-rater reliability (IRR) for human classifiers of
+therapy sessions with children on the autistic spectrum.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  K. Jarrod Millman, Division of Biostatistics, UC Berkeley PhD student
-  in biostatistics; background in scientific computing and neuroscience
-\item
-  Kellie Ottoboni, Department of Statistics, UC Berkeley PhD student in
-  statistics
-\item
-  Naomi A.P. Stark, Department of Philosophy, University of Pennsylvania
-  Undergraduate in bioethics; background in therapy with children on the
-  autistic spectrum
-\item
-  Philip B. Stark, Department of Statistics, UC Berkeley Faculty in
-  statistics; background in physical science
-\end{itemize}
+  Define what the term ``reproducibility'' means to you generally and/or
+  in the particular context of your case study.
+\end{enumerate}
 
-Our case study involves assessing inter-rater reliability (IRR) for
-human classifiers of therapy sessions with children on the autistic
-spectrum. The data were collected by Naomi Stark and Gil Kliman. They
+The term \emph{reproducibility} is overloaded with orthogonal or even
+contradictory meanings in different disciplines. In the context of the current
+project, \emph{reproducibility} means that we have documented (nearly) every
+step of the analysis, from cleaning to coding to code execution. Of course, the
+project itself is \emph{about} the \emph{reliability and replicability} of a
+particular kind of measurement: raters' assessments of activities during
+therapy sessions.
+
+\newpage
+
+\subparagraph{Workflow diagram}\label{workflow-diagram}
+
+%\begin{figure}[h]
+%  \centering
+%    \includegraphics[width=0.5\textwidth]{work_process.png}
+%  \caption{The nodes represent the following stages of our investigation
+%           (1) understanding the fundamental problem, (2) data acquisition,
+%           pre-processing, and cleaning, (3) algorithm design and analysis,
+%           (4) code development, (5) data analysis, and (6) reflection and
+%           synthesis.}
+%\end{figure}
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.5\textwidth]{work_process.png}
+  \caption{Our work process.}
+\end{figure}
+
+\subparagraph{Workflow narrative}\label{workflow-narrative}
+
+%Referring to your diagram, describe your workflow for this specific
+%project, from soup to nuts. Imagine walking a friend or a colleague
+%through the basic steps, paying particular attention to links between
+%steps. Don't forget to include ``messy parts'', loops, aborted efforts,
+%and failures.
+%
+%It may be helpful to consider the following questions, where
+%interesting, applicable, and non-obvious from context. For each part of
+%your workflow:
+%
+%\begin{itemize}
+%\itemsep1pt\parskip0pt\parsep0pt
+%\item
+%  \textbf{Frequency:} How often does the step happen and how long does
+%  it take?
+%\item
+%  \textbf{Who:} Which members of your team participate (or not)?
+%\item
+%  \textbf{Manual/Automated:} Is the step automated or does it involve
+%  human intervention (if so, is it recorded)?
+%\item
+%  \textbf{Tools:} Which software or online tools are used in the step?
+%  How are they used?
+%\end{itemize}
+%
+%In addition to detailing the steps of the workflow, you may wish to
+%consider the following questions about the workflow as a whole:
+%
+%\begin{itemize}
+%\itemsep1pt\parskip0pt\parsep0pt
+%\item
+%  \textbf{Data:} Is your raw data online? \textbf{yes}
+%\item
+%  Is it citeable?
+%\item
+%  Does the license allow external researchers to publish a
+%%  replication/confirmation of your published work? \textbf{yes}
+%\item
+%  \textbf{Software:} Is the software online? \textbf{yes}
+%\item
+%  Is there documentation? \textbf{yes}
+%\item
+%  Are there tests? \textbf{yes}
+%\item
+%  Are there example input files alongside the code? \textbf{yes}
+%\item
+%  \textbf{Processing:} Is your data processing workflow online?
+%  \textbf{everything downstream of data anonymization}
+%\item
+%%  Are the scripts documented? \textbf{yes}
+%\item
+%  Would an external researcher know what order to run them in?
+%  \textbf{yes}
+%\item
+%  Would they know what parameters to use? \textbf{yes}
+%\end{itemize}
+%
+%\emph{(500-800 words)}
+
+The data were collected by Naomi Stark and Gil Kliman. They
 comprise ratings of segments of 8 videos by 10 trained raters. Each
 video is divided into approximately 40 time segments. In each time
 segment, none, any, or all of 183 types of activity might be taking
@@ -95,124 +206,7 @@ appropriate to the experiment, implemented the approach in Python,
 incorporated the resulting code into an evolving Python package of
 permutation tests (\emph{permute}), applied the approach to the cleaned
 data, documented the code and the analysis, and wrote up the results in
-a LaTeX document. We expect to submit the results for publication with
-G. Kliman at some point.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{1}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Define what the term ``reproducibility'' means to you generally and/or
-  in the particular context of your case study.
-\end{enumerate}
-
-In general, the term \emph{reproducibility} is highly overloaded, with
-orthogonal or even contradictory meanings in different disciplines. In
-the context of the current project, \emph{reproducibility} means that we
-have documented (nearly) every step of the analysis, from cleaning to
-coding to code execution. Of course, the project itself is \emph{about}
-the \emph{reliability and replicability} of a particular kind of
-measurement: raters' assessments of activities during therapy sessions.
-
-\subparagraph{Workflow diagram}\label{workflow-diagram}
-
-The core of your case study is a diagrammatic workflow sketch, which
-depicts your the entire pipeline of your workflow. Think of this like a
-circuit diagram: boxes represent steps, tools, or other disjoint
-components, and arrows show how outputs of particular steps feed as
-inputs to others. This diagram will be complemented by a textual
-narrative.
-
-We recommend the site draw.io for creating this diagram, or you are also
-welcome to sketch this by hand. While creating your diagram, be sure to
-consider:
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  specialized tools and where they enter your workflow
-\item
-  the ``state'' of the data at each stage
-\item
-  collaborators
-\item
-  version control repos
-\item
-  products produced at various stages (graphics, summaries, etc)
-\item
-  databases
-\item
-  whitepapers
-\item
-  customers
-\end{itemize}
-
-Each of the two example case studies include a workflow diagram you can
-also use for guidance.
-
-Please save your diagram alongside this completed case study template.
-
-\subparagraph{Workflow narrative}\label{workflow-narrative}
-
-Referring to your diagram, describe your workflow for this specific
-project, from soup to nuts. Imagine walking a friend or a colleague
-through the basic steps, paying particular attention to links between
-steps. Don't forget to include ``messy parts'', loops, aborted efforts,
-and failures.
-
-It may be helpful to consider the following questions, where
-interesting, applicable, and non-obvious from context. For each part of
-your workflow:
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  \textbf{Frequency:} How often does the step happen and how long does
-  it take?
-\item
-  \textbf{Who:} Which members of your team participate (or not)?
-\item
-  \textbf{Manual/Automated:} Is the step automated or does it involve
-  human intervention (if so, is it recorded)?
-\item
-  \textbf{Tools:} Which software or online tools are used in the step?
-  How are they used?
-\end{itemize}
-
-In addition to detailing the steps of the workflow, you may wish to
-consider the following questions about the workflow as a whole:
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  \textbf{Data:} Is your raw data online? \textbf{yes}
-\item
-  Is it citeable?
-\item
-  Does the license allow external researchers to publish a
-  replication/confirmation of your published work? \textbf{yes}
-\item
-  \textbf{Software:} Is the software online? \textbf{yes}
-\item
-  Is there documentation? \textbf{yes}
-\item
-  Are there tests? \textbf{yes}
-\item
-  Are there example input files alongside the code? \textbf{yes}
-\item
-  \textbf{Processing:} Is your data processing workflow online?
-  \textbf{everything downstream of data anonymization}
-\item
-  Are the scripts documented? \textbf{yes}
-\item
-  Would an external researcher know what order to run them in?
-  \textbf{yes}
-\item
-  Would they know what parameters to use? \textbf{yes}
-\end{itemize}
-
-\emph{(500-800 words)}
+a LaTeX document. 
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -437,92 +431,5 @@ reproducible, if you think that the tool might be of broader interest or
 relevance to a general audience. (200-400 words)} See above: virtualenv,
 make, git, github, nose, Sphinx, TravisCI, Coverage/Coveralls, PyPI,
 LaTeX
-
-\subparagraph{General questions about
-reproducibility}\label{general-questions-about-reproducibility}
-
-\emph{Please provide short answers (a few sentences each) to these
-general questions about reproducibility and scientific research. Rough
-ideas are appropriate here, as these will not be published with the case
-study. Please feel free to answer all or only some of these questions.}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Why do you think that reproducibility in your domain is important?
-\end{enumerate}
-
-Absent reproducibility, science isn't science.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{1}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  How or where did you learn the reproducible practices described in
-  your case study? Mentors, classes, workshops, etc.
-\end{enumerate}
-
-From collaborators and on the web.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{2}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  What do you see as the major pitfalls to doing reproducible research
-  in your domain, and do you have any suggestions for working around
-  these? Examples could include legal, logistical, human, or technical
-  challenges.
-\end{enumerate}
-
-Learning curve; startup costs.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{3}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  What do you view as the major incentives for doing reproducible
-  research?
-\end{enumerate}
-
-Better evidence that the results are correct; better ability to re-use
-and extend the work; easier to get others to use one's methods
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{4}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Are there any broad reproducibility best practices that you'd
-  recommend for researchers in your field?
-\end{enumerate}
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Script analyses
-\item
-  Use revision control
-\item
-  Test, test, test
-\item
-  Avoid proprietary software
-\item
-  Avoid spreadsheets
-\item
-  Set seeds of PRNGs explicitly
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\setcounter{enumi}{5}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Would you recommend any specific websites, training courses, or books
-  for learning more about reproducibility?
-\end{enumerate}
 
 \end{document}
