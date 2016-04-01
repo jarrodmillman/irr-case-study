@@ -1,50 +1,34 @@
 \documentclass[]{article}
-\usepackage{graphicx}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-    \usepackage{xltxtra,xunicode}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
-\fi
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={},
-            pdftitle={},
-            colorlinks=true,
-            citecolor=blue,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
-\urlstyle{same}  % don't use monospace font for urls
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\setcounter{secnumdepth}{0}
+%\documentclass[11pt, oneside]{article}          % use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                           % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                                  % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                           % Activate for rotated page geometry
+%\usepackage[parfill]{parskip}                  % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}                           % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+                                                                % TeX will automatically convert eps --> pdf in pdflatex                
+\usepackage{amssymb}
+\usepackage{upquote}
+
+%-----------------------------------------------------------------------------
+% Special-purpose color definitions (dark enough to print OK in black and white)
+\usepackage{color}
+% A few colors to replace the defaults for certain link types
+\definecolor{orange}{cmyk}{0,0.4,0.8,0.2}
+\definecolor{darkorange}{rgb}{.71,0.21,0.01}
+\definecolor{darkgreen}{rgb}{.12,.54,.11}
+%-----------------------------------------------------------------------------
+% The hyperref package gives us a pdf with properly built
+% internal navigation ('pdf bookmarks' for the table of contents,
+% internal cross-reference links, web links for URLs, etc.)
+\usepackage{hyperref}
+\hypersetup{pdftex, % needed for pdflatex
+  breaklinks=true, % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=darkorange,
+  citecolor=darkgreen,
+}
+
 
 \date{}
 
@@ -55,10 +39,10 @@ Is tagging of therapist-patient interactions reliable?\thanks{Submitted
 to \url{https://github.com/BIDS/repro-case-studies}.
 }}
 
-\author{K. Jarrod Millman (JM)\\ Division of Biostatistics, UC Berkeley \and
-Kellie Ottoboni (KO)\\ Department of Statistics, UC Berkeley \and
-Naomi A. P. Stark (NS)\\ Department of Philosophy, University of Pennsylvania \and
-Philip B. Stark (PS)\\ Department of Statistics, UC Berkeley
+\author{K. Jarrod Millman (JM)\\ Division of Biostatistics\\ UC Berkeley \and
+Kellie Ottoboni (KO)\\ Department of Statistics\\ UC Berkeley \and
+Naomi A. P. Stark (NS)\\ Department of Philosophy\\ University of Pennsylvania \and
+Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 }
 
 
@@ -66,6 +50,10 @@ Philip B. Stark (PS)\\ Department of Statistics, UC Berkeley
 
 
 \section{Introduction}
+
+This case study illustrates some of the reproducible practices we (JM, KO, PS)
+have adopted when working with scientific or domain experts as applied
+statisticians.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -115,7 +103,7 @@ therapy sessions.
 
 \newpage
 
-\subparagraph{Workflow diagram}\label{workflow-diagram}
+\section{Workflow diagram}\label{workflow-diagram}
 
 %\begin{figure}[h]
 %  \centering
@@ -130,10 +118,19 @@ therapy sessions.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.5\textwidth]{work_process.png}
-  \caption{Our work process.}
+  \caption{Each box corresponds to one aspect involved in a typical applied
+           statistic project.  The edges represent influence.  For instance,
+           the arrow pointing from the box labeled \texttt{Understand problem}
+           to \texttt{Acquire data} represents the fact that our understanding
+           of the problem influenced how we acquired the data.  We will describe
+           the work corresponding to labeled box in more detail in our
+           workflow narrative below.  In any specific applied statistics project,
+           the amount of time we spend on each aspect varies as does the
+           way each aspect of the project influences our work on other
+           aspects.}
 \end{figure}
 
-\subparagraph{Workflow narrative}\label{workflow-narrative}
+\section{Workflow narrative}\label{workflow-narrative}
 
 %Referring to your diagram, describe your workflow for this specific
 %project, from soup to nuts. Imagine walking a friend or a colleague
@@ -194,27 +191,30 @@ therapy sessions.
 %
 %\emph{(500-800 words)}
 
-The data were collected by Naomi Stark and Gil Kliman. They
-comprise ratings of segments of 8 videos by 10 trained raters. Each
-video is divided into approximately 40 time segments. In each time
-segment, none, any, or all of 183 types of activity might be taking
-place. The raters indicated which of those activities was taking place
-during each segment of each video.
+Following best practices in open source software development
+\cite{millman2014developing}, we've created a Python package for permutation
+tests and confidence sets called \texttt{permute}.
+In this case study, we will illustrate how we leverage the software
+infrastructure of \texttt{permute} to conduct reproducible and collaborative
+applied statistics research with our scientific collaborators.
+
 
 We cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python,
 incorporated the resulting code into an evolving Python package of
-permutation tests (\emph{permute}), applied the approach to the cleaned
+permutation tests (\texttt{permute}), applied the approach to the cleaned
 data, documented the code and the analysis, and wrote up the results in
 a LaTeX document. 
 
-\cite{millman2014developing}
+\subsection{Understanding the fundamental problem}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Understanding the fundamental problem
+In this study, our scientific collaborators (domain experts?) were interested
+in:  What happens in therapy session with autistic kids?
+In particular, they wanted to know whether humans can reliably rate different
+behaviors?
+To this end, they designed an experiment to determine whether humans could
+reliably assess different behaviors reliably.
+
 
   \begin{enumerate}
   \def\labelenumii{\roman{enumii}.}
@@ -229,8 +229,16 @@ a LaTeX document.
     (J. Millman, K. Ottoboni, P. Stark) Time: approximately 10 2-hour
     meetings.
   \end{enumerate}
-\item
-  Data acquisition, pre-processing, and cleaning
+  
+
+\subsection{Data acquisition, pre-processing, and cleaning}
+
+The data were collected by Naomi Stark and Gil Kliman. They
+comprise ratings of segments of 8 videos by 10 trained raters. Each
+video is divided into approximately 40 time segments. In each time
+segment, none, any, or all of 183 types of activity might be taking
+place. The raters indicated which of those activities was taking place
+during each segment of each video.
 
   \begin{enumerate}
   \def\labelenumii{\roman{enumii}.}
@@ -265,8 +273,8 @@ a LaTeX document.
     include cleaned data in git repo: the anonymized data are public,
     pre- and post-cleaning
   \end{enumerate}
-\item
-  Algorithm development
+  
+\subsection{Algorithm development}
 
   \begin{enumerate}
   \def\labelenumii{\roman{enumii}.}
@@ -305,8 +313,61 @@ a LaTeX document.
     overall p-value for NPC (J. Millman, K. Ottoboni, P. Stark) Time:
     1.5h
   \end{enumerate}
-\item
-  Code development
+  
+\subsection{Code development}
+
+See key tools below.
+  
+\subsection{Data analysis}
+
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    By the time we got to this stage, the analysis of the cleaned data
+    was only about 70 lines of Python, of which 56 are code (the rest
+    are comments). This includes looping over the 183 categories of
+    activity.
+  \end{enumerate}
+
+\section{Pain points}\label{pain-points}
+
+\emph{Describe in detail the steps of a reproducible workflow which you
+consider to be particularly painful. How do you handle these? How do you
+avoid them? (200-400 words)}
+
+Vetting hand-entered data; ensuring that the data are relatively
+error-free.
+
+Learning and setting up new workflow tools, such as TravisCI.
+
+Maintaining coding and naming conventions.
+
+\section{Key benefits}\label{key-benefits}
+
+\emph{Discuss one or several sections of your workflow that you feel
+makes your approach better than the ``normal'' non-reproducible workflow
+that others might use in your field. What does your workflow do better
+than the one used by your lesser-skilled colleagues and students, and
+why? What would you want them to learn from your example? (200-400
+words)}
+
+It's easy to modify the analysis if errors are found, to apply the
+analysis to new data sets, and so on.
+
+The process is largely self-documenting, making it easier to draft a
+paper about the results.
+
+The methods are abstracted from the analysis and incorporated into a
+package so that others can discover, check, use, and extend the
+methods.
+
+\section{Key tools}\label{key-tools}
+
+\emph{If applicable, provide a detailed description of a particular
+specialized tool that plays a key role in making your workflow
+reproducible, if you think that the tool might be of broader interest or
+relevance to a general audience. (200-400 words)}
 
   \begin{enumerate}
   \def\labelenumii{\roman{enumii}.}
@@ -371,66 +432,8 @@ a LaTeX document.
       Test data included with the package
     \end{enumerate}
   \end{enumerate}
-\item
-  Data analysis
 
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    By the time we got to this stage, the analysis of the cleaned data
-    was only about 70 lines of Python, of which 56 are code (the rest
-    are comments). This includes looping over the 183 categories of
-    activity.
-  \end{enumerate}
-\end{enumerate}
-
-\subparagraph{Pain points}\label{pain-points}
-
-\emph{Describe in detail the steps of a reproducible workflow which you
-consider to be particularly painful. How do you handle these? How do you
-avoid them? (200-400 words)}
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Vetting hand-entered data; ensuring that the data are relatively
-  error-free.
-\item
-  Learning and setting up new workflow tools, such as TravisCI.
-\item
-  Maintaining coding and naming conventions.
-\end{itemize}
-
-\subparagraph{Key benefits}\label{key-benefits}
-
-\emph{Discuss one or several sections of your workflow that you feel
-makes your approach better than the ``normal'' non-reproducible workflow
-that others might use in your field. What does your workflow do better
-than the one used by your lesser-skilled colleagues and students, and
-why? What would you want them to learn from your example? (200-400
-words)}
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  It's easy to modify the analysis if errors are found, to apply the
-  analysis to new data sets, and so on.
-\item
-  The process is largely self-documenting, making it easier to draft a
-  paper about the results.
-\item
-  The methods are abstracted from the analysis and incorporated into a
-  package so that others can discover, check, use, and extend the
-  methods.
-\end{itemize}
-
-\subparagraph{Key tools}\label{key-tools}
-
-\emph{If applicable, provide a detailed description of a particular
-specialized tool that plays a key role in making your workflow
-reproducible, if you think that the tool might be of broader interest or
-relevance to a general audience. (200-400 words)} See above: virtualenv,
+See above: virtualenv,
 make, git, github, nose, Sphinx, TravisCI, Coverage/Coveralls, PyPI,
 LaTeX
 
