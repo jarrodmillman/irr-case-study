@@ -118,10 +118,10 @@ therapy sessions.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.5\textwidth]{work_process.png}
-  \caption{Each box corresponds to one aspect involved in a typical applied
-           statistic project.
+  \caption{Each box corresponds to one aspect of a typical applied
+           statistics project.
            The percentage shown in each box corresponds to
-           our estimate of how much of the overall project effort was involved
+           our estimate of how much of the overall project time was involved
            with that aspect of the project in this study.
            The edges represent influence.
            For instance,
@@ -198,13 +198,12 @@ therapy sessions.
 %
 %\emph{(500-800 words)}
 
-Following best practices in open source software development
+Following best practices in open source scientific software development
 \cite{millman2014developing}, we've created a Python package for permutation
 tests and confidence sets called \texttt{permute}.
 In this case study, we will illustrate how we leverage the software
 infrastructure of \texttt{permute} to conduct reproducible and collaborative
 applied statistics research with our scientific collaborators.
-
 
 We cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python,
@@ -215,27 +214,19 @@ a LaTeX document.
 
 \subsection{Understanding the fundamental problem (80 hours)}
 
-In this study, our scientific collaborators (domain experts?) were interested
+In this study, our scientific collaborator (NP) was interested
 in:  What happens in therapy session with autistic kids?
-In particular, they wanted to know whether humans can reliably rate different
-behaviors?
-To this end, they designed an experiment to determine whether humans could
-reliably assess different behaviors reliably.
+In particular, NP had data and wanted to know whether humans can reliably
+rate therapist-patient interactions?
 
-
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    conversations between N. Stark and (primarily) P. Stark to
-    understand the experimental set-up. Time: approximately 10 1-hour
-    meetings
-  \item
-    met regularly (approximately weekly, sometimes more) as a team to
-    discuss the project, work on whiteboards, and use pair programming
-    (J. Millman, K. Ottoboni, P. Stark) Time: approximately 10 2-hour
-    meetings.
-  \end{enumerate}
+conversations between NS and (primarily) PS to
+understand the experimental set-up. Time: approximately 10 1-hour
+meetings
+    
+met regularly (approximately weekly, sometimes more) as a team to
+discuss the project, work on whiteboards, and use pair programming
+(JM, KO, PS) Time: approximately 10 2-hour
+meetings.
   
 
 \subsection{Data acquisition, pre-processing, and cleaning (13 hours)}
@@ -247,95 +238,83 @@ segment, none, any, or all of 183 types of activity might be taking
 place. The raters indicated which of those activities was taking place
 during each segment of each video.
 
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    receipt of preliminary data as an Excel spreadsheet; understanding
-    the ``data dictionary''; vetting for obvious errors (P. Stark) Time:
-    approximately 1 hour
-  \item
-    several ``trips to the well'' before getting a version of the data
-    that did not have obvious errors (P. Stark) Time: approximately 4
-    hours
-  \item
-    export the Excel data to .csv format (P. Stark) Time: approximately
-    5 minutes.
-  \item
-    data anonymization: substitute unique numerical identifiers for
-    raters' names. This step was performed using regular expressions in
-    an interactive text editor, on the .csv file. It was not performed
-    reproducibly (i.e., not scripted), but it can be checked readily.
-    (P. Stark) Time: approximately 1 hour.
-  \item
-    screen the anonymized data for transcription errors, typos, etc. (J.
-    Millman, P. Stark) Time: approximately 5 hours
-  \item
-    develop sed scripts to ``correct'' the data for duplicated entries
-    and inferred typos (J. Millman) Time: included above
-  \item
-    send cleaned data to N. Stark to verify that the corrections were
-    appropriate (P. Stark, N. Stark) Time: 1 hour
-  \item
-    include cleaned data in git repo: the anonymized data are public,
-    pre- and post-cleaning
-  \end{enumerate}
-  
-\subsection{Algorithm development (25 hours)}
 
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    ``Problem appreciation'': conversations culminating in the decision
-    to assess the reliability one category at a time. (J. Millman, K.
-    Ottoboni, P. Stark) Time: approximately 4h.
-  \item
-    Developed an understanding that it was best to treat the videos
-    separately
-  \item
-    Searched the literature for extant approaches to assessing IRR. We
-    determined that there was no suitable method, in part because the
-    experiment was stratified and in part because standard methods make
-    indefensible parametric assumptions, which we hoped to avoid (P.
-    Stark) Time: 3h
-  \item
-    Decided to use permutation tests
-  \item
-    Decided what the appropriate permutation would be: permuting each
-    rater's ratings within a video, independently across raters and
-    across videos.
-  \item
-    Chose a test statistic to use within each stratum: concordance of
-    ratings
-  \item
-    Derived a simple expression for computing the concordance
-    efficiently (J. Millman, P. Stark) Time: 1h
-  \item
-    Decided how to combine tests across strata: nonparametric
-    combination of tests, NPC (J. Millman, K. Ottoboni, P. Stark) Time:
-    1h
-  \item
-    Developed a computationally efficient approach to finding the
-    overall p-value for NPC (J. Millman, K. Ottoboni, P. Stark) Time:
-    1.5h
-  \end{enumerate}
+receipt of preliminary data as an Excel spreadsheet; understanding
+the ``data dictionary''; vetting for obvious errors (PS) Time:
+approximately 1 hour
+
+several ``trips to the well'' before getting a version of the data
+that did not have obvious errors (PS) Time: approximately 4
+hours
+
+export the Excel data to .csv format (PS) Time: approximately
+5 minutes.
+
+data anonymization: substitute unique numerical identifiers for
+raters' names. This step was performed using regular expressions in
+an interactive text editor, on the .csv file. It was not performed
+reproducibly (i.e., not scripted), but it can be checked readily.
+(PS) Time: approximately 1 hour.
+
+screen the anonymized data for transcription errors, typos, etc. (J.
+Millman, PS) Time: approximately 5 hours
+
+develop sed scripts to ``correct'' the data for duplicated entries
+and inferred typos (JM) Time: included above
+
+send cleaned data to NS to verify that the corrections were
+appropriate (PS, NS) Time: 1 hour
+
+include cleaned data in git repo: the anonymized data are public,
+pre- and post-cleaning
   
-\subsection{Code development (5 hours)}
+\subsection{Algorithm design and analysis (25 hours)}
+
+
+``Problem appreciation'': conversations culminating in the decision
+to assess the reliability one category at a time. (JM, KO, PS)
+Time: approximately 4h.
+
+Developed an understanding that it was best to treat the videos
+separately
+
+Searched the literature for extant approaches to assessing IRR. We
+determined that there was no suitable method, in part because the
+experiment was stratified and in part because standard methods make
+indefensible parametric assumptions, which we hoped to avoid (P.
+Stark) Time: 3h
+
+Decided to use permutation tests
+
+Decided what the appropriate permutation would be: permuting each
+rater's ratings within a video, independently across raters and
+across videos.
+
+Chose a test statistic to use within each stratum: concordance of
+ratings
+
+Derived a simple expression for computing the concordance
+efficiently (JM, PS) Time: 1h
+
+Decided how to combine tests across strata: nonparametric
+combination of tests, NPC (JM, KO, PS) Time:
+1h
+
+Developed a computationally efficient approach to finding the
+overall p-value for NPC (JM, KO, PS) Time:
+1.5h
+
+  
+\subsection{Algorithm implementation (5 hours)}
 
 See key tools below.
   
 \subsection{Data analysis (1 hour)}
 
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    By the time we got to this stage, the analysis of the cleaned data
-    was only about 70 lines of Python, of which 56 are code (the rest
-    are comments). This includes looping over the 183 categories of
-    activity.
-  \end{enumerate}
+By the time we got to this stage, the analysis of the cleaned data
+was only about 70 lines of Python, of which 56 are code (the rest
+are comments). This includes looping over the 183 categories of
+activity.
 
 \subsection{Reflection and synthesis (20 hours)}
 
