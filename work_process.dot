@@ -18,7 +18,7 @@ digraph {
 		width=1.5556];
 	1 -> 3;
 	6	 [height=0.5,
-		label="Reflect and synthesize (14%)",
+		label="Understand result (14%)",
 		pos="1.005,-88.826",
 		width=0.77778];
 	1 -> 6;
