@@ -1,8 +1,6 @@
 \documentclass[]{article}
-%\documentclass[11pt, oneside]{article}          % use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                           % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                                  % ... or a4paper or a5paper or ... 
-%\geometry{landscape}                           % Activate for rotated page geometry
 %\usepackage[parfill]{parskip}                  % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}                           % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
                                                                 % TeX will automatically convert eps --> pdf in pdflatex                
@@ -29,6 +27,42 @@
   citecolor=darkgreen,
 }
 
+%-----------------------------------------------------------------------------
+%
+% Commands for annotating the docs with fixme and inter-author notes.  See
+% below for how to disable these.
+%
+% Define a \fixme command to mark visually things needing fixing in the draft,
+% as well as similar commands for each author to leave initialed special
+% comments in the document.
+%% FIXME:  For final printing or to simply disable these bright warnings, copy
+%% (there's a target macros_off' in the makefile that does this) the file
+%% macros_off.tex to macros.tex
+
+\newcommand{\fix}[1] { \textcolor{red} {
+{\fbox{ {\bf Fix:} \ensuremath{\blacktriangleright }} {\bf #1}
+\fbox{\ensuremath{\blacktriangleleft} } } } }
+
+% And similarly, one (less jarring, with fewer symbols and no boldface) command
+% for each one of us to leave comments in the main text.
+\newcommand{\philip}[1] { \textcolor{blue} {
+\ensuremath{\blacklozenge} {\bf philip:}  {#1}
+\ensuremath{\blacklozenge} } }
+
+\newcommand{\jarrod}[1] { \textcolor{darkgreen} {
+\ensuremath{\bigstar} {\bf jarrod:}  {#1}
+\ensuremath{\bigstar} } }
+
+\newcommand{\mref}[1] { \textcolor{darkorange} {
+\ensuremath{\blacksquare} {\bf missing ref:}  {#1}
+\ensuremath{\blacksquare} } }
+
+%% Uncomment these to turn all the special marker commands off
+%\renewcommand{\fix}[1]{}
+%\renewcommand{\philip}[1]{}
+%\renewcommand{\jarrod}[1]{}
+%\renewcommand{\mref}[1]{}
+
 
 \date{}
 
@@ -53,7 +87,8 @@ Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 
 This case study illustrates some of the reproducible practices we (JM, KO, PS)
 have adopted when working with scientific or domain experts as applied
-statisticians.
+statisticians.  Parts of the text have been adapted from
+\cite{millman2015thesis}.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -63,7 +98,6 @@ statisticians.
 \end{enumerate}
 
 %\begin{itemize}
-%\itemsep1pt\parskip0pt\parsep0pt
 %\item
 %  K. Jarrod Millman, Division of Biostatistics, UC Berkeley PhD student
 %  in biostatistics; background in scientific computing and neuroscience
@@ -101,24 +135,44 @@ project itself is \emph{about} the \emph{reliability and replicability} of a
 particular kind of measurement: raters' assessments of activities during
 therapy sessions.
 
-\newpage
 
-\section{Workflow diagram}\label{workflow-diagram}
+\section{Workflow narrative}\label{workflow-narrative}
 
-%\begin{figure}[h]
-%  \centering
-%    \includegraphics[width=0.5\textwidth]{work_process.png}
-%  \caption{The nodes represent the following stages of our investigation
-%           (1) understanding the fundamental problem, (2) data acquisition,
-%           pre-processing, and cleaning, (3) algorithm design and analysis,
-%           (4) code development, (5) data analysis, and (6) reflection and
-%           synthesis.}
-%\end{figure}
+In January 2015, PS was approached by NS with an applied statistics
+problem, which had arisen in her work.
+After spending a significant amount of time initially trying to understand her
+underlying research problem and making sure that we understood how her data was
+collected, we cleaned the data, developed a nonparametric approach to assessing
+IRR appropriate to the experiment, implemented the approach in Python,
+incorporated the resulting code into an evolving Python package of permutation
+tests (\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}}),
+applied the approach to the cleaned data, documented the code and the analysis,
+and wrote up the results in a \LaTeX document. 
+
+In this case study, we describe the various aspects of the project and explain
+the practices we adopted to ensure that what we did was correct and
+reproducible.
+We find it helpful to distinguish the following aspects of our work:  (1)
+understanding the fundamental problem, (2) getting and preparing the data,
+(3) designing and analyzing the algorithm, (4) implementing the algorithm,
+(5) analyzing the data, and (6) reflecting and synthesizing the results.
+Much of our work in applied statistics can be broken down this way.
+In a given project, the work involved with each aspect may vary.
+Further, the amount of time spent on each aspect as well as the way
+working on each aspect of the project influences our work on the
+other aspects varies.
+In Figure~\ref{fig:work_process}, we've diagrammed an estimate of how much time
+we collectively spent on each aspect of the project as well as how each aspect
+of the project influenced the other aspects.
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.5\textwidth]{work_process.png}
-  \caption{Each box corresponds to one aspect of a typical applied
+  \caption{
+  \setlength{\leftskip}{1cm}
+  \setlength{\rightskip}{1cm}
+  \small
+           Each box corresponds to one aspect of a typical applied
            statistics project.
            The percentage shown in each box corresponds to
            our estimate of how much of the overall project time was involved
@@ -134,196 +188,140 @@ therapy sessions.
            In any specific applied statistics project,
            the amount of time we spend on each aspect varies as does the
            way each aspect of the project influences our work on other
-           aspects.}
+           aspects.}\label{fig:work_process}
 \end{figure}
 
-\section{Workflow narrative}\label{workflow-narrative}
 
-%Referring to your diagram, describe your workflow for this specific
-%project, from soup to nuts. Imagine walking a friend or a colleague
-%through the basic steps, paying particular attention to links between
-%steps. Don't forget to include ``messy parts'', loops, aborted efforts,
-%and failures.
-%
-%It may be helpful to consider the following questions, where
-%interesting, applicable, and non-obvious from context. For each part of
-%your workflow:
-%
-%\begin{itemize}
-%\itemsep1pt\parskip0pt\parsep0pt
-%\item
-%  \textbf{Frequency:} How often does the step happen and how long does
-%  it take?
-%\item
-%  \textbf{Who:} Which members of your team participate (or not)?
-%\item
-%  \textbf{Manual/Automated:} Is the step automated or does it involve
-%  human intervention (if so, is it recorded)?
-%\item
-%  \textbf{Tools:} Which software or online tools are used in the step?
-%  How are they used?
-%\end{itemize}
-%
-%In addition to detailing the steps of the workflow, you may wish to
-%consider the following questions about the workflow as a whole:
-%
-%\begin{itemize}
-%\itemsep1pt\parskip0pt\parsep0pt
-%\item
-%  \textbf{Data:} Is your raw data online? \textbf{yes}
-%\item
-%  Is it citeable?
-%\item
-%  Does the license allow external researchers to publish a
-%%  replication/confirmation of your published work? \textbf{yes}
-%\item
-%  \textbf{Software:} Is the software online? \textbf{yes}
-%\item
-%  Is there documentation? \textbf{yes}
-%\item
-%  Are there tests? \textbf{yes}
-%\item
-%  Are there example input files alongside the code? \textbf{yes}
-%\item
-%  \textbf{Processing:} Is your data processing workflow online?
-%  \textbf{everything downstream of data anonymization}
-%\item
-%%  Are the scripts documented? \textbf{yes}
-%\item
-%  Would an external researcher know what order to run them in?
-%  \textbf{yes}
-%\item
-%  Would they know what parameters to use? \textbf{yes}
-%\end{itemize}
-%
-%\emph{(500-800 words)}
-
-Following best practices in open source scientific software development
-\cite{millman2014developing}, we've created a Python package for permutation
+The computational practices we followed are described in detail here
+\cite{millman2014developing} and were developed largely within the open source
+scientific software community working in Python.
+Following these practices, we've developed a Python package for permutation
 tests and confidence sets called \texttt{permute}.
 In this case study, we will illustrate how we leverage the software
 infrastructure of \texttt{permute} to conduct reproducible and collaborative
 applied statistics research with our scientific collaborators.
-
-We cleaned the data, developed a nonparametric approach to assessing IRR
-appropriate to the experiment, implemented the approach in Python,
-incorporated the resulting code into an evolving Python package of
-permutation tests (\texttt{permute}), applied the approach to the cleaned
-data, documented the code and the analysis, and wrote up the results in
-a LaTeX document. 
+We discuss the software tools and practices briefly in \S~\ref{key-tools}
+below.
 
 \subsection{Understanding the fundamental problem (80 hours)}
 
-In this study, our scientific collaborator (NP) was interested
-in:  What happens in therapy session with autistic kids?
-In particular, NP had data and wanted to know whether humans can reliably
-rate therapist-patient interactions?
+In this study, our scientific collaborator (NP) was interested in:  What
+happens in therapy session with autistic kids?
+In particular, NP had data and wanted to know whether humans can reliably rate
+therapist-patient interactions?
 
-conversations between NS and (primarily) PS to
-understand the experimental set-up. Time: approximately 10 1-hour
-meetings
+conversations between NS and (primarily) PS to understand the experimental
+set-up.
+%Time: approximately 10 1-hour meetings
     
-met regularly (approximately weekly, sometimes more) as a team to
-discuss the project, work on whiteboards, and use pair programming
-(JM, KO, PS) Time: approximately 10 2-hour
-meetings.
+met regularly (approximately weekly, sometimes more) as a team to discuss the
+project, work on whiteboards, and use pair programming (JM, KO, PS)
+%Time: approximately 10 2-hour meetings.
   
 
-\subsection{Data acquisition, pre-processing, and cleaning (13 hours)}
+\subsection{Getting and preparing the data (13 hours)}
 
-The data were collected by Naomi Stark and Gil Kliman. They
-comprise ratings of segments of 8 videos by 10 trained raters. Each
-video is divided into approximately 40 time segments. In each time
-segment, none, any, or all of 183 types of activity might be taking
-place. The raters indicated which of those activities was taking place
-during each segment of each video.
+The data were collected by Naomi Stark and Gil Kliman.
+They comprise ratings of segments of 8 videos by 10 trained raters.
+Each video is divided into approximately 40 time segments.
+In each time segment, none, any, or all of 183 types of activity might be
+taking place.
+The raters indicated which of those activities was taking place during each
+segment of each video.
+
+receipt of preliminary data as an Excel spreadsheet; understanding the ``data
+dictionary''; vetting for obvious errors (PS)
+%Time: approximately 1 hour
+
+several ``trips to the well'' before getting a version of the data that did not
+have obvious errors (PS)
+%Time: approximately 4 hours
+
+export the Excel data to .csv format (PS)
+%Time: approximately 5 minutes.
+
+data anonymization: substitute unique numerical identifiers for raters' names. 
+This step was performed using regular expressions in an interactive text
+editor, on the .csv file.
+It was not performed reproducibly (i.e., not scripted), but it can be checked
+readily. (PS) 
+%Time: approximately 1 hour.
+
+screen the anonymized data for transcription errors, typos, etc. (JM, PS)
+%Time: approximately 5 hours
+
+develop sed scripts to ``correct'' the data for duplicated entries and inferred
+typos (JM)
+%Time: included above
+
+send cleaned data to NS to verify that the corrections were appropriate (PS, NS)
+%Time: 1 hour
+
+include cleaned data in git repo: the anonymized data are public, pre- and
+post-cleaning
+ 
+\subsection{Designing and analyzing the algorithm (25 hours)}
 
 
-receipt of preliminary data as an Excel spreadsheet; understanding
-the ``data dictionary''; vetting for obvious errors (PS) Time:
-approximately 1 hour
+``Problem appreciation'': conversations culminating in the decision to assess
+the reliability one category at a time. (JM, KO, PS)
+%Time: approximately 4h.
 
-several ``trips to the well'' before getting a version of the data
-that did not have obvious errors (PS) Time: approximately 4
-hours
+Developed an understanding that it was best to treat the videos separately
 
-export the Excel data to .csv format (PS) Time: approximately
-5 minutes.
+Searched the literature for extant approaches to assessing IRR.
 
-data anonymization: substitute unique numerical identifiers for
-raters' names. This step was performed using regular expressions in
-an interactive text editor, on the .csv file. It was not performed
-reproducibly (i.e., not scripted), but it can be checked readily.
-(PS) Time: approximately 1 hour.
-
-screen the anonymized data for transcription errors, typos, etc. (J.
-Millman, PS) Time: approximately 5 hours
-
-develop sed scripts to ``correct'' the data for duplicated entries
-and inferred typos (JM) Time: included above
-
-send cleaned data to NS to verify that the corrections were
-appropriate (PS, NS) Time: 1 hour
-
-include cleaned data in git repo: the anonymized data are public,
-pre- and post-cleaning
-  
-\subsection{Algorithm design and analysis (25 hours)}
-
-
-``Problem appreciation'': conversations culminating in the decision
-to assess the reliability one category at a time. (JM, KO, PS)
-Time: approximately 4h.
-
-Developed an understanding that it was best to treat the videos
-separately
-
-Searched the literature for extant approaches to assessing IRR. We
-determined that there was no suitable method, in part because the
-experiment was stratified and in part because standard methods make
-indefensible parametric assumptions, which we hoped to avoid (P.
-Stark) Time: 3h
+We determined that there was no suitable method, in part because the experiment
+was stratified and in part because standard methods make indefensible
+parametric assumptions, which we hoped to avoid (PS)
+%Time: 3h
 
 Decided to use permutation tests
 
-Decided what the appropriate permutation would be: permuting each
-rater's ratings within a video, independently across raters and
-across videos.
+Decided what the appropriate permutation would be: permuting each rater's
+ratings within a video, independently across raters and across videos.
 
-Chose a test statistic to use within each stratum: concordance of
-ratings
+Chose a test statistic to use within each stratum: concordance of ratings
 
-Derived a simple expression for computing the concordance
-efficiently (JM, PS) Time: 1h
+Derived a simple expression for computing the concordance efficiently (JM, PS)
+%Time: 1h
 
-Decided how to combine tests across strata: nonparametric
-combination of tests, NPC (JM, KO, PS) Time:
-1h
+Decided how to combine tests across strata: nonparametric combination of tests,
+NPC (JM, KO, PS)
+%Time: 1h
 
-Developed a computationally efficient approach to finding the
-overall p-value for NPC (JM, KO, PS) Time:
-1.5h
+Developed a computationally efficient approach to finding the overall p-value
+for NPC (JM, KO, PS)
+%Time: 1.5h
 
+\subsection{Implementing the algorithm (5 hours)}
+
+\jarrod{Fill in.}
   
-\subsection{Algorithm implementation (5 hours)}
+\subsection{Analyzing the data (1 hour)}
 
-See key tools below.
-  
-\subsection{Data analysis (1 hour)}
+By the time we got to this stage, the analysis of the cleaned data was only
+about 70 lines of Python, of which 56 are code (the rest are comments).
+This includes looping over the 183 categories of activity.
 
-By the time we got to this stage, the analysis of the cleaned data
-was only about 70 lines of Python, of which 56 are code (the rest
-are comments). This includes looping over the 183 categories of
-activity.
+\subsection{Reflecting and synthesizing the results (20 hours)}
 
-\subsection{Reflection and synthesis (20 hours)}
-
+\philip{We need a discussion of our final thoughts about the data
+and how it did or did not address the question.  Maybe a sentence
+or two saying what we learned...what we do differently during
+data collection next time.}
 
 \section{Pain points}\label{pain-points}
 
 %\emph{Describe in detail the steps of a reproducible workflow which you
 %consider to be particularly painful. How do you handle these? How do you
 %avoid them? (200-400 words)}
+
+\jarrod{Need to think what is painful here a bit more. A big part of 
+why I use the tools I use is to avoid the pain caused by not using
+them.  The hand-entered data is a good start.  I think the next
+two items need to be rewritten some.  The pain being, I would argue,
+that most of didn't already know these tools well.} 
 
 Vetting hand-entered data; ensuring that the data are relatively
 error-free.
@@ -341,6 +339,9 @@ Maintaining coding and naming conventions.
 %why? What would you want them to learn from your example? (200-400
 %words)}
 
+\jarrod{confidence?  you much we trust and stand behind our work.
+how likely would I be to build off the work.}
+
 It's easy to modify the analysis if errors are found, to apply the
 analysis to new data sets, and so on.
 
@@ -351,80 +352,203 @@ The methods are abstracted from the analysis and incorporated into a
 package so that others can discover, check, use, and extend the
 methods.
 
-\section{Key tools}\label{key-tools}
+\section{Key tools and practices}\label{key-tools}
 
 %\emph{If applicable, provide a detailed description of a particular
 %specialized tool that plays a key role in making your workflow
 %reproducible, if you think that the tool might be of broader interest or
 %relevance to a general audience. (200-400 words)}
 
-  \begin{enumerate}
-  \def\labelenumii{\roman{enumii}.}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    Software tools:
+As part of the development of our software package \texttt{permute}, we
+invested significant effort in setting up a development infrastructure to
+ensure our work is tracked, thoroughly and continually tested, and
+incrementally improved and documented.
+To this end, we have adopted best practices for software development used by
+many successful open source projects \cite{millman2014developing}.
 
-    \begin{enumerate}
-    \def\labelenumiii{\alph{enumiii}.}
-    \itemsep1pt\parskip0pt\parsep0pt
-    \item
-      \emph{virtualenv} to control which versions of which software
-      packages were used. \emph{virtualenv} is a tool to create isolated
-      Python environments.
-    \item
-      \emph{git} for revision control
-    \item
-      \emph{github} for hosting
-    \item
-      \emph{make} for process automation
-    \item
-      \emph{nose} to automate and document testing
-    \item
-      \emph{sphinx} for documentation in HTML and PDF
-    \item
-      \emph{Python} as the language for data analysis
-    \item
-      \emph{Github} pull requests to control code review.
-    \item
-      \emph{TravisCI} and \emph{BuildBot} for continuous integration
-      during code development
-    \item
-      \emph{Coverage/Coveralls} to check the code coverage of the
-      \emph{nose} tests
-    \item
-      \emph{PyPI} to distribute built packages
-    \item
-      LaTeX for documents, especially documents containing mathematical
-      notation
-    \end{enumerate}
-  \item
-    Coding practices:
+\subsection{\label{sec:vc}Version control and code review}
 
-    \begin{enumerate}
-    \def\labelenumiii{\alph{enumiii}.}
-    \itemsep1pt\parskip0pt\parsep0pt
-    \item
-      Tests for all code; Coverage/Coveralls to check test coverage.
-    \item
-      Pair programming, at least some of the time
-    \item
-      Issue trackers in git
-    \item
-      All code vetted using pull requests: no pushes. Circular flow of
-      code from main repo to individual repos to main repo.
-    \item
-      Use whiteboard to sketch algorithms before coding
-    \item
-      Documentation: internal to the code, external in the Github repo
-      and github.io; external in the package
-    \item
-      Test data included with the package
-    \end{enumerate}
-  \end{enumerate}
+We use Git\footnote{\url{http://git-scm.com}} as our version control system
+(VCS) and GitHub\footnote{\url{https://github.com}} as the public hosting
+service for our official \texttt{upstream} repository
+(\url{https://github.com/statlab/permute}).
+Each developer has their own copy, or fork, of the \texttt{upstream}
+repository.
+We each work on our own repositories and use the \texttt{upstream} repository
+as our coordination or integration repository.
 
-See above: virtualenv,
-make, git, github, nose, Sphinx, TravisCI, Coverage/Coveralls, PyPI,
-LaTeX
+Git allows us to track and manage how our code changes over time as well as
+review all new functionality before merging it into the \texttt{upstream}
+repository.
+To get new code integrated in the \texttt{upstream} repository, we use GitHub's
+\emph{pull request} mechanism.
+This enables us to review code before integrating it.
+Below, we describe how we automate our testing to generate reports for all pull
+requests.
+This way we can reduce the risk that changes to our code break existing
+functionality.
+Once a pull request is reviewed and accepted, it is merged into the
+\texttt{upstream} repository.
+
+Requiring all new code to undergo review provides several benefits.
+Code review increases the quality and consistency of our codebase.
+It helps maintain a high level of test coverage (see below).
+Moreover, it also helps keep the development team aware of the work other team
+members are doing.
+While we are currently a small team and we meet regularly, having the code
+review system in place will make it easier for new people to contribute as well
+as capturing our design discussions and decisions for future reference.
+
+\subsection{\label{sec:test}Testing and continuous integration}
+
+We use the \texttt{nose} testing framework for automating our testing
+procedures.\footnote{\url{https://nose.readthedocs.org}}
+This is the standard testing framework used by the core packages in the
+scientific Python ecosystem.
+Automating the tests allows us to monitor a proxy for code correctness when
+making changes as well as simplifying the code review process for new code.
+Without automated testing, we would have to manually test all the code every
+time a change is proposed.
+The \texttt{nose} testing framework simplifies test creation, discovery, and
+running.
+It has an extensive set of plugins to add functionality for coverage reporting,
+test annotation, profiling, as well as inspecting and testing documentation.
+
+\begin{figure}
+  \begin{centering}
+    \includegraphics[width=\textwidth]{pull-request-ci.png}\par
+  \end{centering}
+
+  \caption{\label{fig:pull-request}Pull request and continuous integration.}
+\setlength{\leftskip}{1cm}
+\setlength{\rightskip}{1cm}
+\small
+Each pull request triggers an automated system to run the  full test suite on
+the updated codebase.
+This means that when you go to review a pull request you can immediately see
+whether the change breaks any of the tests as well as whether the new
+code decreases the overall test coverage.
+For example, the above report indicates that the associated pull request does not
+break existing code and does not change our test coverage.
+\end{figure}
+
+Our goal is to test every line of code.
+For example, not only do we want to test every function in our package, but if
+a specific function has internal logic we want to test each possible execution
+path through the function.
+Having tested each line of code increases our confidence in our codebase, but
+more importantly provides us some measure of assurance that changes we make do
+not break existing code.
+It also increases our confidence that new code works, which reduces the
+friction of accepting contributions.
+Currently over 98\% of \texttt{permute}'s lines of code get executed at least
+once by our test system.
+
+We have configured Travis CI\footnote{\url{https://travis-ci.org}} and
+\texttt{coveralls}\footnote{\url{https://coveralls.io}} to be automatically
+triggered whenever a commit is made to a pull request or the upstream master
+(see Figure~\ref{fig:pull-request}).
+These systems then run the full test suite  using different versions of our
+dependencies (e.g., Python 2.7 and 3.4) every time a new commit is made to a
+repository or pull request.
+
+\subsection{\label{sec:doc}Documentation}
+
+We use Sphinx\footnote{\url{http://sphinx-doc.org}} as our documentation system
+and already have good developer documentation and the foundation for
+high-quality user documentation.
+Sphinx is the standard documentation system for Python projects and is used by
+the core scientific Python packages.
+We use Python docstrings and follow the NumPy docstring
+standard\footnote{\url{https://github.com/numpy/numpy/blob/master/doc/HOWTO\_DOCUMENT.rst.txt}}
+to document all the modules and functions in \texttt{permute}.
+Using Sphinx and some NumPy extensions, we have a system for autogenerating the
+project documentation (as HTML or PDF) using the docstrings as well as
+stand-alone text written in a light-weight markdown-like language, called
+reStructuredText\footnote{\url{http://docutils.sourceforge.net/rst.html}}.
+This system enables us to easily embed references, figures, code that is
+auto-run during documentation generation, as well as mathematics using \LaTeX.
+
+\subsection{\label{sec:release}Release management}
+
+Our development workflow ensures that the official \texttt{upstream} repository
+is always stable and ready for use.
+This means anyone can get our official upstream master at any point, install it
+and start using it.
+We also make official releases available as source tarballs as well as Python
+built-packages\footnote{Presently our code is pure Python, but we release
+Python wheels.
+Wheels are the new standard built-package format for Python.} uploaded to the
+Python Package Index, or PyPI,\footnote{PyPI is the Python equivalent of \emph{The
+Comprehensive R Archive Network} (CRAN).} with release announcements posted to
+our mailing list.
+
+To install the latest release of \texttt{permute} and its dependencies, type
+the following command from a shell prompt (assuming you have Python and a
+recent version of pip):
+
+\texttt{\$ pip install permute}
+
+
+%\textbf{Software tools:}
+%
+%    \begin{enumerate}
+%    \def\labelenumiii{\alph{enumiii}.}
+%    \itemsep1pt\parskip0pt\parsep0pt
+%    \item
+%      \emph{virtualenv} to control which versions of which software
+%      packages were used. \emph{virtualenv} is a tool to create isolated
+%      Python environments.
+%    \item
+%      \emph{git} for revision control
+%    \item
+%      \emph{github} for hosting
+%    \item
+%      \emph{make} for process automation
+%    \item
+%      \emph{nose} to automate and document testing
+%    \item
+%      \emph{sphinx} for documentation in HTML and PDF
+%    \item
+%      \emph{Python} as the language for data analysis
+%    \item
+%      \emph{Github} pull requests to control code review.
+%    \item
+%      \emph{TravisCI} and \emph{BuildBot} for continuous integration
+%      during code development
+%    \item
+%      \emph{Coverage/Coveralls} to check the code coverage of the
+%      \emph{nose} tests
+%    \item
+%      \emph{PyPI} to distribute built packages
+%    \item
+%      LaTeX for documents, especially documents containing mathematical
+%      notation
+%    \end{enumerate}
+%    
+%\textbf{Coding practices.}
+%
+%    \begin{enumerate}
+%    \def\labelenumiii{\alph{enumiii}.}
+%    \itemsep1pt\parskip0pt\parsep0pt
+%    \item
+%      Tests for all code; Coverage/Coveralls to check test coverage.
+%    \item
+%      Pair programming, at least some of the time
+%    \item
+%      Issue trackers in git
+%    \item
+%      All code vetted using pull requests: no pushes. Circular flow of
+%      code from main repo to individual repos to main repo.
+%    \item
+%      Use whiteboard to sketch algorithms before coding
+%    \item
+%      Documentation: internal to the code, external in the Github repo
+%      and github.io; external in the package
+%    \item
+%      Test data included with the package
+%    \end{enumerate}
+
 
 \bibliographystyle{plain}
 \bibliography{millman_ottoboni_stark}
