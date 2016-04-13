@@ -135,91 +135,76 @@ project itself is \emph{about} the \emph{reliability and replicability} of a
 particular kind of measurement: raters' assessments of activities during
 therapy sessions.
 
-
 \section{Workflow narrative}\label{workflow-narrative}
 
-In January 2015, PS was approached by NS with an applied statistics
-problem, which had arisen in her work.
-After spending a significant amount of time initially trying to understand her
-underlying research problem and making sure that we understood how her data was
-collected, we cleaned the data, developed a nonparametric approach to assessing
-IRR appropriate to the experiment, implemented the approach in Python,
-incorporated the resulting code into an evolving Python package of permutation
+Over the 2014-2015 winter break, NS posed PS a question that came up in her
+work on therapeutic interventions with children on the autism scale.
+After coming to an intial understanding of her statistical problem,
+PS sent JM and KO a one page proposal for a stratified permutation test for
+multi-rater inter-rater reliability.
+
+After spending time to understand her underlying research problem and making
+certain we understood how her data was collected, we cleaned the data,
+developed a nonparametric approach to assessing IRR appropriate to the
+experiment, implemented the approach in Python, incorporated the resulting
+code into an evolving Python package of permutation
 tests (\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}}),
 applied the approach to the cleaned data, documented the code and the analysis,
 and wrote up the results in a \LaTeX document. 
 
-In this case study, we describe the various aspects of the project and explain
-the practices we adopted to ensure that what we did was correct and
-reproducible.
-We find it helpful to distinguish the following aspects of our work:  (1)
-understanding the fundamental problem, (2) getting and preparing the data,
-(3) designing and analyzing the algorithm, (4) implementing the algorithm,
-(5) analyzing the data, and (6) understanding the results.
-Much of our work in applied statistics can be broken down this way.
-In a given project, the work involved with each aspect may vary.
-Further, the amount of time spent on each aspect as well as the way
-working on each aspect of the project influences our work on the
-other aspects varies.
+We distinguish the following aspects of our work:
+(1) understand problem,
+(2) get and clean data,
+(3) design algorithm,
+(4) implement algorithm,
+(5) analyze data, and
+(6) understand result.
 In Figure~\ref{fig:work_process}, we've diagrammed an estimate of how much time
 we collectively spent on each aspect of the project as well as how each aspect
 of the project influenced the other aspects.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.5\textwidth]{work_process.png}
+    \includegraphics[width=0.8\textwidth]{work_process.png}
   \caption{
-  \setlength{\leftskip}{1cm}
-  \setlength{\rightskip}{1cm}
   \small
-           Each box corresponds to one aspect of a typical applied
-           statistics project.
-           The percentage shown in each box corresponds to
-           our estimate of how much of the overall project time was involved
-           with that aspect of the project in this study.
-           The edges represent influence.
-           For instance,
-           the arrow pointing from the box labeled \texttt{Understand problem}
-           to \texttt{Acquire data} represents the fact that our understanding
-           of the problem influenced how we ``prepared'' the data.
-           We will describe
-           the work corresponding to labeled box in more detail in our
-           workflow narrative below.
-           In any specific applied statistics project,
-           the amount of time we spend on each aspect varies as does the
-           way each aspect of the project influences our work on other
-           aspects.}\label{fig:work_process}
+    Each box corresponds to one aspect of our project.
+    The percents are estimates of the percent of our time spent on each aspect.
+    Edges represent influence. \texttt{Understand problem}~$\to$~\texttt{Design algorithm}
+    corresponds to the fact that we first had to understand the problem
+    in order to design the correct statistical test.\label{fig:work_process}}
 \end{figure}
 
-
-The computational practices we followed are described in detail here
-\cite{millman2014developing} and were developed largely within the open source
-scientific software community working in Python.
+Underlying all aspects is a set of computational practices
+we (JM, KO, PS) followed (almost) whenever we were working on the project.
+These computational practices are described in detail
+here \cite{millman2014developing} and are used widely
+in the open source scientific Python community.
 Following these practices, we've developed a Python package for permutation
 tests and confidence sets called \texttt{permute}.
-In this case study, we will illustrate how we leverage the software
-infrastructure of \texttt{permute} to conduct reproducible and collaborative
+We will illustrate how we leverage the software infrastructure of
+\texttt{permute} to conduct reproducible and collaborative
 applied statistics research with our scientific collaborators.
-We discuss the software tools and practices briefly in \S~\ref{key-tools}
-below.
+We discuss the software tools and practices briefly in \S~\ref{key-tools} below.
 
-\subsection{Understanding the fundamental problem (80 hours)}
+\subsection{Understand problem (80 hours)}
 
-In this study, our scientific collaborator (NP) was interested in:  What
-happens in therapy session with autistic kids?
+\philip{
+NP was interested in:  What happens in therapy session with autistic kids?
 In particular, NP had data and wanted to know whether humans can reliably rate
 therapist-patient interactions?
-
 conversations between NS and (primarily) PS to understand the experimental
 set-up.
 %Time: approximately 10 1-hour meetings
-    
+}
+
+\jarrod{
 met regularly (approximately weekly, sometimes more) as a team to discuss the
 project, work on whiteboards, and use pair programming (JM, KO, PS)
 %Time: approximately 10 2-hour meetings.
-  
+}
 
-\subsection{Getting and preparing the data (13 hours)}
+\subsection{Get and clean data (13 hours)}
 
 The data were collected by Naomi Stark and Gil Kliman.
 They comprise ratings of segments of 8 videos by 10 trained raters.
@@ -229,89 +214,79 @@ taking place.
 The raters indicated which of those activities was taking place during each
 segment of each video.
 
+\philip{
 receipt of preliminary data as an Excel spreadsheet; understanding the ``data
-dictionary''; vetting for obvious errors (PS)
+dictionary''; vetting for obvious errors (PS);
 %Time: approximately 1 hour
-
 several ``trips to the well'' before getting a version of the data that did not
-have obvious errors (PS)
+have obvious errors (PS);
 %Time: approximately 4 hours
-
-export the Excel data to .csv format (PS)
+export the Excel data to .csv format (PS);
 %Time: approximately 5 minutes.
-
 data anonymization: substitute unique numerical identifiers for raters' names. 
 This step was performed using regular expressions in an interactive text
 editor, on the .csv file.
 It was not performed reproducibly (i.e., not scripted), but it can be checked
 readily. (PS) 
 %Time: approximately 1 hour.
+}
 
-screen the anonymized data for transcription errors, typos, etc. (JM, PS)
+\jarrod{
+screen the anonymized data for transcription errors, typos, etc. (JM, PS);
 %Time: approximately 5 hours
-
 develop sed scripts to ``correct'' the data for duplicated entries and inferred
-typos (JM)
+typos (JM);
 %Time: included above
-
-send cleaned data to NS to verify that the corrections were appropriate (PS, NS)
+send cleaned data to NS to verify that the corrections were appropriate (PS, NS);
 %Time: 1 hour
-
 include cleaned data in git repo: the anonymized data are public, pre- and
 post-cleaning
- 
-\subsection{Designing and analyzing the algorithm (25 hours)}
+}
 
+\subsection{Design algorithm (25 hours)}
 
+\jarrod{
 ``Problem appreciation'': conversations culminating in the decision to assess
-the reliability one category at a time. (JM, KO, PS)
+the reliability one category at a time. (JM, KO, PS);
 %Time: approximately 4h.
-
-Developed an understanding that it was best to treat the videos separately
-
+Developed an understanding that it was best to treat the videos separately;
 Searched the literature for extant approaches to assessing IRR.
-
 We determined that there was no suitable method, in part because the experiment
 was stratified and in part because standard methods make indefensible
-parametric assumptions, which we hoped to avoid (PS)
+parametric assumptions, which we hoped to avoid (PS);
 %Time: 3h
-
-Decided to use permutation tests
-
+Decided to use permutation tests;
 Decided what the appropriate permutation would be: permuting each rater's
 ratings within a video, independently across raters and across videos.
-
-Chose a test statistic to use within each stratum: concordance of ratings
-
-Derived a simple expression for computing the concordance efficiently (JM, PS)
+Chose a test statistic to use within each stratum: concordance of ratings;
+Derived a simple expression for computing the concordance efficiently (JM, PS);
 %Time: 1h
-
 Decided how to combine tests across strata: nonparametric combination of tests,
-NPC (JM, KO, PS)
+NPC (JM, KO, PS);
 %Time: 1h
-
 Developed a computationally efficient approach to finding the overall p-value
 for NPC (JM, KO, PS)
 %Time: 1.5h
+}
 
 \subsection{Implementing the algorithm (5 hours)}
 
 \jarrod{Fill in.}
   
-\subsection{Analyzing the data (1 hour)}
+\subsection{Analyze data (1 hour)}
 
 By the time we got to this stage, the analysis of the cleaned data was only
 about 70 lines of Python, of which 56 are code (the rest are comments).
 This includes looping over the 183 categories of activity.
 
-\subsection{Understanding the result (20 hours)}
+\subsection{Understand result (20 hours)}
 
 \philip{We need a discussion of our final thoughts about the data
 and how it did or did not address the question.  Maybe a sentence
 or two saying what we learned...what we do differently during
 data collection next time.
 Understanding result can lead to
-1) designing new experiement,
+1) designing new experiment,
 2) collecting new data,
 3) performing different analysis,
 4) writing manuscript,
@@ -426,17 +401,15 @@ test annotation, profiling, as well as inspecting and testing documentation.
     \includegraphics[width=\textwidth]{pull-request-ci.png}\par
   \end{centering}
 
-  \caption{\label{fig:pull-request}Pull request and continuous integration.}
-\setlength{\leftskip}{1cm}
-\setlength{\rightskip}{1cm}
-\small
-Each pull request triggers an automated system to run the  full test suite on
-the updated codebase.
-This means that when you go to review a pull request you can immediately see
-whether the change breaks any of the tests as well as whether the new
-code decreases the overall test coverage.
-For example, the above report indicates that the associated pull request does not
-break existing code and does not change our test coverage.
+  \caption{\label{fig:pull-request}
+  \small
+    Each pull request triggers an automated system to run the  full test suite on
+    the updated codebase.
+    This means that when you go to review a pull request you can immediately see
+    whether the change breaks any of the tests as well as whether the new
+    code decreases the overall test coverage.
+    For example, the above report indicates that the associated pull request does not
+    break existing code and does not change our test coverage.}
 \end{figure}
 
 Our goal is to test every line of code.

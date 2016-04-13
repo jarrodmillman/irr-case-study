@@ -8,7 +8,7 @@ digraph {
 		pos="-92.363,96.096",
 		width=1.7778];
 	2	 [height=0.5,
-		label="Get and prepare data (9%)",
+		label="Get and clean data (9%)",
 		pos="130,96.284",
 		width=1.1944];
 	1 -> 2;
