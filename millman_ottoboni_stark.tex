@@ -53,15 +53,15 @@
 \ensuremath{\bigstar} {\bf jarrod:}  {#1}
 \ensuremath{\bigstar} } }
 
-\newcommand{\mref}[1] { \textcolor{darkorange} {
-\ensuremath{\blacksquare} {\bf missing ref:}  {#1}
+\newcommand{\kellie}[1] { \textcolor{darkorange} {
+\ensuremath{\blacksquare} {\bf kellie:}  {#1}
 \ensuremath{\blacksquare} } }
 
 %% Uncomment these to turn all the special marker commands off
 %\renewcommand{\fix}[1]{}
 %\renewcommand{\philip}[1]{}
 %\renewcommand{\jarrod}[1]{}
-%\renewcommand{\mref}[1]{}
+%\renewcommand{\kellie}[1]{}
 
 
 \date{}
@@ -127,32 +127,49 @@ therapy sessions with children on the autistic spectrum.
   in the particular context of your case study.
 \end{enumerate}
 
-The term \emph{reproducibility} is overloaded with orthogonal or even
-contradictory meanings in different disciplines. In the context of the current
-project, \emph{reproducibility} means that we have documented (nearly) every
-step of the analysis, from cleaning to coding to code execution. Of course, the
-project itself is \emph{about} the \emph{reliability and replicability} of a
-particular kind of measurement: raters' assessments of activities during
-therapy sessions.
+In the context of the current project, \emph{reproducibility} means that
+we (JM, KO, PS) have documented (nearly) every step of the analysis,
+from cleaning to coding to code execution.
+By keeping all code, text, and data in a publicly accessible version
+controlled repository, we've made this well-documented analysis available
+for anyone to examine.
+While we've not made the original raw data available, we have made the
+anonymized version public.
+We have released both the original anonymized version as well as our cleaned
+version including the exact commands necessary to produce the cleaned
+version from the anonymized one.
+Since we used GitHub's pull request mechanism to review every step of the
+process, we've also made much of our internal design discussions visible
+and not just the results of those discussions.
+In addition to making what we did transparent to anyone who is interested,
+working in this way means that when errors are found we can identify
+exactly how and when those errors were introduced.
+We also have written tests for (almost) all our code, which means we
+can have a high level of confidence that as we make changes to our
+codebase we can catch any cascading errors that result.
+This means we can quickly and easily identify the causes of error, fix
+those errors, and rerun the entire analysis from start to finish.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
+\philip{
 Over the 2014-2015 winter break, NS posed PS a question that came up in her
 work on therapeutic interventions with children on the autism scale.
-After coming to an intial understanding of her statistical problem,
+After coming to an initial understanding of her statistical problem,
 PS sent JM and KO a one page proposal for a stratified permutation test for
 multi-rater inter-rater reliability.
+}
 
-After spending time to understand her underlying research problem and making
-certain we understood how her data was collected, we cleaned the data,
-developed a nonparametric approach to assessing IRR appropriate to the
-experiment, implemented the approach in Python, incorporated the resulting
-code into an evolving Python package of permutation
-tests (\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}}),
-applied the approach to the cleaned data, documented the code and the analysis,
-and wrote up the results in a \LaTeX document. 
+After (coming to an initial) understanding of NP's underlying research problem
+and making certain we (JM, KO, PS) understood how her data was collected, we
+cleaned the data, developed a nonparametric approach to assessing IRR
+appropriate to the experiment, implemented the approach in Python, incorporated
+the resulting code into an evolving Python package of permutation tests
+(\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}}), applied
+the approach to the cleaned data, documented the code and the analysis, and
+wrote up the results in a \LaTeX document. 
 
-We distinguish the following aspects of our work:
+We distinguish the following aspects of our study:
 (1) understand problem,
 (2) get and clean data,
 (3) design algorithm,
@@ -162,6 +179,13 @@ We distinguish the following aspects of our work:
 In Figure~\ref{fig:work_process}, we've diagrammed an estimate of how much time
 we collectively spent on each aspect of the project as well as how each aspect
 of the project influenced the other aspects.
+Our estimates are based on the total person hours we spent on each aspect of
+the problem.
+For example, if all three of us (JM, KO, PS) spent an hour discussing the
+problem in a meeting, then that hour involved 3 people hours.
+Below we describe the work involved in each aspect of the project.
+We've listed the total number of people hours spent of each aspect in the
+headings for each subsection.
 
 \begin{figure}[h]
   \centering
@@ -170,21 +194,25 @@ of the project influenced the other aspects.
   \small
     Each box corresponds to one aspect of our project.
     The percents are estimates of the percent of our time spent on each aspect.
-    Edges represent influence. \texttt{Understand problem}~$\to$~\texttt{Design algorithm}
+    Edges represent influence.
+    \texttt{Understand problem}~$\to$~\texttt{Design algorithm}, for instance,
     corresponds to the fact that we first had to understand the problem
     in order to design the correct statistical test.\label{fig:work_process}}
 \end{figure}
 
-Underlying all aspects is a set of computational practices
-we (JM, KO, PS) followed (almost) whenever we were working on the project.
-These computational practices are described in detail
-here \cite{millman2014developing} and are used widely
-in the open source scientific Python community.
+Underlying all aspects of this study is a set of computational practices we
+(JM, KO, PS) followed (almost) whenever we were working on the project.
+These computational practices are described in detail here
+\cite{millman2014developing} and are used widely in the open source scientific
+Python community.
 Following these practices, we've developed a Python package for permutation
 tests and confidence sets called \texttt{permute}.
-We will illustrate how we leverage the software infrastructure of
-\texttt{permute} to conduct reproducible and collaborative
-applied statistics research with our scientific collaborators.
+While developed for managing software contributions, these practices are ideal
+for ensuring computational reproducibility in scientific and statistical
+research.
+We will illustrate how we leverage the software infrastructure and development
+practices of \texttt{permute} to conduct reproducible and collaborative applied
+statistics research with our colleagues.
 We discuss the software tools and practices briefly in \S~\ref{key-tools} below.
 
 \subsection{Understand problem (80 hours)}
@@ -198,15 +226,27 @@ set-up.
 %Time: approximately 10 1-hour meetings
 }
 
-\jarrod{
+Once PS had an initial understanding of NS's problem, we (JM, KO, PS)
 met regularly (approximately weekly, sometimes more) as a team to discuss the
-project, work on whiteboards, and use pair programming (JM, KO, PS)
+project.  Initially these discussions involved a lot of work on whiteboards
+and asking a lot of probing and open-ended questions.  This helped us
+make sure we all gained a shared understanding of the problem.  It also
+meant that we could improve our understanding by explaining it to one
+another as well as asking hard questions about our planned approach
+and whether it could address the question of interest.
+As our understanding of the problem progressed, our work transitioned
+from mostly working on whiteboards to testing our ideas out on a
+computer.  Often we often used pair programming at this stage and sometimes
+all three of us (JM, KO, PS) sat in front of one computer, while one of us
+would type code in an interactive IPython session.
+This helped ensure that we all understood the problem well and it also
+helped us catch errors (typos as well as conceptual errors).
 %Time: approximately 10 2-hour meetings.
-}
 
 \subsection{Get and clean data (13 hours)}
 
-The data were collected by Naomi Stark and Gil Kliman.
+The data were collected by NS and Gilbert Kliman of the Children's
+Psychological Health Center in San Francisco.
 They comprise ratings of segments of 8 videos by 10 trained raters.
 Each video is divided into approximately 40 time segments.
 In each time segment, none, any, or all of 183 types of activity might be
@@ -231,67 +271,90 @@ readily. (PS)
 %Time: approximately 1 hour.
 }
 
-\jarrod{
-screen the anonymized data for transcription errors, typos, etc. (JM, PS);
+After PS generated the original anonymized data, we committed it to our
+repository and added a data loader with tests to ensure that if the data
+changed we would know.
+At this point, we (JM, PS) screened the anonymized data for transcription
+errors (e.g., typos, duplications).  This involved writing a number of EDA
+tools, which are now included in \texttt{permute}, to detect (for example)
+duplicate rows as well as duplicate consecutive rows.
 %Time: approximately 5 hours
-develop sed scripts to ``correct'' the data for duplicated entries and inferred
-typos (JM);
+Once we identified entries incompatible with our understanding of what
+should be in the data, JM developed \texttt{sed} and \texttt{awk} scripts
+to ``correct'' the data for duplicated entries and inferred typos.
 %Time: included above
-send cleaned data to NS to verify that the corrections were appropriate (PS, NS);
+The exact commands used to clean the data are included in the commit
+messages corresponding to that cleaning step.
+After carefully examining the data for potential errors and documenting
+every change we made and why, we sent the cleaned data and an explanation
+of what we did to NS to verify that the corrections were appropriate.
 %Time: 1 hour
-include cleaned data in git repo: the anonymized data are public, pre- and
-post-cleaning
-}
+As a result, we provide the cleaned data in our project repository as well
+as a careful account of its provenance.
 
 \subsection{Design algorithm (25 hours)}
 
-\jarrod{
-``Problem appreciation'': conversations culminating in the decision to assess
-the reliability one category at a time. (JM, KO, PS);
+Although we eventually implemented something close to the original test
+proposed by PS at the start of the project, we spent significant time
+focused on  ``problem appreciation.''  These conversations culminated
+in our (JM, KO, PS) decision to assess the reliability one category at a time.
 %Time: approximately 4h.
-Developed an understanding that it was best to treat the videos separately;
-Searched the literature for extant approaches to assessing IRR.
-We determined that there was no suitable method, in part because the experiment
-was stratified and in part because standard methods make indefensible
-parametric assumptions, which we hoped to avoid (PS);
+We also developed an understanding that it was best to treat the videos
+separately.  A literature search for extant approaches to assessing IRR
+led us to conclude that there was no existing suitable method, in part because
+the experiment was stratified and in part because standard methods make
+indefensible parametric assumptions, which we hoped to avoid.
 %Time: 3h
-Decided to use permutation tests;
-Decided what the appropriate permutation would be: permuting each rater's
-ratings within a video, independently across raters and across videos.
-Chose a test statistic to use within each stratum: concordance of ratings;
-Derived a simple expression for computing the concordance efficiently (JM, PS);
+After deciding to use permutation tests, we (JM, KO, PS) then determined what
+the appropriate permutation would be: permuting each rater's ratings within a
+video, independently across raters and across videos.
+We chose to use concordance of ratings as our test statistic within each
+stratum.  Finally, we (JM, PS) derived a simple expression for computing the
+concordance efficiently.
 %Time: 1h
-Decided how to combine tests across strata: nonparametric combination of tests,
-NPC (JM, KO, PS);
+To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
+combination (NPC) of tests.
 %Time: 1h
-Developed a computationally efficient approach to finding the overall p-value
-for NPC (JM, KO, PS)
+Finally, we (JM, KO, PS) developed a computationally efficient approach to
+finding the overall p-value for NPC.
 %Time: 1.5h
-}
 
 \subsection{Implementing the algorithm (5 hours)}
 
-\jarrod{Fill in.}
+\jarrod{I plan to go over this:  https://github.com/statlab/permute/issues/69.
+I will write this up as a little report separate from this case study.  I will
+also look into how long it takes to run, but I am thinking I might make a
+separate repository just for this.  I suspect it will take some time to run and
+our tests and doc generation are already costly.  I am also reluctant to put
+something we plan to freeze in a project that should evolve.  I am imagining
+something that depends on the exact release of permute that we used and has a
+permanent web address.}
+
+\jarrod{Once I finish I need to discuss this with Kellie, since she did most of
+the hard work as I recall.}
   
+
 \subsection{Analyze data (1 hour)}
 
 By the time we got to this stage, the analysis of the cleaned data was only
 about 70 lines of Python, of which 56 are code (the rest are comments).
 This includes looping over the 183 categories of activity.
 
+\jarrod{Once I turn the analysis into a stand-alone frozen project, I
+will report our results here.}
+
 \subsection{Understand result (20 hours)}
 
-\philip{We need a discussion of our final thoughts about the data
-and how it did or did not address the question.  Maybe a sentence
-or two saying what we learned...what we do differently during
-data collection next time.
-Understanding result can lead to
-1) designing new experiment,
-2) collecting new data,
-3) performing different analysis,
-4) writing manuscript,
-5) something else. 
-}
+\philip{You will probably want to wait until I have written up the results to
+work on this; but, eventually we need a discussion of our final thoughts about
+the data and how it did or did not address the question.  Maybe a sentence or
+two saying what we learned...what we do differently during data collection next
+time.  Understanding result can lead to 1) designing new experiment, 2)
+collecting new data, 3) performing different analysis, 4) writing manuscript,
+5) something else.  Need to connect this back to the our understanding of the
+problem.  We should also say that despite not pursuing this further, it did
+yield a new permutation test that could be used in other contexts and which is
+available in \texttt{permute}.  }
 
 \section{Pain points}\label{pain-points}
 
@@ -303,7 +366,8 @@ Understanding result can lead to
 why I use the tools I use is to avoid the pain caused by not using
 them.  The hand-entered data is a good start.  I think the next
 two items need to be rewritten some.  The pain being, I would argue,
-that most of didn't already know these tools well.} 
+that most of didn't already know these tools well.
+context switching; different pain for different people.} 
 
 Vetting hand-entered data; ensuring that the data are relatively
 error-free.
@@ -350,23 +414,22 @@ many successful open source projects \cite{millman2014developing}.
 
 \subsection{\label{sec:vc}Version control and code review}
 
-We use Git\footnote{\url{http://git-scm.com}} as our version control system
-(VCS) and GitHub\footnote{\url{https://github.com}} as the public hosting
-service for our official \texttt{upstream} repository
+We (JM, KO, PS) use Git\footnote{\url{http://git-scm.com}} as our version
+control system (VCS) and GitHub\footnote{\url{https://github.com}} as the
+public hosting service for our official \texttt{upstream} repository
 (\url{https://github.com/statlab/permute}).
-Each developer has their own copy, or fork, of the \texttt{upstream}
-repository.
+Each of us has our own copy, or fork, of the \texttt{upstream} repository.
 We each work on our own repositories and use the \texttt{upstream} repository
 as our coordination or integration repository.
 
-Git allows us to track and manage how our code changes over time as well as
+This allows us to track and manage how our code changes over time as well as
 review all new functionality before merging it into the \texttt{upstream}
 repository.
-To get new code integrated in the \texttt{upstream} repository, we use GitHub's
-\emph{pull request} mechanism.
-This enables us to review code before integrating it.
-Below, we describe how we automate our testing to generate reports for all pull
-requests.
+To get new code or text integrated in the \texttt{upstream} repository, we use
+GitHub's \emph{pull request} mechanism.
+This enables us to review code and text before integrating it.
+Below, we describe how we automate testing our code to generate reports for all
+pull requests.
 This way we can reduce the risk that changes to our code break existing
 functionality.
 Once a pull request is reviewed and accepted, it is merged into the
@@ -385,8 +448,13 @@ as capturing our design discussions and decisions for future reference.
 
 We use the \texttt{nose} testing framework for automating our testing
 procedures.\footnote{\url{https://nose.readthedocs.org}}
-This is the standard testing framework used by the core packages in the
-scientific Python ecosystem.
+This is the standard testing framework\footnote{As \texttt{nose} has been in
+maintenance mode for the last few years, several projects are starting to look
+into newer testing frameworks.
+We are migrating to \texttt{pytest}: \url{http://pytest.org}.
+While we may transition to a new testing framework, any system we
+migrate to will have the same basic features and benefits as \texttt{nose}.}
+used by the core packages in the scientific Python ecosystem.
 Automating the tests allows us to monitor a proxy for code correctness when
 making changes as well as simplifying the code review process for new code.
 Without automated testing, we would have to manually test all the code every
