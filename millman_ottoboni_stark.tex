@@ -164,10 +164,9 @@ After (coming to an initial) understanding of NP's underlying research problem
 and making certain we (JM, KO, PS) understood how her data was collected, we
 cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python, incorporated
-the resulting code into an evolving Python package of permutation tests
-(\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}}), applied
-the approach to the cleaned data, documented the code and the analysis, and
-wrote up the results in a \LaTeX document. 
+the resulting code into an evolving Python package of permutation tests,
+applied the approach to the cleaned data, documented the code and the analysis,
+and wrote up the results in a \LaTeX document. 
 
 We distinguish the following aspects of our study:
 (1) understand problem,
@@ -176,15 +175,15 @@ We distinguish the following aspects of our study:
 (4) implement algorithm,
 (5) analyze data, and
 (6) understand result.
-In Figure~\ref{fig:work_process}, we've diagrammed an estimate of how much time
-we collectively spent on each aspect of the project as well as how each aspect
-of the project influenced the other aspects.
+In Figure~\ref{fig:work_process}, we've diagrammed how each aspect of the
+project influenced the other aspects as well as an estimate of how much time
+we collectively spent on each aspect of the project.
 Our estimates are based on the total person hours we spent on each aspect of
 the problem.
 For example, if all three of us (JM, KO, PS) spent an hour discussing the
 problem in a meeting, then that hour involved 3 people hours.
 Below we describe the work involved in each aspect of the project.
-We've listed the total number of people hours spent of each aspect in the
+We've listed the total number of people hours spent on each aspect in the
 headings for each subsection.
 
 \begin{figure}[h]
@@ -206,7 +205,8 @@ These computational practices are described in detail here
 \cite{millman2014developing} and are used widely in the open source scientific
 Python community.
 Following these practices, we've developed a Python package for permutation
-tests and confidence sets called \texttt{permute}.
+tests and confidence sets called
+\texttt{permute}.\footnote{\url{http://statlab.github.io/permute/}}
 While developed for managing software contributions, these practices are ideal
 for ensuring computational reproducibility in scientific and statistical
 research.
@@ -362,19 +362,31 @@ available in \texttt{permute}.  }
 %consider to be particularly painful. How do you handle these? How do you
 %avoid them? (200-400 words)}
 
-\jarrod{Need to think what is painful here a bit more. A big part of 
-why I use the tools I use is to avoid the pain caused by not using
-them.  The hand-entered data is a good start.  I think the next
-two items need to be rewritten some.  The pain being, I would argue,
-that most of didn't already know these tools well.
-context switching; different pain for different people.} 
+The steps of our reproducible practices that we found particularly painful or
+difficult varied depending on how familiar we were with the tools and practices
+before the beginning of the project.
 
-Vetting hand-entered data; ensuring that the data are relatively
-error-free.
+Since JM had been using these tools and practices for several years whenever
+working with data and code on a computer, this aspect of the project was
+pleasant and familiar.
+So (for JM) the most painful part of the project was vetting hand-entered data
+to ensure the data were relatively error-free.
+Not only was this a laborious process, but it involved inferring what the data
+should have been without any way to ensure that these inferences were correct.
+The solution to this pain point is to automate the data collection process as
+much as possible.
+However, when data has already been entered by hand, there is not much that can
+be done other than being cautious when "fixing" data entry errors and recording
+every aspect of the data cleaning process.
 
-Learning and setting up new workflow tools, such as TravisCI.
-
-Maintaining coding and naming conventions.
+For KO and PS there was a learning curve to master the tools and practices.
+This involved understanding the data model used by Git, acquiring habits such
+as writing tests for all functions and following a common style guide, as well
+as learning to contribute to the project repository indirectly through GitHub's
+pull request mechanism.
+While learning how to use these tools and acquiring these habits takes effort
+and persistence, once mastered the difficulties disappear and the benefits
+accrue.
 
 \section{Key benefits}\label{key-benefits}
 
@@ -385,18 +397,33 @@ Maintaining coding and naming conventions.
 %why? What would you want them to learn from your example? (200-400
 %words)}
 
-\jarrod{confidence?  you much we trust and stand behind our work.
-how likely would I be to build off the work.}
+Since \cite{buckheit1995wavelab} popularized the idea of computational
+reproducibility, many applied statisticians have taken the ideas of version
+control and process automation seriously.
+At Berkeley, many faculty and researchers in the Department of Statistics and
+in the Division of Biostatistics have made the idea of computational
+reproducibility central in both their classroom as well as their own work.
+Several faculty require that anyone working with them use version
+control.\footnote{For example, see:
+\url{http://www.stat.berkeley.edu/~epurdom/studentResources.html}}
 
-It's easy to modify the analysis if errors are found, to apply the
-analysis to new data sets, and so on.
+However, we believe that the practices we adopted go beyond the standard
+operating practice of many of our colleagues.
+In particular, our adherence to continuous integration and code review is
+unusual among our colleagues.
+We believe that our colleagues would have more reliable code and would be more
+confident in their ability to modify their existing code without breaking
+downstream dependencies by adopting these practices.
 
-The process is largely self-documenting, making it easier to draft a
-paper about the results.
-
-The methods are abstracted from the analysis and incorporated into a
-package so that others can discover, check, use, and extend the
-methods.
+In particular, following our work practice has the following benefits:
+\begin{enumerate}
+\item It's easy to modify the analysis if errors are found, to apply the
+  analysis to new data sets, and so on.
+\item The process is largely self-documenting, making it easier to draft a
+  paper about the results.
+\item The methods are abstracted from the analysis and incorporated into a
+  package so that others can discover, check, use, and extend the methods.
+\end{enumerate}
 
 \section{Key tools and practices}\label{key-tools}
 
