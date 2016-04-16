@@ -418,7 +418,7 @@ difficult varied depending on how familiar we were with the tools and practices
 before the beginning of the project.
 
 Since JM had been using these tools and practices for several years whenever
-working with data and code on a computer, this aspect of the project was
+working with code, data, or text on a computer, this aspect of the project was
 pleasant and familiar.
 So (for JM) the most painful part of the project was vetting hand-entered data
 to ensure the data were relatively error-free.
@@ -427,7 +427,7 @@ should have been without any way to ensure that these inferences were correct.
 The solution to this pain point is to automate the data collection process as
 much as possible.
 However, when data has already been entered by hand, there is not much that can
-be done other than being cautious when "fixing" data entry errors and recording
+be done other than being cautious when ``fixing'' data entry errors and recording
 every aspect of the data cleaning process.
 
 For KO and PS there was a learning curve to master the tools and practices.
@@ -466,15 +466,13 @@ We believe that our colleagues would have more reliable code and would be more
 confident in their ability to modify their existing code without breaking
 downstream dependencies by adopting these practices.
 
-In particular, following our work practice has the following benefits:
-\begin{enumerate}
-\item It's easy to modify the analysis if errors are found, to apply the
-  analysis to new data sets, and so on.
-\item The process is largely self-documenting, making it easier to draft a
-  paper about the results.
-\item The methods are abstracted from the analysis and incorporated into a
-  package so that others can discover, check, use, and extend the methods.
-\end{enumerate}
+In particular, we have found that our practices provide the following benefits:
+(1) it is easy to modify the analysis when errors are found, to apply the
+    analysis to new data sets, and so on;
+(2) the process is largely self-documenting, making it easier to draft a
+    paper about the results; and
+(3) the methods are abstracted from the analysis and incorporated into a
+    package so that others can discover, check, use, and extend our methods.
 
 \section{Key tools and practices}\label{key-tools}
 
@@ -488,7 +486,7 @@ invested significant effort in setting up a development infrastructure to
 ensure our work is tracked, thoroughly and continually tested, and
 incrementally improved and documented.
 To this end, we have adopted best practices for software development used by
-many successful open source projects \citet{millman2014developing}.
+many successful open source projects \citep{millman2014developing}.
 
 \subsection{\label{sec:vc}Version control and code review}
 
