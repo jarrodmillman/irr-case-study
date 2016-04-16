@@ -5,10 +5,7 @@ import csv
 import numpy as np
 
 from permute.data import nsgk
-from permute.irr import (compute_ts,
-                         simulate_ts_dist,
-                         compute_inverseweight_npc,
-                         simulate_npc_dist)
+from permute.irr import simulate_ts_dist, simulate_npc_dist
 
 
 x = nsgk()
@@ -45,7 +42,8 @@ for i in range(len(x)):   # loop over categories
     video_conc = np.vstack((video_conc, tst))
     perm_distr = np.asarray(d).transpose()
     category.append(
-        simulate_npc_dist(perm_distr, size=time_stamps, obs_ts=tst, keep_dist=False))
+        simulate_npc_dist(perm_distr, size=time_stamps,
+                          obs_ts=tst, keep_dist=False))
 
 category_pvalues = []
 for i in range(len(category)):
@@ -53,18 +51,20 @@ for i in range(len(category)):
 category_pvalues = np.array(category_pvalues).transpose()
 
 # Put results into a matrix
-nsgk_res = np.concatenate((np.array(range(len(x) + 1))[1:][:, None], category_pvalues[
-                          :, None], video_pval, video_conc, video_means, video_sd), axis=1)
+nsgk_res = np.concatenate((np.array(range(len(x) + 1))[1:][:, None],
+                           category_pvalues[:, None],
+                           video_pval, video_conc,
+                           video_means, video_sd), axis=1)
 
 nsgk_colnames = ['category', 'overall_pvalue']
 for i in range(8):
-    nsgk_colnames.append('video' + `i + 1` + 'pvalue')
+    nsgk_colnames.append('video' + repr(i + 1) + 'pvalue')
 for i in range(8):
-    nsgk_colnames.append('video' + `i + 1` + 'concordance')
+    nsgk_colnames.append('video' + repr(i + 1) + 'concordance')
 for i in range(8):
-    nsgk_colnames.append('video' + `i + 1` + 'mean')
+    nsgk_colnames.append('video' + repr(i + 1) + 'mean')
 for i in range(8):
-    nsgk_colnames.append('video' + `i + 1` + 'sd')
+    nsgk_colnames.append('video' + repr(i + 1) + 'sd')
 
 
 # Write to csv
