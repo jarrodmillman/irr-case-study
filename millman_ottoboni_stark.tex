@@ -1,4 +1,5 @@
 \documentclass[]{article}
+\usepackage[round]{natbib}
 \usepackage{geometry}                           % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                                  % ... or a4paper or a5paper or ... 
 %\usepackage[parfill]{parskip}                  % Activate to begin paragraphs with an empty line rather than an indent
@@ -85,10 +86,9 @@ Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 
 \section{Introduction}
 
-This case study illustrates some of the reproducible practices we (JM, KO, PS)
-have adopted when working with scientific or domain experts as applied
-statisticians.  Parts of the text have been adapted from
-\cite{millman2015thesis}.
+This case study\footnote{\url{https://github.com/statlab/nsgk}} illustrates
+some of the reproducible practices we (JM, KO, PS) have adopted.
+Parts of the text have been adapted from \citet{millman2015thesis}.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -188,7 +188,7 @@ headings for each subsection.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{fig/work_process.png}
+    \includegraphics[width=0.8\textwidth]{_fig/work_process.png}
   \caption{
   \small
     Each box corresponds to one aspect of our project.
@@ -201,9 +201,8 @@ headings for each subsection.
 
 Underlying all aspects of this study is a set of computational practices we
 (JM, KO, PS) followed (almost) whenever we were working on the project.
-These computational practices are described in detail here
-\cite{millman2014developing} and are used widely in the open source scientific
-Python community.
+These computational practices are described in \citet{millman2014developing}
+and are used widely in the open source scientific Python community.
 Following these practices, we've developed a Python package for permutation
 tests and confidence sets called
 \texttt{permute}.\footnote{\url{http://statlab.github.io/permute/}}
@@ -397,7 +396,7 @@ accrue.
 %why? What would you want them to learn from your example? (200-400
 %words)}
 
-Since \cite{buckheit1995wavelab} popularized the idea of computational
+Since \citet{buckheit1995wavelab} popularized the idea of computational
 reproducibility, many applied statisticians have taken the ideas of version
 control and process automation seriously.
 At Berkeley, many faculty and researchers in the Department of Statistics and
@@ -437,7 +436,7 @@ invested significant effort in setting up a development infrastructure to
 ensure our work is tracked, thoroughly and continually tested, and
 incrementally improved and documented.
 To this end, we have adopted best practices for software development used by
-many successful open source projects \cite{millman2014developing}.
+many successful open source projects \citet{millman2014developing}.
 
 \subsection{\label{sec:vc}Version control and code review}
 
@@ -493,7 +492,7 @@ test annotation, profiling, as well as inspecting and testing documentation.
 
 \begin{figure}
   \begin{centering}
-    \includegraphics[width=\textwidth]{fig/pull-request-ci.png}\par
+    \includegraphics[width=\textwidth]{_fig/pull-request-ci.png}\par
   \end{centering}
 
   \caption{\label{fig:pull-request}
@@ -561,9 +560,15 @@ our mailing list.
 To install the latest release of \texttt{permute} and its dependencies, type
 the following command from a shell prompt (assuming you have Python and a
 recent version of pip):
-
-\texttt{\$ pip install permute}
-
+\begin{verbatim}
+$ pip install permute
+\end{verbatim}
+To run the analysis:
+\begin{verbatim}
+$ git clone git@github.com:statlab/nsgk.git
+$ cd nsgk/nsgk
+$ make analysis
+\end{verbatim}
 
 %\textbf{Software tools:}
 %
@@ -625,7 +630,7 @@ recent version of pip):
 %    \end{enumerate}
 
 
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{millman_ottoboni_stark}
 
 \end{document}
