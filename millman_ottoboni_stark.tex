@@ -5,6 +5,7 @@
 %\usepackage[parfill]{parskip}                  % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}                           % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
                                                                 % TeX will automatically convert eps --> pdf in pdflatex                
+\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{upquote}
 
@@ -70,9 +71,8 @@
 \begin{document}
 
 \title{Reproducible Applied Statistics:\\
-Is tagging of therapist-patient interactions reliable?\thanks{Submitted
-to \url{https://github.com/BIDS/repro-case-studies}.
-}}
+Is tagging of therapist-patient interactions reliable?
+}
 
 \author{K. Jarrod Millman (JM)\\ Division of Biostatistics\\ UC Berkeley \and
 Kellie Ottoboni (KO)\\ Department of Statistics\\ UC Berkeley \and
@@ -86,9 +86,13 @@ Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 
 \section{Introduction}
 
-This case study\footnote{\url{https://github.com/statlab/nsgk}} illustrates
-some of the reproducible practices we (JM, KO, PS) have adopted.
-Parts of the text have been adapted from \citet{millman2015thesis}.
+This case study\footnote{This file along with the analysis script and results
+can be found here \url{https://github.com/statlab/nsgk}} illustrates some of
+the reproducible practices we (JM, KO, PS) have adopted.
+Parts of the text have been adapted from \citet{millman2015thesis} and a
+shorter version was submitted to
+\url{https://github.com/BIDS/repro-case-studies}.
+
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -127,28 +131,72 @@ therapy sessions with children on the autistic spectrum.
   in the particular context of your case study.
 \end{enumerate}
 
-In the context of the current project, \emph{reproducibility} means that
+In the context of this project, \emph{reproducibility} means that
 we (JM, KO, PS) have documented (nearly) every step of the analysis,
 from cleaning to coding to code execution.
 By keeping all code, text, and data in a publicly accessible version
 controlled repository, we've made this well-documented analysis available
 for anyone to examine.
-While we've not made the original raw data available, we have made the
-anonymized version public.
+%While we've not made the original raw data available, we have made the
+%anonymized version public.
 We have released both the original anonymized version as well as our cleaned
 version including the exact commands necessary to produce the cleaned
 version from the anonymized one.
-Since we used GitHub's pull request mechanism to review every step of the
-process, we've also made much of our internal design discussions visible
-and not just the results of those discussions.
+We've also recorded our code review discussions along with the code produced
+as a result of those discussion.
+%Since we used GitHub's pull request mechanism to review every step of the
+%process, we've also made much of our internal design discussions visible
+%and not just the results of those discussions.
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 exactly how and when those errors were introduced.
-We also have written tests for (almost) all our code, which means we
-can have a high level of confidence that as we make changes to our
-codebase we can catch any cascading errors that result.
-This means we can quickly and easily identify the causes of error, fix
-those errors, and rerun the entire analysis from start to finish.
+We also have written tests for (almost) all our code, which means we have a
+high level of confidence that as we make changes to our codebase we can catch
+any cascading errors that result.
+Catching errors early means we can more quickly and easily identify our
+mistakes and correct them.
+And since we've automated the process of running our analysis, once errors
+are identified and corrected, it is trivial to rerun the entire analysis from
+start to finish.
+
+Assuming you have network access and that you have Bash, Python, Git, and Make
+installed on your computer, you can run our complete analysis of the cleaned
+data by typing the following three commands:
+\begin{verbatim}
+$ git clone git@github.com:statlab/nsgk.git
+$ cd nsgk/nsgk
+$ make
+\end{verbatim}
+We will discuss these tools in \S~\ref{key-tools} below.
+However, let's quickly walk through what happens when you enter the above
+commands.
+The first command will create a directory named \texttt{nsgk} in your current
+working directory with a copy of the project repository (i.e., a directory with
+our code, data, and text along with the provenance of these documents).
+This directory contains this document as well as everything needed to run our
+analysis.
+%Our Python script (\texttt{analysis.py}) is in a subdirectory \texttt{nsgk} of
+%\texttt{nsgk}.
+Inside of \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
+\texttt{analysis.py}, and \texttt{results.csv} the output of our analysis.
+
+When you enter the command \texttt{make}, the \texttt{Makefile} recipe
+corresponding to the default target \texttt{all} will be invoked.
+\begin{verbatim}
+all:
+        virtualenv -p /usr/bin/python2.7 venv
+        venv/bin/pip install --upgrade pip
+        venv/bin/pip install -r requirements.txt
+        venv/bin/python analysis.py
+
+clean:
+        rm -rf venv
+\end{verbatim}
+The default recipe (\texttt{all}) creates a new virtual environment (see
+\S~\ref{key-tools}) for Python 2.7, upgrades the Python package manager
+(\texttt{pip}), installs the necessary Python package dependencies
+(\texttt{numpy}, \texttt{scipy}, and \texttt{permute}), and runs the
+analysis script \texttt{analysis.py}.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
@@ -199,8 +247,12 @@ headings for each subsection.
     in order to design the correct statistical test.\label{fig:work_process}}
 \end{figure}
 
-Underlying all aspects of this study is a set of computational practices we
-(JM, KO, PS) followed (almost) whenever we were working on the project.
+Since we view computational reproducibility as a cross-cutting concern of all
+project aspects, we have adopted a set of computational practices, which we
+(JM, KO, PS) followed (almost) whenever we were working on the
+project.\footnote{Exceptions including that we didn't record all of our
+in person discussions or whiteboard work.  However, we endeavored to
+record summaries of these activities.}
 These computational practices are described in \citet{millman2014developing}
 and are used widely in the open source scientific Python community.
 Following these practices, we've developed a Python package for permutation
@@ -315,7 +367,7 @@ To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
 combination (NPC) of tests.
 %Time: 1h
 Finally, we (JM, KO, PS) developed a computationally efficient approach to
-finding the overall p-value for NPC.
+finding the overall $p$-value for NPC.
 %Time: 1.5h
 
 \subsection{Implementing the algorithm (5 hours)}
@@ -563,12 +615,6 @@ recent version of pip):
 \begin{verbatim}
 $ pip install permute
 \end{verbatim}
-To run the analysis:
-\begin{verbatim}
-$ git clone git@github.com:statlab/nsgk.git
-$ cd nsgk/nsgk
-$ make analysis
-\end{verbatim}
 
 %\textbf{Software tools:}
 %
@@ -632,5 +678,75 @@ $ make analysis
 
 \bibliographystyle{plainnat}
 \bibliography{millman_ottoboni_stark}
+
+\pagebreak
+
+\section*{Appendix}
+
+\subsection*{A stratified permutation test for multi-rater inter-rater reliability.}
+
+There are $S$ strata.
+There are $N_s$ items in stratum $s$.
+There are $N = \sum_{s=1}^S N_s$ items in all.
+
+There are $C$ non-exclusive categories to which each of the $N$ items might
+belong; an item might belong to none of the categories.
+That is, each item might be ``labeled'' with any of the $2^C$ subsets
+of the $C$ labels, including the empty set.
+
+There are $R$ ``raters,'' each of whom labels each of the $N$ items with zero
+or more elements of $C$.
+
+Define $L_{s,i,c,r} = 1$, if rater $r$ assigns label $c$ to item $i$ in stratum
+$s$ and $L_{s,i,c,r} = 0$ if not.
+
+We observe $\{ L_{s,i,c,r} \}$ for $s=1, \dots, S$;  $i=1, \dots, N_s$;
+$c=1, \dots, C$; and $r=1, \dots, R$.
+
+We want to know whether the categorizations are ``reliable,'' in the sense that
+agreement among the raters is higher than would be expected ``by chance.''
+The reliability of each category $c$ is of interest, rather than an overall
+rating for all $C$ categories.
+
+Fix $c$, since we are considering only one category at a time.
+
+The null hypothesis for category $c$ is that, for each rater $r$, and each
+stratum $s$, the values $\{ L_{s,i,c,r} \}$ are exchangeable; that for each
+rater $r$, the values $\{ L_{s,i,c,r} \}$ for different strata $s$ are
+independent; and that the values are independent across raters.
+
+Our test conditions on the sets of labels each rater assigns within each
+stratum, but not on the items to which those labels are assigned.
+The null distribution involves permuting the assignments each given rater makes
+of category $c$ to items within each stratum $s$, permuting independently
+across across raters and across strata.
+
+The test statistic within stratum $s$ is
+\begin{align*}
+\rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
+              \sum_{r=1}^{R-1} \sum_{v=r+1}^R 1(L_{s,i,r} = L_{s,i,v}) \\
+              &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
+                (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
+\end{align*}
+
+That is, within each stratum, we count the number of concordant pairs of
+assignments.
+If all $R$ raters agree whether item $i$ in stratum $s$ belongs to category
+$c$, that contributes a term ${R \choose 2}$ to the sum.
+If only half agree, the term for item $i$ contributes $2 {N/2 \choose 2}$ to
+the sum.
+The normalization makes perfect agreement within stratum $s$ correspond to
+$\rho_s = 1$.
+
+To combine the results across strata to get an overall p-value, we could
+use any of the methods we've discussed, or the NPC (nonparametric
+combination of test) methods described in Pesarin and Salmaso, based on
+the p-values in different strata.
+For instance, Fisher's combination statistic is
+\begin{align*}
+\lambda &= - \sum_{s=1}^S w_s \log \hat{p}_s,
+\end{align*}
+where the nonnegative weights $\{w_s\}$ are chosen in some sensible manner
+(e.g., $w_s = N_s^{-1/2}$ would be reasonable).
 
 \end{document}

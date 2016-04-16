@@ -3,3 +3,6 @@ all:
 	venv/bin/pip install --upgrade pip
 	venv/bin/pip install -r requirements.txt
 	venv/bin/python analysis.py
+
+clean:
+	rm -rf venv
