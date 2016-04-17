@@ -1,34 +1,34 @@
-To run the analysis:
-
-  $ virtualenv -p /usr/bin/python2.7 venv
-  $ source venv/bin/activate
-  $ pip install --upgrade pip
-  $ pip install -r requirements.txt
-  $ python analysis.py
-  $ deactivate
+To run the analysis type
+```
+$ make
+```
+from a Bash prompt from this directory.
 
 You will see output like this:
+```
+$ make
+1
+2
+.
+.
+.
+181
+182
+183
+```
 
-  $ time python analysis.py 
-  1
-  2
-  .
-  .
-  .
-  181
-  182
-  183
-
-When I timed it on my laptop
- 
-  $ time python analysis.py 
-
+When I timed it on my laptop using
+```
+$ time make
+```
 it took
-
-  real    45m1.040s
-  user    44m52.698s
-  sys     0m8.715s
+```
+real    45m1.040s
+user    44m52.698s
+sys     0m8.715s
+```
 
 To delete the virtual environment:
-
-  $ rm -rf venv
+```
+$ make clean
+```
