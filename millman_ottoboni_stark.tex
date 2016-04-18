@@ -1,10 +1,13 @@
 \documentclass[]{article}
 \usepackage[round]{natbib}
-\usepackage{geometry}                           % See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                                  % ... or a4paper or a5paper or ... 
-%\usepackage[parfill]{parskip}                  % Activate to begin paragraphs with an empty line rather than an indent
-\usepackage{graphicx}                           % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
-                                                                % TeX will automatically convert eps --> pdf in pdflatex                
+\usepackage{geometry}               % See geometry.pdf to learn layout options
+\geometry{letterpaper}              % ... or a4paper or a5paper or ... 
+%\usepackage[parfill]{parskip}      % Activate to begin paragraphs with an
+                                    %   empty line rather than an indent
+\usepackage{graphicx}               % Use pdf, png, jpg, or eps with pdflatex;
+                                    %   use eps in DVI mode;
+                                    %   TeX automatically converts
+                                    %     eps --> pdf in pdflatex                
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{upquote}
@@ -37,9 +40,8 @@
 % Define a \fixme command to mark visually things needing fixing in the draft,
 % as well as similar commands for each author to leave initialed special
 % comments in the document.
-%% FIXME:  For final printing or to simply disable these bright warnings, copy
-%% (there's a target macros_off' in the makefile that does this) the file
-%% macros_off.tex to macros.tex
+% For final printing or to simply disable these bright warnings
+% by uncommenting lines below "to turn all the special marker commands off"
 
 \newcommand{\fix}[1] { \textcolor{red} {
 {\fbox{ {\bf Fix:} \ensuremath{\blacktriangleright }} {\bf #1}
@@ -70,7 +72,7 @@
 
 \begin{document}
 
-\title{Reproducible Applied Statistics:\\
+\title{A case study in reproducible applied statistics:\\
 Is tagging of therapist-patient interactions reliable?
 }
 
@@ -80,14 +82,13 @@ Naomi A. P. Stark (NS)\\ Department of Philosophy\\ University of Pennsylvania \
 Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 }
 
-
 \maketitle
 
 
 \section{Introduction}
 
 This case study\footnote{This file along with the analysis script and results
-can be found here \url{https://github.com/statlab/nsgk}} illustrates some of
+can be found here: \url{https://github.com/statlab/nsgk}} illustrates some of
 the reproducible practices we (JM, KO, PS) have adopted.
 Parts of the text have been adapted from \citet{millman2015thesis} and a
 shorter version was submitted to
@@ -101,26 +102,10 @@ shorter version was submitted to
   Who are you and what is your research field?
 \end{enumerate}
 
-%\begin{itemize}
-%\item
-%  K. Jarrod Millman, Division of Biostatistics, UC Berkeley PhD student
-%  in biostatistics; background in scientific computing and neuroscience
-%\item
-%  Kellie Ottoboni, Department of Statistics, UC Berkeley PhD student in
-%  statistics
-%\item
-%  Naomi A.P. Stark, Department of Philosophy, University of Pennsylvania
-%  Undergraduate in bioethics; background in therapy with children on the
-%  autistic spectrum
-%\item
-%  Philip B. Stark, Department of Statistics, UC Berkeley Faculty in
-%  statistics; background in physical science
-%\end{itemize}
-
 We are three applied statisticians~(JM,~KO,~PS) at Berkeley working with a
-domain specialist~(NP) at the University of Pennsylvania. Our case study
-involves assessing inter-rater reliability (IRR) for human classifiers of
-therapy sessions with children on the autistic spectrum.
+domain specialist~(NS) at the University of Pennsylvania.
+Our case study involves assessing inter-rater reliability (IRR) for human
+classifiers of therapy sessions with children on the autistic spectrum.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -131,99 +116,102 @@ therapy sessions with children on the autistic spectrum.
   in the particular context of your case study.
 \end{enumerate}
 
-In the context of this project, \emph{reproducibility} means that
-we (JM, KO, PS) have documented (nearly) every step of the analysis,
-from cleaning to coding to code execution.
-By keeping all code, text, and data in a publicly accessible version
-controlled repository, we've made this well-documented analysis available
+In this case study, \emph{reproducibility} means that we (JM, KO, PS) have
+documented nearly every step of the analysis---from cleaning to coding to
+code execution---as well as much of the discussion preceding our decision
+to take those steps.
+It also means that we have thoroughly and in an automated fashion tested
+our code so that we are more justified in our confidence that it is
+correct.
+Finally, it also means that we invested time to understand the fundamental
+problem and the results of our analysis so that we do \emph{not} make
+conclusions, which are not justified by the data, the manner in which it was
+acquired, and our domain understanding.
+
+By keeping all code, text, and data in a publicly available version
+controlled repository, we have made our well-documented analysis available
 for anyone to examine.
-%While we've not made the original raw data available, we have made the
-%anonymized version public.
-We have released both the original anonymized version as well as our cleaned
-version including the exact commands necessary to produce the cleaned
-version from the anonymized one.
-We've also recorded our code review discussions along with the code produced
-as a result of those discussion.
-%Since we used GitHub's pull request mechanism to review every step of the
-%process, we've also made much of our internal design discussions visible
-%and not just the results of those discussions.
+We have released the data used in our study---both the original anonymized
+version as well as our cleaned version including the exact commands necessary
+to produce the cleaned version from the anonymized one.
+
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 exactly how and when those errors were introduced.
-We also have written tests for (almost) all our code, which means we have a
-high level of confidence that as we make changes to our codebase we can catch
-any cascading errors that result.
-Catching errors early means we can more quickly and easily identify our
-mistakes and correct them.
-And since we've automated the process of running our analysis, once errors
+We have written tests for almost all our code, which means we have a high
+level of confidence that as we change our code we can catch any cascading
+errors that result.
+Catching errors early means we quickly and easily identify our mistakes and
+correct them.
+And since we have automated the process of running our analysis, once errors
 are identified and corrected, it is trivial to rerun the entire analysis from
 start to finish.
 
-Assuming you have network access and that you have Bash, Python, Git, and Make
-installed on your computer, you can run our complete analysis of the cleaned
-data by typing the following three commands:
+Assuming you have network access and that you have a few standard tools (see
+\S~\ref{key-tools}) for scientific computing installed on your computer, you
+can run our complete analysis of the cleaned data by typing the following three
+commands from a shell prompt:
 \begin{verbatim}
 $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
 $ make
 \end{verbatim}
-We will discuss these tools in \S~\ref{key-tools} below.
-However, let's quickly walk through what happens when you enter the above
-commands.
-The first command will create a directory named \texttt{nsgk} in your current
+The first command creates a directory named \texttt{nsgk} in your current
 working directory with a copy of the project repository (i.e., a directory with
 our code, data, and text along with the provenance of these documents).
 This directory contains this document as well as everything needed to run our
 analysis.
-%Our Python script (\texttt{analysis.py}) is in a subdirectory \texttt{nsgk} of
-%\texttt{nsgk}.
 Inside of \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
-\texttt{analysis.py}, and \texttt{results.csv} the output of our analysis.
+\texttt{analysis.py}, and the output \texttt{results.csv} of that script.
 
-When you enter the command \texttt{make}, the \texttt{Makefile} recipe
-corresponding to the default target \texttt{all} will be invoked.
+When you enter the command \texttt{make}, the following commands will be run:
 \begin{verbatim}
-all:
-        virtualenv -p /usr/bin/python2.7 venv
-        venv/bin/pip install --upgrade pip
-        venv/bin/pip install -r requirements.txt
-        venv/bin/python analysis.py
-
-clean:
-        rm -rf venv
+virtualenv -p /usr/bin/python2.7 venv
+venv/bin/pip install --upgrade pip
+venv/bin/pip install -r requirements.txt
+venv/bin/python analysis.py
 \end{verbatim}
-The default recipe (\texttt{all}) creates a new virtual environment (see
-\S~\ref{key-tools}) for Python 2.7, upgrades the Python package manager
-(\texttt{pip}), installs the necessary Python package dependencies
-(\texttt{numpy}, \texttt{scipy}, and \texttt{permute}), and runs the
-analysis script \texttt{analysis.py}.
+The first command creates a new virtual environment (\texttt{venv}) for Python
+2.7.
+Using this new virtual environment (\texttt{venv}) the subsequent commands
+respectively upgrade the Python package manager (\texttt{pip}) to the most
+recent version, install the necessary Python package dependencies
+(\texttt{numpy}, \texttt{scipy}, and \texttt{permute}), and run the analysis
+script \texttt{analysis.py}.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
-\philip{
-Over the 2014-2015 winter break, NS posed PS a question that came up in her
-work on therapeutic interventions with children on the autism scale.
-After coming to an initial understanding of her statistical problem,
-PS sent JM and KO a one page proposal for a stratified permutation test for
-multi-rater inter-rater reliability.
-}
+Our project arose from a pilot study NS was working on with Gilbert Kliman of
+the Children's Psychological Health Center in San Francisco.
+While investigating therapeutic interventions in children on the autism scale,
+NS had collected some observational data (described below) as part of their
+pilot study.
+In the course of trying to interpret the data, NS told PS about her data and
+the problem NS was interested in addressing.
+After investigating the problem further, PS emailed JM and KO a one page
+proposal for a stratified permutation test for multi-rater inter-rater
+reliability.
+We (JM, KO, PS) had recently begun developing a general purpose Python package
+for permutation tests based on our collaborations called
+\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}} and PS
+suggested this would be an interesting example to use.
 
-After (coming to an initial) understanding of NP's underlying research problem
+After coming to an initial understanding of NS's underlying research problem
 and making certain we (JM, KO, PS) understood how her data was collected, we
 cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python, incorporated
-the resulting code into an evolving Python package of permutation tests,
+the resulting code into our evolving Python package of permutation tests,
 applied the approach to the cleaned data, documented the code and the analysis,
 and wrote up the results in a \LaTeX document. 
 
-We distinguish the following aspects of our study:
+We distinguish the following aspects of our project:
 (1) understand problem,
 (2) get and clean data,
 (3) design algorithm,
 (4) implement algorithm,
 (5) analyze data, and
 (6) understand result.
-In Figure~\ref{fig:work_process}, we've diagrammed how each aspect of the
+In Figure~\ref{fig:work_process}, we have diagrammed how each aspect of the
 project influenced the other aspects as well as an estimate of how much time
 we collectively spent on each aspect of the project.
 Our estimates are based on the total person hours we spent on each aspect of
@@ -231,8 +219,14 @@ the problem.
 For example, if all three of us (JM, KO, PS) spent an hour discussing the
 problem in a meeting, then that hour involved 3 people hours.
 Below we describe the work involved in each aspect of the project.
-We've listed the total number of people hours spent on each aspect in the
+We have listed the total number of people hours spent on each aspect in the
 headings for each subsection.
+\jarrod{Need to explain why we are using names and time estimates since
+we were asked to remove them.
+- give people an idea how ``inexpensive'' (or expensive) working more
+  reproducibly is.
+- capture how group understanding evolved
+- hope that it might be instructive for students and collaborators}
 
 \begin{figure}[h]
   \centering
@@ -243,21 +237,18 @@ headings for each subsection.
     The percents are estimates of the percent of our time spent on each aspect.
     Edges represent influence.
     \texttt{Understand problem}~$\to$~\texttt{Design algorithm}, for instance,
-    corresponds to the fact that we first had to understand the problem
-    in order to design the correct statistical test.\label{fig:work_process}}
+    corresponds to the fact that we had to understand the problem in order to
+    design the correct statistical test.\label{fig:work_process}}
 \end{figure}
 
 Since we view computational reproducibility as a cross-cutting concern of all
 project aspects, we have adopted a set of computational practices, which we
 (JM, KO, PS) followed (almost) whenever we were working on the
-project.\footnote{Exceptions including that we didn't record all of our
-in person discussions or whiteboard work.  However, we endeavored to
+project.\footnote{Exceptions include that we did not record all of our
+in-person discussions or whiteboard work.  However, we endeavored to
 record summaries of these activities.}
 These computational practices are described in \citet{millman2014developing}
 and are used widely in the open source scientific Python community.
-Following these practices, we've developed a Python package for permutation
-tests and confidence sets called
-\texttt{permute}.\footnote{\url{http://statlab.github.io/permute/}}
 While developed for managing software contributions, these practices are ideal
 for ensuring computational reproducibility in scientific and statistical
 research.
@@ -269,35 +260,35 @@ We discuss the software tools and practices briefly in \S~\ref{key-tools} below.
 \subsection{Understand problem (80 hours)}
 
 \philip{
-NP was interested in:  What happens in therapy session with autistic kids?
-In particular, NP had data and wanted to know whether humans can reliably rate
+NS was interested in:  What happens in therapy session with autistic kids?
+In particular, NS had data and wanted to know whether humans can reliably rate
 therapist-patient interactions?
 conversations between NS and (primarily) PS to understand the experimental
 set-up.
 %Time: approximately 10 1-hour meetings
 }
 
-Once PS had an initial understanding of NS's problem, we (JM, KO, PS)
-met regularly (approximately weekly, sometimes more) as a team to discuss the
-project.  Initially these discussions involved a lot of work on whiteboards
-and asking a lot of probing and open-ended questions.  This helped us
-make sure we all gained a shared understanding of the problem.  It also
-meant that we could improve our understanding by explaining it to one
-another as well as asking hard questions about our planned approach
-and whether it could address the question of interest.
-As our understanding of the problem progressed, our work transitioned
-from mostly working on whiteboards to testing our ideas out on a
-computer.  Often we often used pair programming at this stage and sometimes
-all three of us (JM, KO, PS) sat in front of one computer, while one of us
-would type code in an interactive IPython session.
-This helped ensure that we all understood the problem well and it also
-helped us catch errors (typos as well as conceptual errors).
+Once PS had an initial understanding of NS's problem, we (JM, KO, PS) met
+regularly (approximately weekly, sometimes more) as a team to discuss the
+project.
+Initially these discussions involved a lot of work on whiteboards and asking a
+lot of probing and open-ended questions.
+This helped us make sure we all gained a shared understanding of the problem.
+It also meant that we could improve our understanding by explaining it to one
+another as well as asking hard questions about our planned approach and whether
+it could address the question of interest.
+As our understanding of the problem progressed, our work transitioned from
+working on whiteboards to testing our ideas out on a computer.
+Often we often used pair programming at this stage and sometimes all three of
+us (JM, KO, PS) sat in front of one computer, while one of us would type code
+in an interactive IPython session.
+This helped ensure that we all understood the problem well and it also helped
+us catch errors (typos as well as conceptual errors).
 %Time: approximately 10 2-hour meetings.
 
 \subsection{Get and clean data (13 hours)}
 
-The data were collected by NS and Gilbert Kliman of the Children's
-Psychological Health Center in San Francisco.
+The data were collected by NS.
 They comprise ratings of segments of 8 videos by 10 trained raters.
 Each video is divided into approximately 40 time segments.
 In each time segment, none, any, or all of 183 types of activity might be
@@ -326,16 +317,16 @@ After PS generated the original anonymized data, we committed it to our
 repository and added a data loader with tests to ensure that if the data
 changed we would know.
 At this point, we (JM, PS) screened the anonymized data for transcription
-errors (e.g., typos, duplications).  This involved writing a number of EDA
-tools, which are now included in \texttt{permute}, to detect (for example)
-duplicate rows as well as duplicate consecutive rows.
+errors (e.g., typos, duplications).
+This involved writing a number of EDA tools, which are now included in
+\texttt{permute}, to detect (for example) duplicate consecutive rows.
 %Time: approximately 5 hours
-Once we identified entries incompatible with our understanding of what
-should be in the data, JM developed \texttt{sed} and \texttt{awk} scripts
-to ``correct'' the data for duplicated entries and inferred typos.
+Once we identified entries incompatible with our understanding of what should
+be in the data, JM wrote a \texttt{sed} script to ``correct'' the data for
+duplicated entries and inferred typos.
 %Time: included above
 The exact commands used to clean the data are included in the commit
-messages corresponding to that cleaning step.
+corresponding to that cleaning step.
 After carefully examining the data for potential errors and documenting
 every change we made and why, we sent the cleaned data and an explanation
 of what we did to NS to verify that the corrections were appropriate.
@@ -346,22 +337,24 @@ as a careful account of its provenance.
 \subsection{Design algorithm (25 hours)}
 
 Although we eventually implemented something close to the original test
-proposed by PS at the start of the project, we spent significant time
-focused on  ``problem appreciation.''  These conversations culminated
-in our (JM, KO, PS) decision to assess the reliability one category at a time.
+proposed by PS at the start of the project, we spent significant time focused
+on  ``problem appreciation.''
+These conversations culminated in our (JM, KO, PS) decision to assess the
+reliability one category at a time.
 %Time: approximately 4h.
-We also developed an understanding that it was best to treat the videos
-separately.  A literature search for extant approaches to assessing IRR
-led us to conclude that there was no existing suitable method, in part because
-the experiment was stratified and in part because standard methods make
-indefensible parametric assumptions, which we hoped to avoid.
+We also decided it was best to treat the videos separately.
+A literature search for extant approaches to assessing IRR led us to conclude
+that there was no existing suitable method, in part because the experiment was
+stratified and in part because standard methods make indefensible parametric
+assumptions, which we hoped to avoid.
 %Time: 3h
 After deciding to use permutation tests, we (JM, KO, PS) then determined what
 the appropriate permutation would be: permuting each rater's ratings within a
 video, independently across raters and across videos.
 We chose to use concordance of ratings as our test statistic within each
-stratum.  Finally, we (JM, PS) derived a simple expression for computing the
-concordance efficiently.
+stratum.
+Finally, we (JM, PS) derived a simple expression for efficiently computing the
+concordance.
 %Time: 1h
 To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
 combination (NPC) of tests.
@@ -370,7 +363,7 @@ Finally, we (JM, KO, PS) developed a computationally efficient approach to
 finding the overall $p$-value for NPC.
 %Time: 1.5h
 
-\subsection{Implementing the algorithm (5 hours)}
+\subsection{Implement algorithm (5 hours)}
 
 \jarrod{I plan to go over this:  https://github.com/statlab/permute/issues/69.
 I will write this up as a little report separate from this case study.  I will
@@ -409,26 +402,11 @@ available in \texttt{permute}.  }
 
 \section{Pain points}\label{pain-points}
 
-%\emph{Describe in detail the steps of a reproducible workflow which you
-%consider to be particularly painful. How do you handle these? How do you
-%avoid them? (200-400 words)}
-
-The steps of our reproducible practices that we found particularly painful or
-difficult varied depending on how familiar we were with the tools and practices
-before the beginning of the project.
-
-Since JM had been using these tools and practices for several years whenever
-working with code, data, or text on a computer, this aspect of the project was
-pleasant and familiar.
-So (for JM) the most painful part of the project was vetting hand-entered data
-to ensure the data were relatively error-free.
-Not only was this a laborious process, but it involved inferring what the data
-should have been without any way to ensure that these inferences were correct.
-The solution to this pain point is to automate the data collection process as
-much as possible.
-However, when data has already been entered by hand, there is not much that can
-be done other than being cautious when ``fixing'' data entry errors and recording
-every aspect of the data cleaning process.
+Given our different backgrounds and experiences we (JM, KO, PS) each found
+different points in the process challenging. 
+However, for all of us the most challenging aspect was the necessary
+struggle to understand the fundamental problem and what we could learn
+from the data about that problem.
 
 For KO and PS there was a learning curve to master the tools and practices.
 This involved understanding the data model used by Git, acquiring habits such
@@ -439,18 +417,23 @@ While learning how to use these tools and acquiring these habits takes effort
 and persistence, once mastered the difficulties disappear and the benefits
 accrue.
 
+JM was already familiar with the tools and practices.
+For JM the most painful part of the project was vetting hand-entered data
+to ensure the data were error-free.
+Not only was this a laborious process, but it involved inferring what the data
+should have been without any direct way to ensure that these inferences were
+correct.
+The solution to this pain point is to automate the data collection process as
+much as possible.
+However, when data has already been entered by hand, there is not much that can
+be done other than being cautious when ``fixing'' data entry errors and recording
+every aspect of the data cleaning process.
+
 \section{Key benefits}\label{key-benefits}
 
-%\emph{Discuss one or several sections of your workflow that you feel
-%makes your approach better than the ``normal'' non-reproducible workflow
-%that others might use in your field. What does your workflow do better
-%than the one used by your lesser-skilled colleagues and students, and
-%why? What would you want them to learn from your example? (200-400
-%words)}
-
 Since \citet{buckheit1995wavelab} popularized the idea of computational
-reproducibility, many applied statisticians have taken the ideas of version
-control and process automation seriously.
+reproducibility, applied statisticians have taken the ideas of version control
+and process automation seriously.
 At Berkeley, many faculty and researchers in the Department of Statistics and
 in the Division of Biostatistics have made the idea of computational
 reproducibility central in both their classroom as well as their own work.
@@ -458,10 +441,10 @@ Several faculty require that anyone working with them use version
 control.\footnote{For example, see:
 \url{http://www.stat.berkeley.edu/~epurdom/studentResources.html}}
 
-However, we believe that the practices we adopted go beyond the standard
-operating practice of many of our colleagues.
-In particular, our adherence to continuous integration and code review is
-unusual among our colleagues.
+However, the practices we have adopted go beyond the standard operating
+practice of our colleagues.
+In particular, our adherence to continuous integration and code review
+(see below) is unusual among our colleagues.
 We believe that our colleagues would have more reliable code and would be more
 confident in their ability to modify their existing code without breaking
 downstream dependencies by adopting these practices.
@@ -469,17 +452,12 @@ downstream dependencies by adopting these practices.
 In particular, we have found that our practices provide the following benefits:
 (1) it is easy to modify the analysis when errors are found, to apply the
     analysis to new data sets, and so on;
-(2) the process is largely self-documenting, making it easier to draft a
-    paper about the results; and
+(2) the process is self-documenting, making it easier to draft a paper about
+    the results; and
 (3) the methods are abstracted from the analysis and incorporated into a
     package so that others can discover, check, use, and extend our methods.
 
 \section{Key tools and practices}\label{key-tools}
-
-%\emph{If applicable, provide a detailed description of a particular
-%specialized tool that plays a key role in making your workflow
-%reproducible, if you think that the tool might be of broader interest or
-%relevance to a general audience. (200-400 words)}
 
 As part of the development of our software package \texttt{permute}, we
 invested significant effort in setting up a development infrastructure to
@@ -512,7 +490,7 @@ Once a pull request is reviewed and accepted, it is merged into the
 \texttt{upstream} repository.
 
 Requiring all new code to undergo review provides several benefits.
-Code review increases the quality and consistency of our codebase.
+Code review increases the quality and consistency of our code.
 It helps maintain a high level of test coverage (see below).
 Moreover, it also helps keep the development team aware of the work other team
 members are doing.
@@ -525,9 +503,9 @@ as capturing our design discussions and decisions for future reference.
 We use the \texttt{nose} testing framework for automating our testing
 procedures.\footnote{\url{https://nose.readthedocs.org}}
 This is the standard testing framework\footnote{As \texttt{nose} has been in
-maintenance mode for the last few years, several projects are starting to look
+maintenance mode for the last few years, projects are starting to look
 into newer testing frameworks.
-We are migrating to \texttt{pytest}: \url{http://pytest.org}.
+We are migrating to \texttt{pytest} (\url{http://pytest.org}).
 While we may transition to a new testing framework, any system we
 migrate to will have the same basic features and benefits as \texttt{nose}.}
 used by the core packages in the scientific Python ecosystem.
@@ -547,8 +525,8 @@ test annotation, profiling, as well as inspecting and testing documentation.
 
   \caption{\label{fig:pull-request}
   \small
-    Each pull request triggers an automated system to run the  full test suite on
-    the updated codebase.
+    Each pull request triggers an automated system to run the full test suite on
+    the updated code.
     This means that when you go to review a pull request you can immediately see
     whether the change breaks any of the tests as well as whether the new
     code decreases the overall test coverage.
@@ -560,7 +538,7 @@ Our goal is to test every line of code.
 For example, not only do we want to test every function in our package, but if
 a specific function has internal logic we want to test each possible execution
 path through the function.
-Having tested each line of code increases our confidence in our codebase, but
+Having tested each line of code increases our confidence in our code, but
 more importantly provides us some measure of assurance that changes we make do
 not break existing code.
 It also increases our confidence that new code works, which reduces the
@@ -575,6 +553,7 @@ triggered whenever a commit is made to a pull request or the upstream master
 These systems then run the full test suite  using different versions of our
 dependencies (e.g., Python 2.7 and 3.4) every time a new commit is made to a
 repository or pull request.
+\jarrod{Explain Travis CI and coveralls}
 
 \subsection{\label{sec:doc}Documentation}
 
@@ -611,68 +590,12 @@ To install the latest release of \texttt{permute} and its dependencies, type
 the following command from a shell prompt (assuming you have Python and a
 recent version of pip):
 \begin{verbatim}
-$ pip install permute
+$ pip install permute==0.1a2
 \end{verbatim}
-
-%\textbf{Software tools:}
-%
-%    \begin{enumerate}
-%    \def\labelenumiii{\alph{enumiii}.}
-%    \itemsep1pt\parskip0pt\parsep0pt
-%    \item
-%      \emph{virtualenv} to control which versions of which software
-%      packages were used. \emph{virtualenv} is a tool to create isolated
-%      Python environments.
-%    \item
-%      \emph{git} for revision control
-%    \item
-%      \emph{github} for hosting
-%    \item
-%      \emph{make} for process automation
-%    \item
-%      \emph{nose} to automate and document testing
-%    \item
-%      \emph{sphinx} for documentation in HTML and PDF
-%    \item
-%      \emph{Python} as the language for data analysis
-%    \item
-%      \emph{Github} pull requests to control code review.
-%    \item
-%      \emph{TravisCI} and \emph{BuildBot} for continuous integration
-%      during code development
-%    \item
-%      \emph{Coverage/Coveralls} to check the code coverage of the
-%      \emph{nose} tests
-%    \item
-%      \emph{PyPI} to distribute built packages
-%    \item
-%      LaTeX for documents, especially documents containing mathematical
-%      notation
-%    \end{enumerate}
-%    
-%\textbf{Coding practices.}
-%
-%    \begin{enumerate}
-%    \def\labelenumiii{\alph{enumiii}.}
-%    \itemsep1pt\parskip0pt\parsep0pt
-%    \item
-%      Tests for all code; Coverage/Coveralls to check test coverage.
-%    \item
-%      Pair programming, at least some of the time
-%    \item
-%      Issue trackers in git
-%    \item
-%      All code vetted using pull requests: no pushes. Circular flow of
-%      code from main repo to individual repos to main repo.
-%    \item
-%      Use whiteboard to sketch algorithms before coding
-%    \item
-%      Documentation: internal to the code, external in the Github repo
-%      and github.io; external in the package
-%    \item
-%      Test data included with the package
-%    \end{enumerate}
-
+\jarrod{Explain virtualenv and why releasing allows us to install the
+old dependency as needed.
+Maybe something about how the process of developing a general tool and a
+specific analysis work together in tandem.}
 
 \bibliographystyle{plainnat}
 \bibliography{millman_ottoboni_stark}
@@ -717,7 +640,7 @@ Our test conditions on the sets of labels each rater assigns within each
 stratum, but not on the items to which those labels are assigned.
 The null distribution involves permuting the assignments each given rater makes
 of category $c$ to items within each stratum $s$, permuting independently
-across across raters and across strata.
+across raters and across strata.
 
 The test statistic within stratum $s$ is
 \begin{align*}
@@ -736,10 +659,10 @@ the sum.
 The normalization makes perfect agreement within stratum $s$ correspond to
 $\rho_s = 1$.
 
-To combine the results across strata to get an overall p-value, we could
-use any of the methods we've discussed, or the NPC (nonparametric
+To combine the results across strata to get an overall $p$-value, we could
+use any of the methods we have discussed, or the NPC (nonparametric
 combination of test) methods described in Pesarin and Salmaso, based on
-the p-values in different strata.
+the $p$-values in different strata.
 For instance, Fisher's combination statistic is
 \begin{align*}
 \lambda &= - \sum_{s=1}^S w_s \log \hat{p}_s,
