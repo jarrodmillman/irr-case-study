@@ -14,7 +14,7 @@ digraph {
         1 -> 3;
         6        [height=0.5,
                   label="Understand result (14%)",
-                  pos="1,-88"];
+                  pos="-10,-78"];
         1 -> 6;
         2 -> 1;
         2 -> 3;
@@ -28,7 +28,7 @@ digraph {
         4 -> 3;
         5        [height=0.5,
                   label="Analyze data (<1%)",
-                  pos="275,-60"];
+                  pos="230,-78"];
         4 -> 5;
         5 -> 6;
 }
