@@ -139,7 +139,7 @@ In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 exactly how and when those errors were introduced.
 We have written tests for almost all our code, which means we have a high
-level of confidence that as we change our code we can catch any cascading
+level of confidence that as we change our code we will catch cascading
 errors that result.
 Catching errors early means we quickly and easily identify our mistakes and
 correct them.
@@ -147,10 +147,9 @@ And since we have automated the process of running our analysis, once errors
 are identified and corrected, it is trivial to rerun the entire analysis from
 start to finish.
 
-Assuming you have network access and that you have a few standard tools (see
-\S~\ref{key-tools}) for scientific computing installed on your computer, you
-can run our complete analysis of the cleaned data by typing the following three
-commands from a shell prompt:
+Assuming you have standard tools (see \S~\ref{key-tools}) installed on your
+computer and network access, you can run our complete analysis of the cleaned
+data by typing the following three commands from a shell prompt:
 \begin{verbatim}
 $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
@@ -432,29 +431,25 @@ every aspect of the data cleaning process.
 \section{Key benefits}\label{key-benefits}
 
 Since \citet{buckheit1995wavelab} popularized the idea of computational
-reproducibility, applied statisticians have taken the ideas of version control
-and process automation seriously.
-At Berkeley, many faculty and researchers in the Department of Statistics and
-in the Division of Biostatistics have made the idea of computational
-reproducibility central in both their classroom as well as their own work.
-Several faculty require that anyone working with them use version
-control.\footnote{For example, see:
+reproducibility, applied statisticians have embraced version control
+and process automation.
+Many of our colleagues have made the idea of computational reproducibility
+central in both the classroom and the lab.
+Some ask anyone working with them to follow a set of computational practices
+including version control.\footnote{For
+example, see:
 \url{http://www.stat.berkeley.edu/~epurdom/studentResources.html}}
 
-However, the practices we have adopted go beyond the standard operating
-practice of our colleagues.
-In particular, our adherence to continuous integration and code review
-(see below) is unusual among our colleagues.
-We believe that our colleagues would have more reliable code and would be more
-confident in their ability to modify their existing code without breaking
-downstream dependencies by adopting these practices.
-
-In particular, we have found that our practices provide the following benefits:
-(1) it is easy to modify the analysis when errors are found, to apply the
+However, the computational practices described in this study
+(see \S~\ref{key-tools}) go beyond the standard work habits of our colleagues.
+Our computational practices provide the following benefits:
+(1) the number of errors introduced by new code and changes to existing code
+    is reduced;
+(2) it is easy to modify the analysis when errors are found, to apply the
     analysis to new data sets, and so on;
-(2) the process is self-documenting, making it easier to draft a paper about
+(3) the process is self-documenting, making it easier to draft a paper about
     the results; and
-(3) the methods are abstracted from the analysis and incorporated into a
+(4) the methods are abstracted from the analysis and incorporated into a
     package so that others can discover, check, use, and extend our methods.
 
 \section{Key tools and practices}\label{key-tools}
