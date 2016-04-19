@@ -134,7 +134,6 @@ for anyone to examine.
 We have released the data used in our study---both the original anonymized
 version as well as our cleaned version including the exact commands necessary
 to produce the cleaned version from the anonymized one.
-
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 exactly how and when those errors were introduced.
@@ -155,9 +154,9 @@ $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
 $ make
 \end{verbatim}
-The first command creates a directory named \texttt{nsgk} in your current
-working directory with a copy of the project repository (i.e., a directory with
-our code, data, and text along with the provenance of these documents).
+The first command creates a directory \texttt{nsgk} in your current working
+directory with a copy of the project repository (i.e., a directory with our
+code, data, and text along with the provenance of these documents).
 This directory contains this document as well as everything needed to run our
 analysis.
 Inside \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
@@ -302,30 +301,28 @@ taking place.
 The raters indicated which of those activities was taking place during each
 segment of each video.
 
-\philip{
-receipt of preliminary data as an Excel spreadsheet; understanding the ``data
-dictionary''; vetting for obvious errors (PS);
-%Time: approximately 1 hour
-several ``trips to the well'' before getting a version of the data that did not
-have obvious errors (PS);
-%Time: approximately 4 hours
-export the Excel data to .csv format (PS);
+PS received the data from NS as an Excel spreadsheet.
+Understanding the ``data dictionary'' and vetting for obvious errors entailed
+several rounds of email between PS and NS before PS had a version of the data
+that did not have obvious errors.
+%Time: approximately 5 hour
+PS then exported the Excel data to comma-separated value (CSV) format.
 %Time: approximately 5 minutes.
-data anonymization: substitute unique numerical identifiers for raters' names. 
-This step was performed using regular expressions in an interactive text
-editor, on the .csv file.
-It was not performed reproducibly (i.e., not scripted), but it can be checked
-readily. (PS) 
+The original data contained personal identifying information.
+Using regular expressions in an interactive text editor, PS substituted
+unique numerical identifiers for raters' names in the CSV file.
+While this step was not performed reproducibly (i.e., not scripted), it can be
+checked readily.
 %Time: approximately 1 hour.
-}
 
 After PS generated the original anonymized data, we committed it to our
 repository and added a data loader with tests to ensure that if the data
 changed we would know.
 At this point, we (JM, PS) screened the anonymized data for transcription
 errors (e.g., typos, duplications).
-This involved writing a number of EDA tools, which are now included in
-\texttt{permute}, to detect (for example) duplicate consecutive rows.
+This involved writing a number of quality assurance tools, which are now
+included in \texttt{permute}, to detect (for example) duplicate consecutive
+rows.
 %Time: approximately 5 hours
 Once we identified entries incompatible with our understanding of what should
 be in the data, JM wrote a \texttt{sed} script to ``correct'' the data for
@@ -369,20 +366,47 @@ Finally, we (JM, KO, PS) developed a computationally efficient approach to
 finding the overall $p$-value for NPC.
 %Time: 1.5h
 
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | c | c | }
+  \hline
+  \textbf{NSGK} & \textbf{IRR}  \\
+  \hline
+  183 types of activity  & $T$ tags  \\
+  \hline
+  8 videos  & $S$ strata   \\
+  \hline
+  ~40 segments/videos  & $N_s$ items/strata   \\
+  \hline
+  10 raters  & $R$ raters  \\
+  \hline
+\end{tabular}
+\caption{Mapping between terms from our motivating problem (NSGK) and the terms
+         used in our general algorithm (IRR).}\label{table:mapping}
+\end{center}
+\end{table}
+
 \subsection{Implement algorithm (5 hours)}
 
-\jarrod{I plan to go over this:  https://github.com/statlab/permute/issues/69.
-I will write this up as a little report separate from this case study.  I will
-also look into how long it takes to run, but I am thinking I might make a
-separate repository just for this.  I suspect it will take some time to run and
-our tests and doc generation are already costly.  I am also reluctant to put
-something we plan to freeze in a project that should evolve.  I am imagining
-something that depends on the exact release of permute that we used and has a
-permanent web address.}
+\texttt{compute\_ts} ---
+Compute the test statistic
+\begin{align*}
+\rho_s &\stackrel{\text{def}}{=} \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
+              \sum_{r=1}^{R-1} \sum_{v=r+1}^R 1(L_{s,i,r} = L_{s,i,v}) \\
+       &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
+                (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
+\end{align*}
 
-\jarrod{Once I finish I need to discuss this with Kellie, since she did most of
-the hard work as I recall.}
-  
+\texttt{simulate\_ts\_dist} ---
+simulates the permutation distribution of the irr test statistic for a matrix
+of ratings
+
+\texttt{simulate\_npc\_dist} ---
+Simulates the permutation distribution of the combined NPC test statistic for $S$
+matrices of ratings corresponding to $S$ strata. The distribution
+comes from applying \texttt{simulate\_ts\_dist} to each of the $S$ strata.
+
+\jarrod{finish}
 
 \subsection{Analyze data (1 hour)}
 
@@ -468,7 +492,7 @@ invested significant effort in setting up a development infrastructure to
 ensure our work is tracked, thoroughly and continually tested, and
 incrementally improved and documented.
 To this end, we have adopted best practices for software development used by
-many successful open source projects \citep{millman2014developing}.
+successful open source projects \citep{millman2014developing}.
 
 \subsection{\label{sec:vc}Version control and code review}
 
