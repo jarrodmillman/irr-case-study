@@ -121,8 +121,8 @@ documented nearly every step of the analysis---from cleaning to coding to
 code execution---as well as much of the discussion preceding our decision
 to take those steps.
 It also means that we have thoroughly and in an automated fashion tested
-our code so that we are more justified in our confidence that it is
-correct.
+our code, to have justifiable confidence that the code does what it was intended
+to do.
 Finally, it also means that we invested time to understand the fundamental
 problem and the results of our analysis so that we do \emph{not} make
 conclusions, which are not justified by the data, the manner in which it was
@@ -149,7 +149,7 @@ start to finish.
 
 Assuming you have standard tools (see \S~\ref{key-tools}) installed on your
 computer and network access, you can run our complete analysis of the cleaned
-data by typing the following three commands from a shell prompt:
+data by typing the following three commands from a unix shell prompt:
 \begin{verbatim}
 $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
@@ -160,7 +160,7 @@ working directory with a copy of the project repository (i.e., a directory with
 our code, data, and text along with the provenance of these documents).
 This directory contains this document as well as everything needed to run our
 analysis.
-Inside of \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
+Inside \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
 \texttt{analysis.py}, and the output \texttt{results.csv} of that script.
 
 When you enter the command \texttt{make}, the following commands will be run:
@@ -195,22 +195,27 @@ for permutation tests based on our collaborations called
 \texttt{permute}\footnote{\url{http://statlab.github.io/permute/}} and PS
 suggested this would be an interesting example to use.
 
-After coming to an initial understanding of NS's underlying research problem
-and making certain we (JM, KO, PS) understood how her data was collected, we
+After coming to an initial understanding of NS's underlying research question
+and experiment, including how her data was collected, we (JM, KO, PS) 
 cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python, incorporated
 the resulting code into our evolving Python package of permutation tests,
 applied the approach to the cleaned data, documented the code and the analysis,
 and wrote up the results in a \LaTeX document. 
 
-We distinguish the following aspects of our project:
-(1) understand problem,
-(2) get and clean data,
-(3) design algorithm,
-(4) implement algorithm,
-(5) analyze data, and
-(6) understand result.
-In Figure~\ref{fig:work_process}, we have diagrammed how each aspect of the
+We distinguish the following aspects of our project, which are typical in applied statistics:
+\begin{itemize}
+    \item understand problem
+    \item get and clean data\footnote{
+        This step generally also requires obtaining a data dictionary, learning how to parse
+        the data format, and so on.
+        }
+    \item design algorithm
+    \item implement algorithm
+    \item analyze data
+    \item understand result
+\end{itemize}
+Figure~\ref{fig:work_process} shows how each aspect of the
 project influenced the other aspects as well as an estimate of how much time
 we collectively spent on each aspect of the project.
 Our estimates are based on the total person hours we spent on each aspect of
@@ -225,7 +230,8 @@ we were asked to remove them.
 - give people an idea how ``inexpensive'' (or expensive) working more
   reproducibly is.
 - capture how group understanding evolved
-- hope that it might be instructive for students and collaborators}
+- hope that it might be instructive for students and collaborators
+}
 
 \begin{figure}[h]
   \centering
@@ -244,7 +250,8 @@ Since we view computational reproducibility as a cross-cutting concern of all
 project aspects, we have adopted a set of computational practices, which we
 (JM, KO, PS) followed (almost) whenever we were working on the
 project.\footnote{Exceptions include that we did not record all of our
-in-person discussions or whiteboard work.  However, we endeavored to
+in-person discussions or whiteboard work.  
+However, we endeavored to
 record summaries of these activities.}
 These computational practices are described in \citet{millman2014developing}
 and are used widely in the open source scientific Python community.
@@ -403,14 +410,15 @@ available in \texttt{permute}.  }
 
 Given our different backgrounds and experiences we (JM, KO, PS) each found
 different points in the process challenging. 
-However, for all of us the most challenging aspect was the necessary
-struggle to understand the fundamental problem and what we could learn
-from the data about that problem.
+However, for all of us the most challenging aspect---and the most 
+time-consuming---was the necessary
+struggle to understand the scientific question and the experiment
+well enough to devise an approach to answering the question.
 
 For KO and PS there was a learning curve to master the tools and practices.
 This involved understanding the data model used by Git, acquiring habits such
-as writing tests for all functions and following a common style guide, as well
-as learning to contribute to the project repository indirectly through GitHub's
+as writing tests for all functions and following a common style guide, and
+learning to contribute to the project repository indirectly through GitHub's
 pull request mechanism.
 While learning how to use these tools and acquiring these habits takes effort
 and persistence, once mastered the difficulties disappear and the benefits
@@ -418,27 +426,28 @@ accrue.
 
 JM was already familiar with the tools and practices.
 For JM the most painful part of the project was vetting hand-entered data
-to ensure the data were error-free.
-Not only was this a laborious process, but it involved inferring what the data
+to look for errors and inconsistencies.
+Not only was this laborious, but it involved inferring what the data
 should have been without any direct way to ensure that these inferences were
 correct.
 The solution to this pain point is to automate the data collection process as
 much as possible.
-However, when data has already been entered by hand, there is not much that can
+However, when data have already been entered by hand, there is not much that can
 be done other than being cautious when ``fixing'' data entry errors and recording
 every aspect of the data cleaning process.
 
 \section{Key benefits}\label{key-benefits}
 
 Since \citet{buckheit1995wavelab} popularized the idea of computational
-reproducibility, applied statisticians have embraced version control
+reproducibility, applied statisticians have increasingly embraced version control
 and process automation.
 Many of our colleagues have made the idea of computational reproducibility
 central in both the classroom and the lab.
 Some ask anyone working with them to follow a set of computational practices
-including version control.\footnote{For
-example, see:
-\url{http://www.stat.berkeley.edu/~epurdom/studentResources.html}}
+including version control.\footnote{
+  For example, see
+  \url{http://www.stat.berkeley.edu/~epurdom/studentResources.html}.
+}
 
 However, the computational practices described in this study
 (see \S~\ref{key-tools}) go beyond the standard work habits of our colleagues.
@@ -497,12 +506,14 @@ as capturing our design discussions and decisions for future reference.
 
 We use the \texttt{nose} testing framework for automating our testing
 procedures.\footnote{\url{https://nose.readthedocs.org}}
-This is the standard testing framework\footnote{As \texttt{nose} has been in
-maintenance mode for the last few years, projects are starting to look
-into newer testing frameworks.
-We are migrating to \texttt{pytest} (\url{http://pytest.org}).
-While we may transition to a new testing framework, any system we
-migrate to will have the same basic features and benefits as \texttt{nose}.}
+This is the standard testing framework\footnote{
+    As \texttt{nose} has been in
+    maintenance mode for the last few years, projects are starting to look
+    into newer testing frameworks.
+    We are migrating to \texttt{pytest} (\url{http://pytest.org}).
+    While we may transition to a new testing framework, any system we
+    migrate to will have the same basic features and benefits as \texttt{nose}.
+}
 used by the core packages in the scientific Python ecosystem.
 Automating the tests allows us to monitor a proxy for code correctness when
 making changes as well as simplifying the code review process for new code.
@@ -541,24 +552,35 @@ friction of accepting contributions.
 Currently over 98\% of \texttt{permute}'s lines of code get executed at least
 once by our test system.
 
-We have configured Travis CI\footnote{\url{https://travis-ci.org}} and
-\texttt{coveralls}\footnote{\url{https://coveralls.io}} to be automatically
+We have configured Travis CI\footnote{
+  \url{https://travis-ci.org}
+} 
+and
+\texttt{coveralls}\footnote{
+  \url{https://coveralls.io}
+}
+to be automatically
 triggered whenever a commit is made to a pull request or the upstream master
 (see Figure~\ref{fig:pull-request}).
-These systems then run the full test suite  using different versions of our
+These systems run the full test suite using different versions of our
 dependencies (e.g., Python 2.7 and 3.4) every time a new commit is made to a
 repository or pull request.
 \jarrod{Explain Travis CI and coveralls}
 
 \subsection{\label{sec:doc}Documentation}
 
-We use Sphinx\footnote{\url{http://sphinx-doc.org}} as our documentation system
+We use Sphinx\footnote{
+   \url{http://sphinx-doc.org}
+} 
+as our documentation system
 and already have good developer documentation and the foundation for
 high-quality user documentation.
 Sphinx is the standard documentation system for Python projects and is used by
 the core scientific Python packages.
 We use Python docstrings and follow the NumPy docstring
-standard\footnote{\url{https://github.com/numpy/numpy/blob/master/doc/HOWTO\_DOCUMENT.rst.txt}}
+standard\footnote{
+   \url{https://github.com/numpy/numpy/blob/master/doc/HOWTO\_DOCUMENT.rst.txt}
+}
 to document all the modules and functions in \texttt{permute}.
 Using Sphinx and some NumPy extensions, we have a system for autogenerating the
 project documentation (as HTML or PDF) using the docstrings as well as
@@ -605,12 +627,11 @@ There are $S$ strata.
 There are $N_s$ items in stratum $s$.
 There are $N = \sum_{s=1}^S N_s$ items in all.
 
-There are $C$ non-exclusive categories to which each of the $N$ items might
-belong; an item might belong to none of the categories.
-That is, each item might be ``labeled'' with any of the $2^C$ subsets
+There each item might belong to none, some, or all of $C$ non-exclusive categories.
+That is, each item might be ``tagged'' with any of the $2^C$ subsets
 of the $C$ labels, including the empty set.
 
-There are $R$ ``raters,'' each of whom labels each of the $N$ items with zero
+There are $R$ ``raters,'' each of whom tags each of the $N$ items with zero
 or more elements of $C$.
 
 Define $L_{s,i,c,r} = 1$, if rater $r$ assigns label $c$ to item $i$ in stratum
@@ -660,7 +681,7 @@ combination of test) methods described in Pesarin and Salmaso, based on
 the $p$-values in different strata.
 For instance, Fisher's combination statistic is
 \begin{align*}
-\lambda &= - \sum_{s=1}^S w_s \log \hat{p}_s,
+    \lambda &= - \sum_{s=1}^S w_s \log \hat{p}_s,
 \end{align*}
 where the nonnegative weights $\{w_s\}$ are chosen in some sensible manner
 (e.g., $w_s = N_s^{-1/2}$ would be reasonable).
