@@ -119,12 +119,12 @@ classifiers of therapy sessions with children on the autistic spectrum.
 In this case study, \emph{reproducibility} means that we have documented nearly
 every step of the analysis---from cleaning to coding to code execution---as
 well as much of the discussion preceding our decision to take those steps.
-It also means that we have thoroughly and in an automated fashion tested
-our code, to have justifiable confidence that the code does what it was intended
+It also means that we have tested our code thoroughly and in an automated fashion 
+to have justifiable confidence that the code does what it was intended
 to do.
 Finally, it also means that we invested time to understand the fundamental
 problem and the results of our analysis so that we do \emph{not} make
-conclusions, which are not justified by the data, the manner in which it was
+conclusions that are not justified by the data, the manner in which it was
 acquired, and our domain understanding.
 
 By keeping all code, text, and data in a publicly available version
@@ -189,9 +189,10 @@ After investigating the problem further, PS emailed JM and KO a one page
 proposal for a stratified permutation test for multi-rater inter-rater
 reliability.
 We (JM, KO, PS) had recently begun developing a general purpose Python package
-for permutation tests based on our collaborations called
-\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}} and PS
-suggested this would be an interesting example to use.
+for permutation tests, called
+\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}},
+based on our collaborations.
+PS suggested this would be an interesting example to include.
 
 After coming to an initial understanding of NS's underlying research question
 and experiment, including how her data was collected, we (JM, KO, PS) 
@@ -301,7 +302,8 @@ taking place.
 The raters indicated which of those activities was taking place during each
 segment of each video.
 
-PS received the data from NS as an Excel spreadsheet.
+PS received the data from NS as an Excel spreadsheet that she had entered
+by hand.
 Understanding the ``data dictionary'' and vetting for obvious errors entailed
 several rounds of email between PS and NS before PS had a version of the data
 that did not have obvious errors.
@@ -372,8 +374,10 @@ This decision introduced a multiple comparison problem, which we discuss in
 Since each of the videos contained different sessions of therapist-patient
 interactions, we decided to stratify our test by video.
 A literature search for approaches to assessing IRR led us to conclude that
-there was no existing suitable method, in part because the experiment was
-stratified and in part because standard methods make indefensible parametric
+there was no existing suitable method for several reasons:
+because the experiment was stratified,
+because there were multiple raters to compare,
+and because standard methods make indefensible parametric
 assumptions, which we hoped to avoid.
 %Time: 3h
 
@@ -418,7 +422,7 @@ comes from applying \texttt{simulate\_ts\_dist} to each of the $S$ strata.
 \subsection{Analyze data (1 hour)}
 
 By the time we got to this stage, the analysis of the cleaned data was only
-a few 10s of lines of Python including comments and blank lines.
+a few tens of lines of Python including comments and blank lines.
 
 This includes looping over the 183 categories of activity.
 
@@ -449,11 +453,11 @@ This involved understanding the data model used by Git, acquiring habits such
 as writing tests for all functions and following a common style guide, and
 learning to contribute to the project repository indirectly through GitHub's
 pull request mechanism.
-While learning how to use these tools and acquiring these habits takes effort
-and persistence, once mastered the difficulties disappear and the benefits
-accrue.
+JM was already familiar with the tools and practices, and devoted significant time
+to teaching KO and PS the workflow.
+Once mastered, the benefits of these tools and habits outweigh the time and effort
+spent learning them.
 
-JM was already familiar with the tools and practices.
 For JM the most painful part of the project was vetting hand-entered data
 to look for errors and inconsistencies.
 Not only was this laborious, but it involved inferring what the data
