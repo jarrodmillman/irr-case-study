@@ -128,17 +128,16 @@ conclusions that are not justified by the data, the manner in which it was
 acquired, and our domain understanding.
 
 By keeping all code, text, and data in a publicly available version
-controlled repository, we have made our well-documented analysis available
+controlled repository, we have made our analysis available
 for anyone to examine.
 We have released the data used in our study---both the original anonymized
-version as well as our cleaned version including the exact commands necessary
+version as well as our cleaned version including the commands necessary
 to produce the cleaned version from the anonymized one.
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 exactly how and when those errors were introduced.
-We have written tests for almost all our code, which means we have a high
-level of confidence that as we change our code we will catch cascading
-errors that result.
+We have written tests for almost all our code, which means we have a good
+chance to quickly catch errors introduced by changes to our code.
 Catching errors early means we quickly and easily identify our mistakes and
 correct them.
 And since we have automated the process of running our analysis, once errors
@@ -173,8 +172,8 @@ The first command creates a new virtual environment (\texttt{venv}) for Python
 Using this new virtual environment (\texttt{venv}) the subsequent commands
 respectively upgrade the Python package manager (\texttt{pip}) to the most
 recent version, install the necessary Python package dependencies
-(\texttt{numpy}, \texttt{scipy}, and \texttt{permute}), and run the analysis
-script \texttt{analysis.py}.
+(\texttt{numpy~1.11.0}, \texttt{scipy~0.17.0}, and \texttt{permute~0.1a2}),
+and run the analysis script \texttt{analysis.py}.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
@@ -398,33 +397,57 @@ finding the overall $p$-value for NPC.
 
 \subsection{Implement algorithm (5 hours)}
 
+\kellie{
+Once we had a fairly good idea of what algorithm we would implement, KO
+started implementing it.
+While KO did most of the coding, JM and PS reviewed and discussed the
+implementation.
+Following our software development practices (\S~\ref{key-tools}), KO also
+wrote tests for every function she implemented.
+After a few iterations of coding and review, KO finalized our implementation
+and we merged it into \texttt{permute}.
+}
 
-\texttt{compute\_ts} ---
-Compute the test statistic
-\begin{align*}
-\rho_s &\stackrel{\text{def}}{=} \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
-              \sum_{r=1}^{R-1} \sum_{v=r+1}^R 1(L_{s,i,r} = L_{s,i,v}) \\
-       &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
-                (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
-\end{align*}
-
-\texttt{simulate\_ts\_dist} ---
-simulates the permutation distribution of the irr test statistic for a matrix
-of ratings
-
-\texttt{simulate\_npc\_dist} ---
-Simulates the permutation distribution of the combined NPC test statistic for $S$
-matrices of ratings corresponding to $S$ strata. The distribution
-comes from applying \texttt{simulate\_ts\_dist} to each of the $S$ strata.
-
-\jarrod{finish}
+\kellie{
+KO wrote three functions to implement our general IRR algorithm:
+\begin{enumerate}
+\item one function to compute the IRR partial test statistic given a binary
+  matrix with one row per rater and one column per item;
+\item one function to simulate the permutation distribution of the IRR partial
+  test statistic for a matrix of ratings for each strata;
+\item one function to simulate the permutation  distribution of the combined
+  NPC test statistic for $S$ matrices of ratings corresponding to $S$ strata
+  by calling simulating the IRR partial test statistics to each of the $S$
+  strata.
+\end{enumerate}
+}
 
 \subsection{Analyze data (1 hour)}
 
-By the time we got to this stage, the analysis of the cleaned data was only
-a few tens of lines of Python including comments and blank lines.
+%By the time we got to this stage, the analysis of the cleaned data was only
+%a few tens of lines of Python including comments and blank lines.
 
-This includes looping over the 183 categories of activity.
+\kellie{
+Once we merged KO's implementation of the general algorithm (including tests)
+into \texttt{permute}, KO wrote a short script (about 50 lines of Python) to
+analyze the cleaned data from NS.
+This is the point that we returned to the mapping (see Table
+\ref{table:mapping}) between the entities in specific NSGK problem to the
+vocabulary used in our general IRR algorithm.
+}
+
+\kellie{
+Here is the basic flow of our analysis script:
+\begin{enumerate}
+\item load the cleaned data;
+\item for each of the 183 categories of activity:
+  \begin{enumerate}
+    \item simulate the permutation distribution of the combined
+       NPC test statistic for each video
+  \end{enumerate}
+\item save the results.
+\end{enumerate}
+}
 
 \subsection{Understand result (20 hours)}\label{subsec:understand-result}
 
@@ -438,6 +461,11 @@ collecting new data, 3) performing different analysis, 4) writing manuscript,
 problem.  We should also say that despite not pursuing this further, it did
 yield a new permutation test that could be used in other contexts and which is
 available in \texttt{permute}.  }
+
+\philip{
+maybe scientific vs statistical significance, multiple comparison, selective
+inference, etc.
+}
 
 \section{Pain points}\label{pain-points}
 
