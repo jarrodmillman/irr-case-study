@@ -116,10 +116,9 @@ classifiers of therapy sessions with children on the autistic spectrum.
   in the particular context of your case study.
 \end{enumerate}
 
-In this case study, \emph{reproducibility} means that we (JM, KO, PS) have
-documented nearly every step of the analysis---from cleaning to coding to
-code execution---as well as much of the discussion preceding our decision
-to take those steps.
+In this case study, \emph{reproducibility} means that we have documented nearly
+every step of the analysis---from cleaning to coding to code execution---as
+well as much of the discussion preceding our decision to take those steps.
 It also means that we have thoroughly and in an automated fashion tested
 our code, to have justifiable confidence that the code does what it was intended
 to do.
@@ -202,12 +201,13 @@ the resulting code into our evolving Python package of permutation tests,
 applied the approach to the cleaned data, documented the code and the analysis,
 and wrote up the results in a \LaTeX document. 
 
-We distinguish the following aspects of our project, which are typical in applied statistics:
+We distinguish the following aspects of our project, which are typical in
+applied statistics:
 \begin{itemize}
     \item understand problem
     \item get and clean data\footnote{
-        This step generally also requires obtaining a data dictionary, learning how to parse
-        the data format, and so on.
+        This step generally also requires obtaining a data dictionary, learning
+        how to parse the data format, and so on.
         }
     \item design algorithm
     \item implement algorithm
@@ -284,9 +284,9 @@ another as well as asking hard questions about our planned approach and whether
 it could address the question of interest.
 As our understanding of the problem progressed, our work transitioned from
 working on whiteboards to testing our ideas out on a computer.
-Often we often used pair programming at this stage and sometimes all three of
-us (JM, KO, PS) sat in front of one computer, while one of us would type code
-in an interactive IPython session.
+We often used pair programming at this stage and sometimes we (JM, KO, PS)
+all sat in front of one computer, while one of us typed code in an interactive
+IPython session.
 This helped ensure that we all understood the problem well and it also helped
 us catch errors (typos as well as conceptual errors).
 %Time: approximately 10 2-hour meetings.
@@ -315,18 +315,17 @@ While this step was not performed reproducibly (i.e., not scripted), it can be
 checked readily.
 %Time: approximately 1 hour.
 
-After PS generated the original anonymized data, we committed it to our
+After PS generated the original anonymized data, JM committed it to our
 repository and added a data loader with tests to ensure that if the data
 changed we would know.
 At this point, we (JM, PS) screened the anonymized data for transcription
-errors (e.g., typos, duplications).
-This involved writing a number of quality assurance tools, which are now
-included in \texttt{permute}, to detect (for example) duplicate consecutive
-rows.
+errors (e.g., duplicate rows).
+This involved writing a number of quality assurance tools (e.g., to find
+duplicate consecutive rows), which are now included in \texttt{permute}.
 %Time: approximately 5 hours
 Once we identified entries incompatible with our understanding of what should
-be in the data, JM wrote a \texttt{sed} script to ``correct'' the data for
-duplicated entries and inferred typos.
+be in the data, JM wrote a \texttt{sed} script to ``correct'' the inferred
+typos.
 %Time: included above
 The exact commands used to clean the data are included in the commit
 corresponding to that cleaning step.
@@ -340,32 +339,9 @@ as a careful account of its provenance.
 \subsection{Design algorithm (25 hours)}
 
 Although we eventually implemented something close to the original test
-proposed by PS at the start of the project, we spent significant time focused
-on  ``problem appreciation.''
-These conversations culminated in our (JM, KO, PS) decision to assess the
-reliability one category at a time.
-%Time: approximately 4h.
-We also decided it was best to treat the videos separately.
-A literature search for extant approaches to assessing IRR led us to conclude
-that there was no existing suitable method, in part because the experiment was
-stratified and in part because standard methods make indefensible parametric
-assumptions, which we hoped to avoid.
-%Time: 3h
-After deciding to use permutation tests, we (JM, KO, PS) then determined what
-the appropriate permutation would be: permuting each rater's ratings within a
-video, independently across raters and across videos.
-We chose to use concordance of ratings as our test statistic within each
-stratum.
-Finally, we (JM, PS) derived a simple expression for efficiently computing the
-concordance.
-%Time: 1h
-To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
-combination (NPC) of tests.
-%Time: 1h
-Finally, we (JM, KO, PS) developed a computationally efficient approach to
-finding the overall $p$-value for NPC.
-%Time: 1.5h
-
+proposed by PS at the start of the project, we (JM, KO, PS) spent significant
+time focused on ``problem appreciation.''
+We also developed a more general terminology (see Table \ref{table:mapping}).
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ | c | c | }
@@ -386,7 +362,38 @@ finding the overall $p$-value for NPC.
 \end{center}
 \end{table}
 
+We decided to assess rater reliability in identifying (i.e., tagging)
+each of the 183 types of activity separately.
+\philip{
+This decision introduced a multiple comparison problem, which we discuss in
+\S~\ref{subsec:understand-result}.
+}
+%Time: approximately 4h.
+Since each of the videos contained different sessions of therapist-patient
+interactions, we decided to stratify our test by video.
+A literature search for approaches to assessing IRR led us to conclude that
+there was no existing suitable method, in part because the experiment was
+stratified and in part because standard methods make indefensible parametric
+assumptions, which we hoped to avoid.
+%Time: 3h
+
+After deciding to use permutation tests, we (JM, KO, PS) then determined what
+the appropriate permutation would be: permuting each rater's ratings within a
+video, independently across raters and across videos.
+We chose to use concordance of ratings as our partial test statistic within
+each stratum.
+We (JM, PS) derived a simple expression for efficiently computing the
+concordance.
+%Time: 1h
+To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
+combination (NPC) of tests \citep{pesarin2010permutation}.
+%Time: 1h
+Finally, we (JM, KO, PS) developed a computationally efficient approach to
+finding the overall $p$-value for NPC.
+%Time: 1.5h
+
 \subsection{Implement algorithm (5 hours)}
+
 
 \texttt{compute\_ts} ---
 Compute the test statistic
@@ -411,13 +418,11 @@ comes from applying \texttt{simulate\_ts\_dist} to each of the $S$ strata.
 \subsection{Analyze data (1 hour)}
 
 By the time we got to this stage, the analysis of the cleaned data was only
-about 70 lines of Python, of which 56 are code (the rest are comments).
+a few 10s of lines of Python including comments and blank lines.
+
 This includes looping over the 183 categories of activity.
 
-\jarrod{Once I turn the analysis into a stand-alone frozen project, I
-will report our results here.}
-
-\subsection{Understand result (20 hours)}
+\subsection{Understand result (20 hours)}\label{subsec:understand-result}
 
 \philip{You will probably want to wait until I have written up the results to
 work on this; but, eventually we need a discussion of our final thoughts about
@@ -476,8 +481,8 @@ including version control.\footnote{
 However, the computational practices described in this study
 (see \S~\ref{key-tools}) go beyond the standard work habits of our colleagues.
 Our computational practices provide the following benefits:
-(1) the number of errors introduced by new code and changes to existing code
-    is reduced;
+(1) a reduction in the number of errors introduced by new code and changes to
+    existing code;
 (2) it is easy to modify the analysis when errors are found, to apply the
     analysis to new data sets, and so on;
 (3) the process is self-documenting, making it easier to draft a paper about
@@ -627,9 +632,9 @@ Python Package Index, or PyPI,\footnote{PyPI is the Python equivalent of \emph{T
 Comprehensive R Archive Network} (CRAN).} with release announcements posted to
 our mailing list.
 
-To install the latest release of \texttt{permute} and its dependencies, type
+To install the version of \texttt{permute} used in this case study, type
 the following command from a shell prompt (assuming you have Python and a
-recent version of pip):
+recent version of \texttt{pip}):
 \begin{verbatim}
 $ pip install permute==0.1a2
 \end{verbatim}
