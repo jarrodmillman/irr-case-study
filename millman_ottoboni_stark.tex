@@ -392,62 +392,54 @@ To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
 combination (NPC) of tests \citep{pesarin2010permutation}.
 %Time: 1h
 Finally, we (JM, KO, PS) developed a computationally efficient approach to
-finding the overall $p$-value for NPC.
+finding the overall $p$-value for the NPC test.
 %Time: 1.5h
 
 \subsection{Implement algorithm (5 hours)}
 
-\kellie{
-Once we had a fairly good idea of what algorithm we would implement, KO
-started implementing it.
+Once we had a blueprint of the algorithm, KO started to implement it.
 While KO did most of the coding, JM and PS reviewed and discussed the
 implementation.
 Following our software development practices (\S~\ref{key-tools}), KO also
 wrote tests for every function she implemented.
-After a few iterations of coding and review, KO finalized our implementation
+After a few iterations of coding, testing, and review, KO finalized our implementation
 and we merged it into \texttt{permute}.
-}
 
-\kellie{
 KO wrote three functions to implement our general IRR algorithm:
 \begin{enumerate}
-\item one function to compute the IRR partial test statistic given a binary
+\item a function to compute the IRR partial test statistic from a binary
   matrix with one row per rater and one column per item;
-\item one function to simulate the permutation distribution of the IRR partial
-  test statistic for a matrix of ratings for each strata;
-\item one function to simulate the permutation  distribution of the combined
-  NPC test statistic for $S$ matrices of ratings corresponding to $S$ strata
-  by calling simulating the IRR partial test statistics to each of the $S$
-  strata.
+\item a function to simulate the permutation distribution of the IRR partial
+  test statistic for a matrix of ratings of a single stratum;
+\item a function to simulate the permutation distribution of the NPC
+  test statistic by combining the $S$ distributions of the IRR partial test 
+  statistic for each of the $S$ strata.
 \end{enumerate}
-}
 
 \subsection{Analyze data (1 hour)}
 
-%By the time we got to this stage, the analysis of the cleaned data was only
-%a few tens of lines of Python including comments and blank lines.
-
-\kellie{
 Once we merged KO's implementation of the general algorithm (including tests)
 into \texttt{permute}, KO wrote a short script (about 50 lines of Python) to
 analyze the cleaned data from NS.
-This is the point that we returned to the mapping (see Table
-\ref{table:mapping}) between the entities in specific NSGK problem to the
-vocabulary used in our general IRR algorithm.
-}
 
-\kellie{
-Here is the basic flow of our analysis script:
+Since the main workhorse functions were contained in \texttt{permute}, 
+the analysis script contained only high-level commands:
 \begin{enumerate}
-\item load the cleaned data;
-\item for each of the 183 categories of activity:
+\item Load the cleaned data
+\item For each of the 183 categories of activity:
   \begin{enumerate}
-    \item simulate the permutation distribution of the combined
-       NPC test statistic for each video
+    \item For each of the 8 videos:
+    \begin{enumerate}
+      \item Compute the mean and standard deviation of times the
+        tag was observed
+      \item Compute the IRR partial test statistic
+    \end{enumerate}
+    \item Simulate the permutation distribution of the NPC test statistic for each
+    category, combining over the $8$ videos, and report a single p-value
   \end{enumerate}
-\item save the results.
+\item Save the results to a CSV file.
 \end{enumerate}
-}
+
 
 \subsection{Understand result (20 hours)}\label{subsec:understand-result}
 
