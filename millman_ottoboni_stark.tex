@@ -234,7 +234,7 @@ we were asked to remove them.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{_fig/work_process.png}
+    \includegraphics[width=0.8\textwidth]{_fig/work_process_bids.png}
   \caption{
   \small
     Each box corresponds to one aspect of our project.
@@ -435,7 +435,7 @@ the analysis script contained only high-level commands:
       \item Compute the IRR partial test statistic
     \end{enumerate}
     \item Simulate the permutation distribution of the NPC test statistic for each
-    category, combining over the $8$ videos, and report a single p-value
+    category, combining over the $8$ videos, and report a single $p$-value
   \end{enumerate}
 \item Save the results to a CSV file.
 \end{enumerate}
@@ -651,7 +651,7 @@ and start using it.
 We also make official releases available as source tarballs as well as Python
 built-packages\footnote{Presently our code is pure Python, but we release
 Python wheels.
-Wheels are the new standard built-package format for Python.} uploaded to the
+Wheels are the standard built-package format for Python.} uploaded to the
 Python Package Index, or PyPI,\footnote{PyPI is the Python equivalent of \emph{The
 Comprehensive R Archive Network} (CRAN).} with release announcements posted to
 our mailing list.
@@ -714,7 +714,7 @@ across raters and across strata.
 The test statistic within stratum $s$ is
 \begin{align*}
 \rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
-              \sum_{r=1}^{R-1} \sum_{v=r+1}^R 1(L_{s,i,r} = L_{s,i,v}) \\
+              \sum_{r=1}^{R-1} \sum_{v=r+1}^R \mathbf{1}(L_{s,i,r} = L_{s,i,v}) \\
               &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
                 (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
 \end{align*}
