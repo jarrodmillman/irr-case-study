@@ -147,7 +147,7 @@ start to finish.
 
 If you have standard tools (see \S~\ref{key-tools}) installed on your
 computer and network access, you can run our complete analysis of the cleaned
-data by typing the following three commands from a unix shell prompt:
+data by typing the following three commands from a Unix shell prompt:
 \begin{verbatim}
 $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
@@ -168,7 +168,13 @@ venv/bin/pip install --upgrade pip
 venv/bin/pip install -r requirements.txt
 venv/bin/python analysis.py
 \end{verbatim}
-The first command creates a new virtual environment (\texttt{venv}) for Python~2.7.
+The first command creates a new virtual environment\footnote{
+Virtual environments are a way to create isolated Python environments.
+This allows you to keep the Python dependencies for different
+projects separate and, thus, allows you to install different
+version of the same software on your computer.
+}
+(\texttt{venv}) for Python~2.7.
 Using this new virtual environment (\texttt{venv}) the subsequent commands
 respectively upgrade the Python package manager (\texttt{pip}) to the most
 recent version, install the necessary Python package dependencies
@@ -218,13 +224,6 @@ project influenced the other aspects and gives estimates of the total person-hou
 we collectively spent on each aspect of the project.
 For example, if all three of us (JM, KO, PS) spent an hour discussing the
 problem in a meeting, then that hour involved 3 people hours.
-\jarrod{Need to explain why we are using names and time estimates since
-we were asked to remove them.
-- give people an idea how ``inexpensive'' (or expensive) working more
-  reproducibly is.
-- capture how group understanding evolved
-- hope that it might be instructive for students and collaborators
-}
 
 \begin{figure}[h]
   \centering
@@ -238,6 +237,21 @@ we were asked to remove them.
     corresponds to the fact that we had to understand the problem in order to
     design the correct statistical test.\label{fig:work_process}}
 \end{figure}
+
+We did not keep a detailed record of the time spent on each project aspect, but
+our computational practices (\S~\ref{key-tools}) provide enough details about
+who did what when that we believe our estimates are accurate enough to provide
+a qualitative sense of the relative time demands for each aspect of the
+project.
+Since these are only rough time estimates, the reader should focus on the
+relative differences in the amount of time we spent on each aspect.
+We have found that researchers (ourselves included) often underestimate the
+time needed to understand the problem, acquire and clean the data, as well as
+understand the results, while overestimating the time needed for writing code.
+We have included our time estimates to give people an idea how ``inexpensive''
+(or expensive) working more reproducibly is, to capture how our group
+understanding evolved, and in the  hope that it might be instructive for
+students and collaborators.
 
 Since we view computational reproducibility as a cross-cutting concern of all
 project aspects, we have adopted a set of computational practices, which we
@@ -612,7 +626,9 @@ triggered whenever a commit is made to a pull request or the upstream master
 These systems run the full test suite using different versions of our
 dependencies (e.g., Python 2.7 and 3.4) every time a new commit is made to a
 repository or pull request.
-\jarrod{Explain Travis CI and coveralls}
+Travis CI checks that all the tests pass, while \texttt{coveralls} generates a
+test coverage report so that we can monitor what parts of our code are checked
+by a test and which are not.
 
 \subsection{\label{sec:doc}Documentation}
 
@@ -656,8 +672,8 @@ recent version of \texttt{pip}):
 \begin{verbatim}
 $ pip install permute==0.1a2
 \end{verbatim}
-\jarrod{Explain virtualenv and why releasing allows us to install the
-old dependency as needed.
+
+\jarrod{
 Maybe something about how the process of developing a general tool and a
 specific analysis work together in tandem.}
 
