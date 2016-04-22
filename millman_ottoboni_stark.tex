@@ -87,8 +87,9 @@ Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 
 \section{Introduction}
 
-This case study\footnote{This file along with the analysis script and results
-can be found here: \url{https://github.com/statlab/nsgk}} illustrates some of
+This case study\footnote{This file along, with the analysis script and results,
+can be found here: \url{https://github.com/statlab/nsgk}}.
+That repository illustrates some of
 the reproducible practices we (JM, KO, PS) have adopted.
 Parts of the text have been adapted from \citet{millman2015thesis} and a
 shorter version was submitted to
@@ -102,10 +103,10 @@ shorter version was submitted to
   Who are you and what is your research field?
 \end{enumerate}
 
-We are three applied statisticians~(JM,~KO,~PS) at Berkeley working with a
+We are three applied statisticians~(JM,~KO,~PS) at U.C. Berkeley working with a
 domain specialist~(NS) at the University of Pennsylvania.
 Our case study involves assessing inter-rater reliability (IRR) for human
-classifiers of therapy sessions with children on the autistic spectrum.
+classifiers of behavior during therapy sessions with children on the autistic spectrum.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -116,8 +117,8 @@ classifiers of therapy sessions with children on the autistic spectrum.
   in the particular context of your case study.
 \end{enumerate}
 
-In this case study, \emph{reproducibility} means that we (JM, KO, PS) have
-documented nearly every step of the analysis---from cleaning to coding to
+In this case study, \emph{reproducibility} means that we (JM, KO, PS)
+documented (and scripted) nearly every step of the analysis---from cleaning to coding to
 code execution---as well as much of the discussion preceding our decision
 to take those steps.
 It also means that we have thoroughly and in an automated fashion tested
@@ -125,29 +126,29 @@ our code, to have justifiable confidence that the code does what it was intended
 to do.
 Finally, it also means that we invested time to understand the fundamental
 problem and the results of our analysis so that we do \emph{not} make
-conclusions, which are not justified by the data, the manner in which it was
+conclusions that are not justified by the data, the manner in which it was
 acquired, and our domain understanding.
 
-By keeping all code, text, and data in a publicly available version
-controlled repository, we have made our well-documented analysis available
-for anyone to examine.
+By keeping all code, text, and data in a public version-controlled repository, 
+we have made our well-documented analysis available
+for anyone to examine, check, modify, or re-use.
 We have released the data used in our study---both the original anonymized
 version as well as our cleaned version including the exact commands necessary
 to produce the cleaned version from the anonymized one.
 
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
-exactly how and when those errors were introduced.
+how and when those errors were introduced.
 We have written tests for almost all our code, which means we have a high
-level of confidence that as we change our code we will catch cascading
-errors that result.
+level of confidence that as we change our code we will catch any errors
+we might have introduced.
 Catching errors early means we quickly and easily identify our mistakes and
 correct them.
-And since we have automated the process of running our analysis, once errors
-are identified and corrected, it is trivial to rerun the entire analysis from
+And since we have automated the process of running our analysis, if errors
+are identified and corrected, it is easy to rerun the entire analysis from
 start to finish.
 
-Assuming you have standard tools (see \S~\ref{key-tools}) installed on your
+If you have standard tools (see \S~\ref{key-tools}) installed on your
 computer and network access, you can run our complete analysis of the cleaned
 data by typing the following three commands from a unix shell prompt:
 \begin{verbatim}
@@ -170,8 +171,7 @@ venv/bin/pip install --upgrade pip
 venv/bin/pip install -r requirements.txt
 venv/bin/python analysis.py
 \end{verbatim}
-The first command creates a new virtual environment (\texttt{venv}) for Python
-2.7.
+The first command creates a new virtual environment (\texttt{venv}) for Python~2.7.
 Using this new virtual environment (\texttt{venv}) the subsequent commands
 respectively upgrade the Python package manager (\texttt{pip}) to the most
 recent version, install the necessary Python package dependencies
@@ -180,28 +180,27 @@ script \texttt{analysis.py}.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
-Our project arose from a pilot study NS was working on with Gilbert Kliman of
+Our project arose from a pilot study NS was working on with Dr.~Gilbert Kliman of
 the Children's Psychological Health Center in San Francisco.
-While investigating therapeutic interventions in children on the autism scale,
-NS had collected some observational data (described below) as part of their
-pilot study.
-In the course of trying to interpret the data, NS told PS about her data and
+To investigate therapeutic interventions in children on the autism scale,
+Dr. Kliman and NS collected some observational data (described below).
+NS approached PS about her data and
 the problem NS was interested in addressing.
-After investigating the problem further, PS emailed JM and KO a one page
-proposal for a stratified permutation test for multi-rater inter-rater
-reliability.
-We (JM, KO, PS) had recently begun developing a general purpose Python package
+After investigating the problem further, PS emailed JM and KO a one-page
+proposal for a stratified permutation test to assess inter-rater
+reliability using stratified samples.
+We (JM, KO, PS) had recently begun to develope a general purpose Python package
 for permutation tests based on our collaborations called
 \texttt{permute}\footnote{\url{http://statlab.github.io/permute/}} and PS
 suggested this would be an interesting example to use.
 
 After coming to an initial understanding of NS's underlying research question
-and experiment, including how her data was collected, we (JM, KO, PS) 
+and experiment, including how her data were collected, we (JM, KO, PS) 
 cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python, incorporated
 the resulting code into our evolving Python package of permutation tests,
 applied the approach to the cleaned data, documented the code and the analysis,
-and wrote up the results in a \LaTeX document. 
+and wrote up the results in \LaTeX. 
 
 We distinguish the following aspects of our project, which are typical in applied statistics:
 \begin{itemize}
@@ -216,15 +215,10 @@ We distinguish the following aspects of our project, which are typical in applie
     \item understand result
 \end{itemize}
 Figure~\ref{fig:work_process} shows how each aspect of the
-project influenced the other aspects as well as an estimate of how much time
+project influenced the other aspects and gives estimates of the total person-hours
 we collectively spent on each aspect of the project.
-Our estimates are based on the total person hours we spent on each aspect of
-the problem.
 For example, if all three of us (JM, KO, PS) spent an hour discussing the
 problem in a meeting, then that hour involved 3 people hours.
-Below we describe the work involved in each aspect of the project.
-We have listed the total number of people hours spent on each aspect in the
-headings for each subsection.
 \jarrod{Need to explain why we are using names and time estimates since
 we were asked to remove them.
 - give people an idea how ``inexpensive'' (or expensive) working more
@@ -238,7 +232,7 @@ we were asked to remove them.
     \includegraphics[width=0.8\textwidth]{_fig/work_process.png}
   \caption{
   \small
-    Each box corresponds to one aspect of our project.
+    Each box corresponds to one aspect of the project.
     The percents are estimates of the percent of our time spent on each aspect.
     Edges represent influence.
     \texttt{Understand problem}~$\to$~\texttt{Design algorithm}, for instance,
