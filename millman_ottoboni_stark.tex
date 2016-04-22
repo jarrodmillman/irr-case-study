@@ -76,10 +76,10 @@
 Is tagging of therapist-patient interactions reliable?
 }
 
-\author{K. Jarrod Millman (JM)\\ Division of Biostatistics\\ UC Berkeley \and
-Kellie Ottoboni (KO)\\ Department of Statistics\\ UC Berkeley \and
+\author{K. Jarrod Millman (JM)\\ Division of Biostatistics\\ University of California, Berkeley \and
+Kellie Ottoboni (KO)\\ Department of Statistics\\ University of California, Berkeley \and
 Naomi A. P. Stark (NS)\\ Department of Philosophy\\ University of Pennsylvania \and
-Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
+Philip B. Stark (PS)\\ Department of Statistics\\ University of California, Berkeley
 }
 
 \maketitle
@@ -88,8 +88,8 @@ Philip B. Stark (PS)\\ Department of Statistics\\ UC Berkeley
 \section{Introduction}
 
 This case study\footnote{This file along, with the analysis script and results,
-can be found here: \url{https://github.com/statlab/nsgk}}.
-That repository illustrates some of
+can be found here: \url{https://github.com/statlab/nsgk}}
+illustrates some of
 the reproducible practices we (JM, KO, PS) have adopted.
 Parts of the text have been adapted from \citet{millman2015thesis} and a
 shorter version was submitted to
@@ -103,7 +103,7 @@ shorter version was submitted to
   Who are you and what is your research field?
 \end{enumerate}
 
-We are three applied statisticians~(JM,~KO,~PS) at U.C. Berkeley working with a
+We are three applied statisticians~(JM,~KO,~PS) at UC Berkeley working with a
 domain specialist~(NS) at the University of Pennsylvania.
 Our case study involves assessing inter-rater reliability (IRR) for human
 classifiers of behavior during therapy sessions with children on the autistic spectrum.
@@ -181,7 +181,7 @@ recent version, install the necessary Python package dependencies
 (\texttt{numpy~1.11.0}, \texttt{scipy~0.17.0}, and \texttt{permute~0.1a2}),
 and run the analysis script \texttt{analysis.py}.
 
-\section{Workflow narrative}\label{workflow-narrative}
+\section{Workflow narrative}
 
 Our project arose from a pilot study NS was working on with Dr.~Gilbert Kliman of
 the Children's Psychological Health Center in San Francisco.
@@ -194,7 +194,7 @@ proposal for a stratified permutation test to assess inter-rater
 reliability using stratified samples.
 We (JM, KO, PS) had recently begun developing a general purpose Python package
 for permutation tests, called
-\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}},
+\texttt{permute},\footnote{\url{http://statlab.github.io/permute/}}
 based on our collaborations.
 PS suggested this would be an interesting example to include.
 
@@ -467,7 +467,7 @@ maybe scientific vs statistical significance, multiple comparison, selective
 inference, etc.
 }
 
-\section{Pain points}\label{pain-points}
+\section{Pain points}
 
 Given our different backgrounds and experiences we (JM, KO, PS) each found
 different points in the process challenging. 
@@ -497,7 +497,7 @@ However, when data have already been entered by hand, there is not much that can
 be done other than being cautious when ``fixing'' data entry errors and recording
 every aspect of the data cleaning process.
 
-\section{Key benefits}\label{key-benefits}
+\section{Key benefits}
 
 Since \citet{buckheit1995wavelab} popularized the idea of computational
 reproducibility, applied statisticians have increasingly embraced version control
@@ -531,7 +531,7 @@ incrementally improved and documented.
 To this end, we have adopted best practices for software development used by
 successful open source projects \citep{millman2014developing}.
 
-\subsection{\label{sec:vc}Version control and code review}
+\subsection{Version control and code review}
 
 We (JM, KO, PS) use Git\footnote{\url{http://git-scm.com}} as our version
 control system (VCS) and GitHub\footnote{\url{https://github.com}} as the
@@ -563,7 +563,7 @@ While we are currently a small team and we meet regularly, having the code
 review system in place will make it easier for new people to contribute as well
 as capturing our design discussions and decisions for future reference.
 
-\subsection{\label{sec:test}Testing and continuous integration}
+\subsection{Testing and continuous integration}
 
 We use the \texttt{nose} testing framework for automating our testing
 procedures.\footnote{\url{https://nose.readthedocs.org}}
@@ -630,7 +630,7 @@ Travis CI checks that all the tests pass, while \texttt{coveralls} generates a
 test coverage report so that we can monitor what parts of our code are checked
 by a test and which are not.
 
-\subsection{\label{sec:doc}Documentation}
+\subsection{Documentation}
 
 We use Sphinx\footnote{
    \url{http://sphinx-doc.org}
@@ -652,7 +652,7 @@ reStructuredText\footnote{\url{http://docutils.sourceforge.net/rst.html}}.
 This system enables us to easily embed references, figures, code that is
 auto-run during documentation generation, as well as mathematics using \LaTeX.
 
-\subsection{\label{sec:release}Release management}
+\subsection{Release management}
 
 Our development workflow ensures that the official \texttt{upstream} repository
 is always stable and ready for use.

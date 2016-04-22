@@ -11,5 +11,9 @@ clean:
 	rm -f $(TITLE).md $(TITLE)_md.pdf
 
 markdown:
-	pandoc -s $(TITLE).tex -o $(TITLE).md
-	pandoc $(TITLE).md -o $(TITLE)_md.pdf
+	sed '/\pagebreak/,/\end{document}/d' $(TITLE).tex > $(TITLE)_clean.tex
+	echo '\end{document}' >> $(TITLE)_clean.tex
+	pandoc -s $(TITLE)_clean.tex --natbib -o $(TITLE).md
+	echo "" >> $(TITLE).md
+	echo "# References" >> $(TITLE).md
+	pandoc $(TITLE).md --filter=pandoc-citeproc -o $(TITLE)_md.pdf
