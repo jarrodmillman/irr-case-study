@@ -198,7 +198,7 @@ based on our collaborations.
 PS suggested this would be an interesting example to include.
 
 After coming to an initial understanding of NS's underlying research question
-and experiment, including how her data were collected, we (JM, KO, PS) 
+and experiment, including how she collected the data, we (JM, KO, PS) 
 cleaned the data, developed a nonparametric approach to assessing IRR
 appropriate to the experiment, implemented the approach in Python, incorporated
 the resulting code into our evolving Python package of permutation tests,
@@ -240,7 +240,7 @@ problem in a meeting, then that meeting counts as 3~people hours.
 We did not keep a detailed record of time spent, but
 our computational practices (\S~\ref{key-tools}) provide enough details about
 who did what when that we believe our estimates are accurate enough to provide
-a qualitative sense of the relative time demands for each aspect of the
+a qualitative sense of the time demands for each aspect of the
 project.
 Since these are only rough estimates, the reader should focus on the
 relative differences in the amount of time we spent on each aspect.
@@ -282,7 +282,7 @@ For the classification system to be meaningful and useful, different
 raters must generally agree on whether a given tag applies to a given video segment:
 there must be inter-rater reliability.
 Of course, if a tag is never used or is always used, inter-rater reliability will be perfect,
-but the tag is useless.
+but the tag is useless for distinguishing effective clinical interactions.
 
 That led to a statistical question: how to assess the evidence in the tagged videos
 that different raters
@@ -309,7 +309,7 @@ We often used pair programming at this stage and sometimes we (JM, KO, PS)
 all sat in front of one computer, while one of us typed code in an interactive
 IPython session.
 This helped ensure that we all understood the problem well and it also helped
-us catch errors (typos as well as conceptual errors).
+us catch errors (typos as well as conceptual misunderstandings).
 %Time: approximately 10 2-hour meetings.
 
 \subsection{Get and clean data (13 hours)}
@@ -443,7 +443,7 @@ Once we merged KO's implementation of the general algorithm (including tests)
 into \texttt{permute}, KO wrote a short script (about 50 lines of Python) to
 analyze the cleaned data from NS.
 
-Since the main workhorse functions were contained in \texttt{permute}, 
+Since we included the main workhorse functions in \texttt{permute}, 
 the analysis script contained only high-level commands:
 \begin{enumerate}
 \item Load the cleaned data
@@ -456,9 +456,9 @@ the analysis script contained only high-level commands:
       \item Compute the IRR partial test statistic
     \end{enumerate}
     \item Simulate the permutation distribution of the NPC test statistic for each
-    category, combining over the $8$ videos, and report a single $p$-value
+    type of activity, combining over the $8$ videos, and report a single $p$-value
   \end{enumerate}
-\item Save the results to a CSV file.
+\item Save the results to a CSV file
 \end{enumerate}
 
 
@@ -685,10 +685,6 @@ recent version of \texttt{pip}):
 \begin{verbatim}
 $ pip install permute==0.1a2
 \end{verbatim}
-
-\jarrod{
-Maybe something about how the process of developing a general tool and a
-specific analysis work together in tandem.}
 
 \bibliographystyle{plainnat}
 \bibliography{millman_ottoboni_stark}
