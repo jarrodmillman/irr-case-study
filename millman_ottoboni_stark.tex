@@ -117,12 +117,12 @@ classifiers of behavior during therapy sessions with children on the autistic sp
   in the particular context of your case study.
 \end{enumerate}
 
-In this case study, \emph{reproducibility} means that we (JM, KO, PS)
-documented (and scripted) nearly every step of the analysis---from cleaning to coding to
-code execution---as well as much of the discussion preceding our decision
-to take those steps.
-It also means that we have thoroughly and in an automated fashion tested
-our code, to have justifiable confidence that the code does what it was intended
+In this case study, \emph{reproducibility} means that we have documented 
+(and scripted) nearly
+every step of the analysis---from cleaning to coding to code execution---as
+well as much of the discussion preceding our decision to take those steps.
+It also means that we have tested our code thoroughly and in an automated fashion, 
+to have justifiable confidence that the code does what it was intended
 to do.
 Finally, it also means that we invested time to understand the fundamental
 problem and the results of our analysis so that we do \emph{not} make
@@ -133,17 +133,14 @@ By keeping all code, text, and data in a public version-controlled repository,
 we have made our well-documented analysis available
 for anyone to examine, check, modify, or re-use.
 We have released the data used in our study---both the original anonymized
-version as well as our cleaned version including the exact commands necessary
+version as well as our cleaned version including the commands necessary
 to produce the cleaned version from the anonymized one.
-
 In addition to making what we did transparent to anyone who is interested,
 working in this way means that when errors are found we can identify
 how and when those errors were introduced.
 We have written tests for almost all our code, which means we have a high
 level of confidence that as we change our code we will catch any errors
-we might have introduced.
-Catching errors early means we quickly and easily identify our mistakes and
-correct them.
+we might have introduced, and can correct them quickly and easily.
 And since we have automated the process of running our analysis, if errors
 are identified and corrected, it is easy to rerun the entire analysis from
 start to finish.
@@ -156,9 +153,9 @@ $ git clone git@github.com:statlab/nsgk.git
 $ cd nsgk/nsgk
 $ make
 \end{verbatim}
-The first command creates a directory named \texttt{nsgk} in your current
-working directory with a copy of the project repository (i.e., a directory with
-our code, data, and text along with the provenance of these documents).
+The first command creates a directory \texttt{nsgk} in your current working
+directory with a copy of the project repository (i.e., a directory with our
+code, data, and text along with the provenance of these documents).
 This directory contains this document as well as everything needed to run our
 analysis.
 Inside \texttt{nsgk/nsgk} there is a \texttt{Makefile}, our analysis script
@@ -175,8 +172,8 @@ The first command creates a new virtual environment (\texttt{venv}) for Python~2
 Using this new virtual environment (\texttt{venv}) the subsequent commands
 respectively upgrade the Python package manager (\texttt{pip}) to the most
 recent version, install the necessary Python package dependencies
-(\texttt{numpy}, \texttt{scipy}, and \texttt{permute}), and run the analysis
-script \texttt{analysis.py}.
+(\texttt{numpy~1.11.0}, \texttt{scipy~0.17.0}, and \texttt{permute~0.1a2}),
+and run the analysis script \texttt{analysis.py}.
 
 \section{Workflow narrative}\label{workflow-narrative}
 
@@ -189,10 +186,11 @@ the problem NS was interested in addressing.
 After investigating the problem further, PS emailed JM and KO a one-page
 proposal for a stratified permutation test to assess inter-rater
 reliability using stratified samples.
-We (JM, KO, PS) had recently begun to develope a general purpose Python package
-for permutation tests based on our collaborations called
-\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}} and PS
-suggested this would be an interesting example to use.
+We (JM, KO, PS) had recently begun developing a general purpose Python package
+for permutation tests, called
+\texttt{permute}\footnote{\url{http://statlab.github.io/permute/}},
+based on our collaborations.
+PS suggested this would be an interesting example to include.
 
 After coming to an initial understanding of NS's underlying research question
 and experiment, including how her data were collected, we (JM, KO, PS) 
@@ -202,12 +200,13 @@ the resulting code into our evolving Python package of permutation tests,
 applied the approach to the cleaned data, documented the code and the analysis,
 and wrote up the results in \LaTeX. 
 
-We distinguish the following aspects of our project, which are typical in applied statistics:
+We distinguish the following aspects of our project, which are typical in
+applied statistics:
 \begin{itemize}
     \item understand problem
     \item get and clean data\footnote{
-        This step generally also requires obtaining a data dictionary, learning how to parse
-        the data format, and so on.
+        This step generally also requires obtaining a data dictionary, learning
+        how to parse the data format, and so on.
         }
     \item design algorithm
     \item implement algorithm
@@ -229,7 +228,7 @@ we were asked to remove them.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{_fig/work_process.png}
+    \includegraphics[width=0.8\textwidth]{_fig/work_process_bids.png}
   \caption{
   \small
     Each box corresponds to one aspect of the project.
@@ -279,9 +278,9 @@ another as well as asking hard questions about our planned approach and whether
 it could address the question of interest.
 As our understanding of the problem progressed, our work transitioned from
 working on whiteboards to testing our ideas out on a computer.
-Often we often used pair programming at this stage and sometimes all three of
-us (JM, KO, PS) sat in front of one computer, while one of us would type code
-in an interactive IPython session.
+We often used pair programming at this stage and sometimes we (JM, KO, PS)
+all sat in front of one computer, while one of us typed code in an interactive
+IPython session.
 This helped ensure that we all understood the problem well and it also helped
 us catch errors (typos as well as conceptual errors).
 %Time: approximately 10 2-hour meetings.
@@ -296,34 +295,32 @@ taking place.
 The raters indicated which of those activities was taking place during each
 segment of each video.
 
-\philip{
-receipt of preliminary data as an Excel spreadsheet; understanding the ``data
-dictionary''; vetting for obvious errors (PS);
-%Time: approximately 1 hour
-several ``trips to the well'' before getting a version of the data that did not
-have obvious errors (PS);
-%Time: approximately 4 hours
-export the Excel data to .csv format (PS);
+PS received the data from NS as an Excel spreadsheet that she had entered
+by hand.
+Understanding the ``data dictionary'' and vetting for obvious errors entailed
+several rounds of email between PS and NS before PS had a version of the data
+that did not have obvious errors.
+%Time: approximately 5 hour
+PS then exported the Excel data to comma-separated value (CSV) format.
 %Time: approximately 5 minutes.
-data anonymization: substitute unique numerical identifiers for raters' names. 
-This step was performed using regular expressions in an interactive text
-editor, on the .csv file.
-It was not performed reproducibly (i.e., not scripted), but it can be checked
-readily. (PS) 
+The original data contained personal identifying information.
+Using regular expressions in an interactive text editor, PS substituted
+unique numerical identifiers for raters' names in the CSV file.
+While this step was not performed reproducibly (i.e., not scripted), it can be
+checked readily.
 %Time: approximately 1 hour.
-}
 
-After PS generated the original anonymized data, we committed it to our
+After PS generated the original anonymized data, JM committed it to our
 repository and added a data loader with tests to ensure that if the data
 changed we would know.
 At this point, we (JM, PS) screened the anonymized data for transcription
-errors (e.g., typos, duplications).
-This involved writing a number of EDA tools, which are now included in
-\texttt{permute}, to detect (for example) duplicate consecutive rows.
+errors (e.g., duplicate rows).
+This involved writing a number of quality assurance tools (e.g., to find
+duplicate consecutive rows), which are now included in \texttt{permute}.
 %Time: approximately 5 hours
 Once we identified entries incompatible with our understanding of what should
-be in the data, JM wrote a \texttt{sed} script to ``correct'' the data for
-duplicated entries and inferred typos.
+be in the data, JM wrote a \texttt{sed} script to ``correct'' the inferred
+typos.
 %Time: included above
 The exact commands used to clean the data are included in the commit
 corresponding to that cleaning step.
@@ -337,57 +334,108 @@ as a careful account of its provenance.
 \subsection{Design algorithm (25 hours)}
 
 Although we eventually implemented something close to the original test
-proposed by PS at the start of the project, we spent significant time focused
-on  ``problem appreciation.''
-These conversations culminated in our (JM, KO, PS) decision to assess the
-reliability one category at a time.
+proposed by PS at the start of the project, we (JM, KO, PS) spent significant
+time focused on ``problem appreciation.''
+We also developed a more general terminology (see Table \ref{table:mapping}).
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | c | c | }
+  \hline
+  \textbf{NSGK} & \textbf{IRR}  \\
+  \hline
+  183 types of activity  & $T$ tags  \\
+  \hline
+  8 videos  & $S$ strata   \\
+  \hline
+  ~40 segments/videos  & $N_s$ items/strata   \\
+  \hline
+  10 raters  & $R$ raters  \\
+  \hline
+\end{tabular}
+\caption{Mapping between terms from our motivating problem (NSGK) and the terms
+         used in our general algorithm (IRR).}\label{table:mapping}
+\end{center}
+\end{table}
+
+We decided to assess rater reliability in identifying (i.e., tagging)
+each of the 183 types of activity separately.
+\philip{
+This decision introduced a multiple comparison problem, which we discuss in
+\S~\ref{subsec:understand-result}.
+}
 %Time: approximately 4h.
-We also decided it was best to treat the videos separately.
-A literature search for extant approaches to assessing IRR led us to conclude
-that there was no existing suitable method, in part because the experiment was
-stratified and in part because standard methods make indefensible parametric
+Since each of the videos contained different sessions of therapist-patient
+interactions, we decided to stratify our test by video.
+A literature search for approaches to assessing IRR led us to conclude that
+there was no existing suitable method for several reasons:
+because the experiment was stratified,
+because there were multiple raters to compare,
+and because standard methods make indefensible parametric
 assumptions, which we hoped to avoid.
 %Time: 3h
+
 After deciding to use permutation tests, we (JM, KO, PS) then determined what
 the appropriate permutation would be: permuting each rater's ratings within a
 video, independently across raters and across videos.
-We chose to use concordance of ratings as our test statistic within each
-stratum.
-Finally, we (JM, PS) derived a simple expression for efficiently computing the
+We chose to use concordance of ratings as our partial test statistic within
+each stratum.
+We (JM, PS) derived a simple expression for efficiently computing the
 concordance.
 %Time: 1h
 To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
-combination (NPC) of tests.
+combination (NPC) of tests \citep{pesarin2010permutation}.
 %Time: 1h
 Finally, we (JM, KO, PS) developed a computationally efficient approach to
-finding the overall $p$-value for NPC.
+finding the overall $p$-value for the NPC test.
 %Time: 1.5h
 
 \subsection{Implement algorithm (5 hours)}
 
-\jarrod{I plan to go over this:  https://github.com/statlab/permute/issues/69.
-I will write this up as a little report separate from this case study.  I will
-also look into how long it takes to run, but I am thinking I might make a
-separate repository just for this.  I suspect it will take some time to run and
-our tests and doc generation are already costly.  I am also reluctant to put
-something we plan to freeze in a project that should evolve.  I am imagining
-something that depends on the exact release of permute that we used and has a
-permanent web address.}
+Once we had a blueprint of the algorithm, KO started to implement it.
+While KO did most of the coding, JM and PS reviewed and discussed the
+implementation.
+Following our software development practices (\S~\ref{key-tools}), KO also
+wrote tests for every function she implemented.
+After a few iterations of coding, testing, and review, KO finalized our implementation
+and we merged it into \texttt{permute}.
 
-\jarrod{Once I finish I need to discuss this with Kellie, since she did most of
-the hard work as I recall.}
-  
+KO wrote three functions to implement our general IRR algorithm:
+\begin{enumerate}
+\item a function to compute the IRR partial test statistic from a binary
+  matrix with one row per rater and one column per item;
+\item a function to simulate the permutation distribution of the IRR partial
+  test statistic for a matrix of ratings of a single stratum;
+\item a function to simulate the permutation distribution of the NPC
+  test statistic by combining the $S$ distributions of the IRR partial test 
+  statistic for each of the $S$ strata.
+\end{enumerate}
 
 \subsection{Analyze data (1 hour)}
 
-By the time we got to this stage, the analysis of the cleaned data was only
-about 70 lines of Python, of which 56 are code (the rest are comments).
-This includes looping over the 183 categories of activity.
+Once we merged KO's implementation of the general algorithm (including tests)
+into \texttt{permute}, KO wrote a short script (about 50 lines of Python) to
+analyze the cleaned data from NS.
 
-\jarrod{Once I turn the analysis into a stand-alone frozen project, I
-will report our results here.}
+Since the main workhorse functions were contained in \texttt{permute}, 
+the analysis script contained only high-level commands:
+\begin{enumerate}
+\item Load the cleaned data
+\item For each of the 183 categories of activity:
+  \begin{enumerate}
+    \item For each of the 8 videos:
+    \begin{enumerate}
+      \item Compute the mean and standard deviation of times the
+        tag was observed
+      \item Compute the IRR partial test statistic
+    \end{enumerate}
+    \item Simulate the permutation distribution of the NPC test statistic for each
+    category, combining over the $8$ videos, and report a single $p$-value
+  \end{enumerate}
+\item Save the results to a CSV file.
+\end{enumerate}
 
-\subsection{Understand result (20 hours)}
+
+\subsection{Understand result (20 hours)}\label{subsec:understand-result}
 
 \philip{You will probably want to wait until I have written up the results to
 work on this; but, eventually we need a discussion of our final thoughts about
@@ -399,6 +447,11 @@ collecting new data, 3) performing different analysis, 4) writing manuscript,
 problem.  We should also say that despite not pursuing this further, it did
 yield a new permutation test that could be used in other contexts and which is
 available in \texttt{permute}.  }
+
+\philip{
+maybe scientific vs statistical significance, multiple comparison, selective
+inference, etc.
+}
 
 \section{Pain points}\label{pain-points}
 
@@ -414,11 +467,11 @@ This involved understanding the data model used by Git, acquiring habits such
 as writing tests for all functions and following a common style guide, and
 learning to contribute to the project repository indirectly through GitHub's
 pull request mechanism.
-While learning how to use these tools and acquiring these habits takes effort
-and persistence, once mastered the difficulties disappear and the benefits
-accrue.
+JM was already familiar with the tools and practices, and devoted significant time
+to teaching KO and PS the workflow.
+Once mastered, the benefits of these tools and habits outweigh the time and effort
+spent learning them.
 
-JM was already familiar with the tools and practices.
 For JM the most painful part of the project was vetting hand-entered data
 to look for errors and inconsistencies.
 Not only was this laborious, but it involved inferring what the data
@@ -446,8 +499,8 @@ including version control.\footnote{
 However, the computational practices described in this study
 (see \S~\ref{key-tools}) go beyond the standard work habits of our colleagues.
 Our computational practices provide the following benefits:
-(1) the number of errors introduced by new code and changes to existing code
-    is reduced;
+(1) a reduction in the number of errors introduced by new code and changes to
+    existing code;
 (2) it is easy to modify the analysis when errors are found, to apply the
     analysis to new data sets, and so on;
 (3) the process is self-documenting, making it easier to draft a paper about
@@ -462,7 +515,7 @@ invested significant effort in setting up a development infrastructure to
 ensure our work is tracked, thoroughly and continually tested, and
 incrementally improved and documented.
 To this end, we have adopted best practices for software development used by
-many successful open source projects \citep{millman2014developing}.
+successful open source projects \citep{millman2014developing}.
 
 \subsection{\label{sec:vc}Version control and code review}
 
@@ -592,14 +645,14 @@ and start using it.
 We also make official releases available as source tarballs as well as Python
 built-packages\footnote{Presently our code is pure Python, but we release
 Python wheels.
-Wheels are the new standard built-package format for Python.} uploaded to the
+Wheels are the standard built-package format for Python.} uploaded to the
 Python Package Index, or PyPI,\footnote{PyPI is the Python equivalent of \emph{The
 Comprehensive R Archive Network} (CRAN).} with release announcements posted to
 our mailing list.
 
-To install the latest release of \texttt{permute} and its dependencies, type
+To install the version of \texttt{permute} used in this case study, type
 the following command from a shell prompt (assuming you have Python and a
-recent version of pip):
+recent version of \texttt{pip}):
 \begin{verbatim}
 $ pip install permute==0.1a2
 \end{verbatim}
@@ -655,7 +708,7 @@ across raters and across strata.
 The test statistic within stratum $s$ is
 \begin{align*}
 \rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
-              \sum_{r=1}^{R-1} \sum_{v=r+1}^R 1(L_{s,i,r} = L_{s,i,v}) \\
+              \sum_{r=1}^{R-1} \sum_{v=r+1}^R \mathbf{1}(L_{s,i,r} = L_{s,i,v}) \\
               &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
                 (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
 \end{align*}
