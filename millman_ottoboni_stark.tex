@@ -257,24 +257,37 @@ statistics research with our colleagues.
 We discuss the software tools and practices briefly in \S~\ref{key-tools} below.
 
 \subsection{Understand problem (80 hours)}
+The Kliman-Stark research project sought to identify characteristics of 
+effective clinical interactions with children on the autistic spectrum.
+The project first required developing a set of characteristics that observers
+could use to ``tag'' what was happening in each 30-second interval of a 
+therapy session.
+After they developed a taxonomy of clinical interactions, Kliman and NS had a 
+number of trained raters watch videos of therapy sessions and label each 
+30-second interval using the collection of tags.
+For the classification system to be meaningful and useful, different
+raters must generally agree on whether a given tag applies to a given video segment:
+there must be inter-rater reliability.
+Of course, if a tag is never used or is always used, inter-rater reliability will be perfect,
+but the tag is useless.
 
-\philip{
-NS was interested in:  What happens in therapy session with autistic kids?
-In particular, NS had data and wanted to know whether humans can reliably rate
-therapist-patient interactions?
-conversations between NS and (primarily) PS to understand the experimental
-set-up.
-%Time: approximately 10 1-hour meetings
-}
+That led to a statistical question: how to assess the evidence in the tagged videos
+that different raters
+tag interactions the same way? 
+After numerous conversations, it made sense to consider the null hypothesis to be
+that, conditional on the number of times a given rater applied a given label to
+a given video, all assignments of that label to time stamps in the video are equally
+likely, and the ratings given by different raters are exchangeable (essentially, that
+raters are independent).
 
 Once PS had an initial understanding of NS's problem, we (JM, KO, PS) met
 regularly (approximately weekly, sometimes more) as a team to discuss the
 project.
 Initially these discussions involved a lot of work on whiteboards and asking a
 lot of probing and open-ended questions.
-This helped us make sure we all gained a shared understanding of the problem.
-It also meant that we could improve our understanding by explaining it to one
-another as well as asking hard questions about our planned approach and whether
+This helped us develop a shared understanding of the problem, understanding
+that improved by explaining it to one
+another and by asking hard questions about our planned approach and whether
 it could address the question of interest.
 As our understanding of the problem progressed, our work transitioned from
 working on whiteboards to testing our ideas out on a computer.
@@ -287,16 +300,16 @@ us catch errors (typos as well as conceptual errors).
 
 \subsection{Get and clean data (13 hours)}
 
-The data were collected by NS.
-They comprise ratings of segments of 8 videos by 10 trained raters.
-Each video is divided into approximately 40 time segments.
-In each time segment, none, any, or all of 183 types of activity might be
+The tag data were collected by NS and raters working at her direction.
+The data comprise ratings of segments of 8~videos by 10~trained raters.
+Each video is divided into approximately 40~time segments.
+In each time segment, none, any, or all of 183~types of activity might be
 taking place.
 The raters indicated which of those activities was taking place during each
 segment of each video.
 
-PS received the data from NS as an Excel spreadsheet that she had entered
-by hand.
+PS received the data from NS as an Excel spreadsheet that had been entered
+by hand by NS and an assistant.
 Understanding the ``data dictionary'' and vetting for obvious errors entailed
 several rounds of email between PS and NS before PS had a version of the data
 that did not have obvious errors.
