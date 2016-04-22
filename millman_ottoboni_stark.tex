@@ -88,8 +88,8 @@ Philip B. Stark (PS)\\ Department of Statistics\\ University of California, Berk
 \section{Introduction}
 
 This case study\footnote{This file along, with the analysis script and results,
-can be found here: \url{https://github.com/statlab/nsgk}}
-illustrates some of
+can be found here: \url{https://github.com/statlab/nsgk}}.
+The repository illustrates some of
 the reproducible practices we (JM, KO, PS) have adopted.
 Parts of the text have been adapted from \citet{millman2015thesis} and a
 shorter version was submitted to
@@ -145,7 +145,7 @@ And since we have automated the process of running our analysis, if errors
 are identified and corrected, it is easy to rerun the entire analysis from
 start to finish.
 
-If you have standard tools (see \S~\ref{key-tools}) installed on your
+If you have standard tools (see \S~\ref{key-tools}) on your
 computer and network access, you can run our complete analysis of the cleaned
 data by typing the following three commands from a Unix shell prompt:
 \begin{verbatim}
@@ -185,10 +185,9 @@ and run the analysis script \texttt{analysis.py}.
 
 Our project arose from a pilot study NS was working on with Dr.~Gilbert Kliman of
 the Children's Psychological Health Center in San Francisco.
-To investigate therapeutic interventions in children on the autism scale,
+To investigate therapeutic interventions with children on the autism scale,
 Dr. Kliman and NS collected some observational data (described below).
-NS approached PS about her data and
-the problem NS was interested in addressing.
+NS approached PS about the data and the problem NS was studying.
 After investigating the problem further, PS emailed JM and KO a one-page
 proposal for a stratified permutation test to assess inter-rater
 reliability using stratified samples.
@@ -223,7 +222,7 @@ Figure~\ref{fig:work_process} shows how each aspect of the
 project influenced the other aspects and gives estimates of the total person-hours
 we collectively spent on each aspect of the project.
 For example, if all three of us (JM, KO, PS) spent an hour discussing the
-problem in a meeting, then that hour involved 3 people hours.
+problem in a meeting, then that meeting counts as 3~people hours.
 
 \begin{figure}[h]
   \centering
@@ -231,19 +230,19 @@ problem in a meeting, then that hour involved 3 people hours.
   \caption{
   \small
     Each box corresponds to one aspect of the project.
-    The percents are estimates of the percent of our time spent on each aspect.
+    The percentages are estimates of the percent of our time spent on each aspect.
     Edges represent influence.
     \texttt{Understand problem}~$\to$~\texttt{Design algorithm}, for instance,
     corresponds to the fact that we had to understand the problem in order to
     design the correct statistical test.\label{fig:work_process}}
 \end{figure}
 
-We did not keep a detailed record of the time spent on each project aspect, but
+We did not keep a detailed record of time spent, but
 our computational practices (\S~\ref{key-tools}) provide enough details about
 who did what when that we believe our estimates are accurate enough to provide
 a qualitative sense of the relative time demands for each aspect of the
 project.
-Since these are only rough time estimates, the reader should focus on the
+Since these are only rough estimates, the reader should focus on the
 relative differences in the amount of time we spent on each aspect.
 We have found that researchers (ourselves included) often underestimate the
 time needed to understand the problem, acquire and clean the data, as well as
@@ -290,7 +289,8 @@ that different raters
 tag interactions the same way? 
 After numerous conversations, it made sense to consider the null hypothesis to be
 that, conditional on the number of times a given rater applied a given label to
-a given video, all assignments of that label to time stamps in the video are equally
+a given video, all assignments of that label to time stamps in the video by that
+rater are equally
 likely, and the ratings given by different raters are exchangeable (essentially, that
 raters are independent).
 
