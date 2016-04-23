@@ -87,11 +87,7 @@ Philip B. Stark (PS)\\ Department of Statistics\\ University of California, Berk
 
 \section{Introduction}
 
-This case study\footnote{This file along, with the analysis script and results,
-can be found here: \url{https://github.com/statlab/nsgk}}
-illustrates some of
-the reproducible practices we (JM, KO, PS) have adopted.
-Parts of the text have been adapted from \citet{millman2015thesis} and a
+Parts of this text have been adapted from \citet{millman2015thesis} and a
 shorter version was submitted to
 \url{https://github.com/BIDS/repro-case-studies}.
 
@@ -117,8 +113,11 @@ classifiers of behavior during therapy sessions with children on the autistic sp
   in the particular context of your case study.
 \end{enumerate}
 
-In this case study, \emph{reproducibility} means that we have documented 
-(and scripted) nearly
+In this case study,\footnote{
+This file along with the analysis script and results,
+can be found here: \url{https://github.com/statlab/nsgk}
+}
+\emph{reproducibility} means that we have documented (and scripted) nearly
 every step of the analysis---from cleaning to coding to code execution---as
 well as much of the discussion preceding our decision to take those steps.
 It also means that we have tested our code thoroughly and in an automated fashion, 
@@ -131,7 +130,7 @@ acquired, and our domain understanding.
 
 By keeping all code, text, and data in a public version-controlled repository, 
 we have made our well-documented analysis available
-for anyone to examine, check, modify, or re-use.
+for anyone to examine, check, modify, or reuse.
 We have released the data used in our study---both the original anonymized
 version as well as our cleaned version including the commands necessary
 to produce the cleaned version from the anonymized one.
@@ -238,11 +237,10 @@ problem in a meeting, then that meeting counts as 3~people hours.
 \end{figure}
 
 We did not keep a detailed record of time spent, but
-our computational practices (\S~\ref{key-tools}) provide enough details about
-who did what when that we believe our estimates are accurate enough to provide
-a qualitative sense of the time demands for each aspect of the
-project.
-Since these are only rough estimates, the reader should focus on the
+our computational practices (\S~\ref{key-tools}) provide enough detail about
+who did what when that we believe our estimates provide an accurate qualitative
+account of the time demands for each aspect of the project.
+However, since these are only rough estimates, the reader should focus on the
 relative differences in the amount of time we spent on each aspect.
 We have found that researchers (ourselves included) often underestimate the
 time needed to understand the problem, acquire and clean the data, as well as
@@ -661,7 +659,7 @@ to document all the modules and functions in \texttt{permute}.
 Using Sphinx and some NumPy extensions, we have a system for autogenerating the
 project documentation (as HTML or PDF) using the docstrings as well as
 stand-alone text written in a light-weight markdown-like language, called
-reStructuredText\footnote{\url{http://docutils.sourceforge.net/rst.html}}.
+reStructuredText.\footnote{\url{http://docutils.sourceforge.net/rst.html}}
 This system enables us to easily embed references, figures, code that is
 auto-run during documentation generation, as well as mathematics using \LaTeX.
 
