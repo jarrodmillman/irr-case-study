@@ -117,21 +117,33 @@ In this case study,\footnote{
 This file along with the analysis script and results,
 can be found here: \url{https://github.com/statlab/nsgk}
 }
-\emph{reproducibility} means that we have documented (and scripted) nearly
-every step of the analysis---from cleaning to coding to code execution---as
-well as much of the discussion preceding our decision to take those steps.
-It also means that we have tested our code thoroughly and in an automated fashion, 
-to have justifiable confidence that the code does what it was intended
-to do.
-Finally, it also means that we invested time to understand the fundamental
-problem and the results of our analysis so that we do \emph{not} make
-conclusions that are not justified by the data, the manner in which it was
-acquired, and our domain understanding.
+\emph{reproducibility} means:
+\begin{itemize}
+   \item \emph{Computational reproducibility and transparency.}
+             We have documented (and scripted) nearly
+            every step of the analysis---from cleaning to coding to code execution---and
+            made the code and documentation publicly available.
+   \item \emph{Scientific reproducibility and transparency.} We documented much of the discussion 
+             leading to our decisions to take each step in the analysis.
+             We made the data publicly available in an open format, with an adequate data
+             dictionary.
+   \item \emph{Computational correctness and evidence.}
+            We tested our code thoroughly and in an automated fashion, 
+            to have justifiable confidence that the code does what it was intended
+             to do. We made those tests publicly available, so that others can see how
+             we validated our computations.
+    \item \emph{Statistical reproducibility.} We invested time to understand the fundamental
+             problem and the results of our analysis so that we do \emph{not} draw
+             conclusions that are not justified by the data, the manner in which it was
+             acquired, and our domain understanding.
+             We avoided ``p-hacking'' and other potentially misleading selective reporting,
+             and made all our analyses publicly available.
+\end{itemize}
 
 By keeping all code, text, and data in a public version-controlled repository, 
 we have made our well-documented analysis available
 for anyone to examine, check, modify, or reuse.
-We have released the data used in our study---both the original anonymized
+We published the data used in our study---both the original anonymized
 version as well as our cleaned version including the commands necessary
 to produce the cleaned version from the anonymized one.
 In addition to making what we did transparent to anyone who is interested,
@@ -257,8 +269,8 @@ project.\footnote{Exceptions include that we did not record all of our
 in-person discussions or whiteboard work.  
 However, we endeavored to
 record summaries of these activities.}
-These computational practices are described in \citet{millman2014developing}
-and are used widely in the open source scientific Python community.
+These computational practices, described in \citet{millman2014developing},
+are used widely in the open source scientific Python community.
 While developed for managing software contributions, these practices are ideal
 for ensuring computational reproducibility in scientific and statistical
 research.
@@ -296,9 +308,9 @@ Once PS had an initial understanding of NS's problem, we (JM, KO, PS) met
 regularly (approximately weekly, sometimes more) as a team to discuss the
 project.
 Initially these discussions involved a lot of work on whiteboards and asking a
-lot of probing and open-ended questions.
+lot of probing questions.
 This helped us develop a shared understanding of the problem, understanding
-that improved by explaining it to one
+that improved by explaining things to one
 another and by asking hard questions about our planned approach and whether
 it could address the question of interest.
 As our understanding of the problem progressed, our work transitioned from
@@ -328,7 +340,7 @@ that did not have obvious errors.
 %Time: approximately 5 hour
 PS then exported the Excel data to comma-separated value (CSV) format.
 %Time: approximately 5 minutes.
-The original data contained personal identifying information.
+The original data contained personally identifying information.
 Using regular expressions in an interactive text editor, PS substituted
 unique numerical identifiers for raters' names in the CSV file.
 While this step was not performed reproducibly (i.e., not scripted), it can be
@@ -358,9 +370,10 @@ as a careful account of its provenance.
 
 \subsection{Design algorithm (25 hours)}
 
-Although we eventually implemented something close to the original test
+Although the test we eventually implemented was very similar to the original test
 proposed by PS at the start of the project, we (JM, KO, PS) spent significant
-time focused on ``problem appreciation.''
+time focused on ``problem appreciation,'' some of which resulted in considerable
+simplification of the algorithm used to implement the test.
 We also developed a more general terminology (see Table \ref{table:mapping}).
 \begin{table}[h]
 \begin{center}
@@ -383,32 +396,50 @@ We also developed a more general terminology (see Table \ref{table:mapping}).
 \end{table}
 
 We decided to assess rater reliability in identifying (i.e., tagging)
-each of the 183 types of activity separately.
-\philip{
-This decision introduced a multiple comparison problem, which we discuss in
-\S~\ref{subsec:understand-result}.
-}
+each of the 183~types of activity separately, because they
+are of separate interest.
+This introduces questions about whether inferences are to be made
+about each tag separately (per-comparison error rate, PCER) or
+simultaneously (familywise error rate, FWER), or whether we are
+concerned with the fraction of tags we conclude are reliable that
+in fact are not reliable (false discovery rate, FDR).
+Ultimately, we decided that the PCER was the most relevant error
+criterion, since the tags are individually interesting.
+As a ``first cut'' through the rating scheme, eliminating tags that
+are clearly not reliable across raters simplifies the scheme and
+reduces the cognitive burden on raters, because they do not have
+to keep so many categories of activity in mind.
+We imagined that if we could eliminate a substantial of the tags as unreliable,
+there would be a repeat of the tagging using a different set of raters
+to validate or refine the results, reducing the rate of ``false positives.''
+On the other hand, incorrectly rejecting tags as unreliable could
+eliminate a potentially useful predictor of successful therapeutic outcomes,
+so the FWER seemed far too stringent a criterion.
+See \S~\ref{subsec:understand-result} for more discussion.
+
 %Time: approximately 4h.
 Since each of the videos contained different sessions of therapist-patient
-interactions, we decided to stratify our test by video.
+interactions, in general rated by different people, we stratified the test by video.
 A literature search for approaches to assessing IRR led us to conclude that
 there was no existing suitable method for several reasons:
-because the experiment was stratified,
-because there were multiple raters to compare,
-and because standard methods make indefensible parametric
-assumptions, which we hoped to avoid.
+the experiment was stratified;
+there were multiple raters but not the same set for all videos;
+and standard methods required indefensible parametric
+assumptions or population models, which we hoped to avoid.
 %Time: 3h
 
-After deciding to use permutation tests, we (JM, KO, PS) then determined what
-the appropriate permutation would be: permuting each rater's ratings within a
-video, independently across raters and across videos.
+After deciding to use permutation tests, we (JM, KO, PS) then determined 
+that permuting each rater's ratings within a
+video, independently across raters and across videos, made sense as 
+the appropriate invariant under the null hypothesis.
 We chose to use concordance of ratings as our partial test statistic within
 each stratum.
 We (JM, PS) derived a simple expression for efficiently computing the
 concordance.
 %Time: 1h
-To combine tests across strata, we (JM, KO, PS) decided to use the nonparametric
-combination (NPC) of tests \citep{pesarin2010permutation}.
+To combine tests across strata, we (JM, KO, PS) used the nonparametric
+combination (NPC) of tests \citep{pesarin2010permutation}
+with Fisher's combining function.
 %Time: 1h
 Finally, we (JM, KO, PS) developed a computationally efficient approach to
 finding the overall $p$-value for the NPC test.
@@ -416,8 +447,8 @@ finding the overall $p$-value for the NPC test.
 
 \subsection{Implement algorithm (5 hours)}
 
-Once we had a blueprint of the algorithm, KO started to implement it.
-While KO did most of the coding, JM and PS reviewed and discussed the
+Once we had a blueprint of the algorithm, KO led the implementation effort.
+She did most of the coding; JM and PS reviewed the code and discussed the
 implementation.
 Following our software development practices (\S~\ref{key-tools}), KO also
 wrote tests for every function she implemented.
@@ -426,13 +457,13 @@ and we merged it into \texttt{permute}.
 
 KO wrote three functions to implement our general IRR algorithm:
 \begin{enumerate}
-\item a function to compute the IRR partial test statistic from a binary
-  matrix with one row per rater and one column per item;
-\item a function to simulate the permutation distribution of the IRR partial
-  test statistic for a matrix of ratings of a single stratum;
-\item a function to simulate the permutation distribution of the NPC
-  test statistic by combining the $S$ distributions of the IRR partial test 
-  statistic for each of the $S$ strata.
+    \item a function to compute the IRR partial test statistic from a binary
+      matrix with one row per rater and one column per item;
+    \item a function to simulate the permutation distribution of the IRR partial
+      test statistic for a matrix of ratings of a single stratum;
+    \item a function to simulate the permutation distribution of the NPC
+      test statistic by combining the $S$ distributions of the IRR partial test 
+      statistic for each of the $S$ strata.
 \end{enumerate}
 
 \subsection{Analyze data (1 hour)}
@@ -449,12 +480,12 @@ the analysis script contained only high-level commands:
   \begin{enumerate}
     \item For each of the 8 videos:
     \begin{enumerate}
-      \item Compute the mean and standard deviation of times the
-        tag was observed
+      \item Compute the mean and standard deviation of the number of times the
+        tag was applied
       \item Compute the IRR partial test statistic
     \end{enumerate}
     \item Simulate the permutation distribution of the NPC test statistic for each
-    type of activity, combining over the $8$ videos, and report a single $p$-value
+          tag combined over the $8$~videos, and report a single $p$-value
   \end{enumerate}
 \item Save the results to a CSV file
 \end{enumerate}
@@ -472,11 +503,6 @@ collecting new data, 3) performing different analysis, 4) writing manuscript,
 problem.  We should also say that despite not pursuing this further, it did
 yield a new permutation test that could be used in other contexts and which is
 available in \texttt{permute}.  }
-
-\philip{
-maybe scientific vs statistical significance, multiple comparison, selective
-inference, etc.
-}
 
 \section{Pain points}
 
@@ -501,7 +527,7 @@ For JM the most painful part of the project was vetting hand-entered data
 to look for errors and inconsistencies.
 Not only was this laborious, but it involved inferring what the data
 should have been without any direct way to ensure that these inferences were
-correct.
+correct: the original raters and videos were not available to us.
 The solution to this pain point is to automate the data collection process as
 much as possible.
 However, when data have already been entered by hand, there is not much that can
@@ -524,14 +550,16 @@ including version control.\footnote{
 However, the computational practices described in this study
 (see \S~\ref{key-tools}) go beyond the standard work habits of our colleagues.
 Our computational practices provide the following benefits:
-(1) a reduction in the number of errors introduced by new code and changes to
-    existing code;
-(2) it is easy to modify the analysis when errors are found, to apply the
-    analysis to new data sets, and so on;
-(3) the process is self-documenting, making it easier to draft a paper about
-    the results; and
-(4) the methods are abstracted from the analysis and incorporated into a
+\begin{enumerate}
+ \item it reduces the number of errors introduced by new code and changes to
+    existing code
+  \item it makes it easy to modify the analysis when errors are found, to apply the
+    analysis to new data sets, and so on
+  \item the process is self-documenting, making it easier to draft a paper about
+    the results or to pick up where we left off after working on something else
+   \item the methods are abstracted from the analysis and incorporated into a
     package so that others can discover, check, use, and extend our methods.
+\end{enumerate}
 
 \section{Key tools and practices}\label{key-tools}
 
@@ -552,8 +580,8 @@ Each of us has our own copy, or fork, of the \texttt{upstream} repository.
 We each work on our own repositories and use the \texttt{upstream} repository
 as our coordination or integration repository.
 
-This allows us to track and manage how our code changes over time as well as
-review all new functionality before merging it into the \texttt{upstream}
+This allows us to track and manage how our code changes over time and to
+review new functionality before merging it into the \texttt{upstream}
 repository.
 To get new code or text integrated in the \texttt{upstream} repository, we use
 GitHub's \emph{pull request} mechanism.
@@ -576,7 +604,7 @@ as capturing our design discussions and decisions for future reference.
 
 \subsection{Testing and continuous integration}
 
-We use the \texttt{nose} testing framework for automating our testing
+We used the \texttt{nose} testing framework for automating our testing
 procedures.\footnote{\url{https://nose.readthedocs.org}}
 This is the standard testing framework\footnote{
     As \texttt{nose} has been in
@@ -592,7 +620,7 @@ making changes as well as simplifying the code review process for new code.
 Without automated testing, we would have to manually test all the code every
 time a change is proposed.
 The \texttt{nose} testing framework simplifies test creation, discovery, and
-running.
+execution.
 It has an extensive set of plugins to add functionality for coverage reporting,
 test annotation, profiling, as well as inspecting and testing documentation.
 
@@ -605,8 +633,8 @@ test annotation, profiling, as well as inspecting and testing documentation.
   \small
     Each pull request triggers an automated system to run the full test suite on
     the updated code.
-    This means that when you go to review a pull request you can immediately see
-    whether the change breaks any of the tests as well as whether the new
+    This means that when you review a pull request, you can immediately see
+    whether the change breaks any of the tests and whether the new
     code decreases the overall test coverage.
     For example, the above report indicates that the associated pull request does not
     break existing code and does not change our test coverage.}
@@ -617,7 +645,7 @@ For example, not only do we want to test every function in our package, but if
 a specific function has internal logic we want to test each possible execution
 path through the function.
 Having tested each line of code increases our confidence in our code, but
-more importantly provides us some measure of assurance that changes we make do
+more importantly provides some assurance that changes we make do
 not break existing code.
 It also increases our confidence that new code works, which reduces the
 friction of accepting contributions.
@@ -635,8 +663,8 @@ to be automatically
 triggered whenever a commit is made to a pull request or the upstream master
 (see Figure~\ref{fig:pull-request}).
 These systems run the full test suite using different versions of our
-dependencies (e.g., Python 2.7 and 3.4) every time a new commit is made to a
-repository or pull request.
+dependencies (e.g., Python~2.7 and 3.4) every time a new commit is made to a
+repository or a pull is requested.
 Travis CI checks that all the tests pass, while \texttt{coveralls} generates a
 test coverage report so that we can monitor what parts of our code are checked
 by a test and which are not.
@@ -667,15 +695,17 @@ auto-run during documentation generation, as well as mathematics using \LaTeX.
 
 Our development workflow ensures that the official \texttt{upstream} repository
 is always stable and ready for use.
-This means anyone can get our official upstream master at any point, install it
+This means anyone can install our official upstream master at any time
 and start using it.
-We also make official releases available as source tarballs as well as Python
-built-packages\footnote{Presently our code is pure Python, but we release
-Python wheels.
-Wheels are the standard built-package format for Python.} uploaded to the
-Python Package Index, or PyPI,\footnote{PyPI is the Python equivalent of \emph{The
-Comprehensive R Archive Network} (CRAN).} with release announcements posted to
-our mailing list.
+We also make official releases available as source tarballs and as Python
+built-packages\footnote{
+   Currently our code is pure Python, but we release Python wheels.
+   Wheels are the standard built-package format for Python.
+} uploaded to the
+Python Package Index, or PyPI,\footnote{
+   PyPI is the Python equivalent of \emph{The
+   Comprehensive R Archive Network} (CRAN).
+} with release announcements posted to our mailing list.
 
 To install the version of \texttt{permute} used in this case study, type
 the following command from a shell prompt (assuming you have Python and a
@@ -697,7 +727,7 @@ There are $S$ strata.
 There are $N_s$ items in stratum $s$.
 There are $N = \sum_{s=1}^S N_s$ items in all.
 
-There each item might belong to none, some, or all of $C$ non-exclusive categories.
+Each item might belong to none, some, or all of $C$ non-exclusive categories.
 That is, each item might be ``tagged'' with any of the $2^C$ subsets
 of the $C$ labels, including the empty set.
 
@@ -711,20 +741,24 @@ We observe $\{ L_{s,i,c,r} \}$ for $s=1, \dots, S$;  $i=1, \dots, N_s$;
 $c=1, \dots, C$; and $r=1, \dots, R$.
 
 We want to know whether the categorizations are ``reliable,'' in the sense that
-agreement among the raters is higher than would be expected ``by chance.''
+agreement among the raters is higher than would be expected ``by chance.''\footnote{
+   Specifying the chance model amounts to specifying the null hypothesis.
+   See the discussion above.
+}
 The reliability of each category $c$ is of interest, rather than an overall
 rating for all $C$ categories.
 
 Fix $c$, since we are considering only one category at a time.
 
-The null hypothesis for category $c$ is that, for each rater $r$, and each
-stratum $s$, the values $\{ L_{s,i,c,r} \}$ are exchangeable; that for each
-rater $r$, the values $\{ L_{s,i,c,r} \}$ for different strata $s$ are
-independent; and that the values are independent across raters.
+The null hypothesis for category $c$ is that, given the number of times
+each rater assigns category $c$ to each video, all assignments
+are equally likely, the assignments are independent across strata,
+and raters' ratings are exchangeable with respect to
+each other.
 
-Our test conditions on the sets of labels each rater assigns within each
+Our test conditions on the number of times each rater assigns each label within each
 stratum, but not on the items to which those labels are assigned.
-The null distribution involves permuting the assignments each given rater makes
+The null distribution arises from permuting the assignments each given rater makes
 of category $c$ to items within each stratum $s$, permuting independently
 across raters and across strata.
 
@@ -745,15 +779,14 @@ the sum.
 The normalization makes perfect agreement within stratum $s$ correspond to
 $\rho_s = 1$.
 
-To combine the results across strata to get an overall $p$-value, we could
-use any of the methods we have discussed, or the NPC (nonparametric
+To combine the results across strata to get an overall $p$-value, we 
+used the NPC (nonparametric
 combination of test) methods described in Pesarin and Salmaso, based on
 the $p$-values in different strata.
-For instance, Fisher's combination statistic is
+NPC can use  variety of combining functions for the $p$-values;
+the tests reported above used Fisher's combining function:
 \begin{align*}
-    \lambda &= - \sum_{s=1}^S w_s \log \hat{p}_s,
+    \lambda &= - 2\sum_{s=1}^S  \log \hat{p}_s.
 \end{align*}
-where the nonnegative weights $\{w_s\}$ are chosen in some sensible manner
-(e.g., $w_s = N_s^{-1/2}$ would be reasonable).
 
 \end{document}
