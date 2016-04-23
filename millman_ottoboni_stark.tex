@@ -410,7 +410,7 @@ As a ``first cut'' through the rating scheme, eliminating tags that
 are clearly not reliable across raters simplifies the scheme and
 reduces the cognitive burden on raters, because they do not have
 to keep so many categories of activity in mind.
-We imagined that if we could eliminate a substantial of the tags as unreliable,
+We imagined that if we could eliminate a substantial number of the tags as unreliable,
 there would be a repeat of the tagging using a different set of raters
 to validate or refine the results, reducing the rate of ``false positives.''
 On the other hand, incorrectly rejecting tags as unreliable could
@@ -435,7 +435,7 @@ video, independently across raters and across videos, made sense as
 the appropriate invariant under the null hypothesis.
 We chose to use concordance of ratings as our partial test statistic within
 each stratum.
-We derived a simple expression for efficiently computing the
+We (JM, PS) derived a simple expression for efficiently computing the
 concordance.
 %Time: 1h
 To combine tests across strata, we (JM, KO, PS) used the nonparametric
@@ -703,8 +703,8 @@ by a test and which are not.
 to run the full test suite on the updated code.
 The automated system checks whether any of our automated tests fail as well
 as tracks the percentage of our code that is covered by our automated tests.
-This means that when we go to review a pull request we can immediately see
-whether the proposed changes break any of our tests as well as whether the new
+This means that when you review a pull request, you can immediately see
+whether the proposed changes break any tests and whether the new
 code decreases the overall test coverage (see Figure~\ref{fig:pull-request}).
 
 \subsection{Documentation}
