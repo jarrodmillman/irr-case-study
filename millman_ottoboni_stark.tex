@@ -101,8 +101,9 @@ shorter version was submitted to
 
 We are three applied statisticians~(JM,~KO,~PS) at UC Berkeley working with a
 domain specialist~(NS) at the University of Pennsylvania.
-Our case study involves assessing inter-rater reliability (IRR) for human
-classifiers of behavior during therapy sessions with children on the autistic spectrum.
+Our case study involves assessing inter-rater reliability (IRR) of the assignment
+of ``tags'' applied by human raters
+to classify interactions during therapy sessions with children on the autistic spectrum.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -493,16 +494,39 @@ the analysis script contained only high-level commands:
 
 \subsection{Understand result (20 hours)}\label{subsec:understand-result}
 
-\philip{You will probably want to wait until I have written up the results to
-work on this; but, eventually we need a discussion of our final thoughts about
-the data and how it did or did not address the question.  Maybe a sentence or
-two saying what we learned...what we do differently during data collection next
-time.  Understanding result can lead to 1) designing new experiment, 2)
-collecting new data, 3) performing different analysis, 4) writing manuscript,
-5) something else.  Need to connect this back to the our understanding of the
-problem.  We should also say that despite not pursuing this further, it did
-yield a new permutation test that could be used in other contexts and which is
-available in \texttt{permute}.  }
+At a high level, even the summary statistics we computed were useful: some
+tags were never applied by any rater to any video.
+Presumably, the tag taxonomy could be simplified by eliminating those tags
+from the universe of labels, reducing the cognitive burden on the human raters.
+There were also tags that were used so frequently that high concordance was
+virtually guaranteed---and therefore high inter-rater concordance was not evidence
+of inter-rater reliability.
+This may also imply that any differences in efficacy of therapy are not attributable
+to whether the corresponding activity is taking place, since it is often taking place,
+at least in these sessions.
+Whether it makes sense to keep such tags in the taxonomy depends in part on
+subject matter knowledge: are those interactions typical only in the videos in
+these evaluation data, or are they typical of all therapeutic interventions with children
+on the autistic scale?
+
+At the other extreme, there were tags for which the concordance of use was quite
+low, but still highly significant. 
+This raises the scientific question of what threshold level of agreement among
+raters makes a tag interesting or useful, separate from whether the agreement
+is statistically significant. 
+That is a matter we need to discuss at greater length with the domain specialists.
+It also points to a frequent situation in statistics: practical significance and statistical
+significance are not the same thing, and one must consider ``fitness for use'' 
+when devising summary statistics.
+
+We hope that the concrete findings will lead to a refinement of the taxonomy and
+additional tests of reliability.
+We hope that those tests will involve greater automation of data collection and transcription,
+to eliminate some of the sources of error in the data.
+Regardless, this work has led to a new nonparametric test for inter-rater reliability,
+now available publicly in the \texttt{permute} package.
+
+
 
 \section{Pain points}
 
