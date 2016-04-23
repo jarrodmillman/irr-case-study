@@ -114,7 +114,7 @@ classifiers of behavior during therapy sessions with children on the autistic sp
 \end{enumerate}
 
 In this case study,\footnote{
-This file along with the analysis script and results,
+This file along with the analysis script and results
 can be found here: \url{https://github.com/statlab/nsgk}
 }
 \emph{reproducibility} means:
@@ -232,7 +232,7 @@ applied statistics:
 Figure~\ref{fig:work_process} shows how each aspect of the
 project influenced the other aspects and gives estimates of the total person-hours
 we collectively spent on each aspect of the project.
-For example, if all three of us (JM, KO, PS) spent an hour discussing the
+For example, if JM, KO, and PS spent an hour together discussing the
 problem in a meeting, then that meeting counts as 3~people hours.
 
 \begin{figure}[h]
@@ -315,7 +315,7 @@ another and by asking hard questions about our planned approach and whether
 it could address the question of interest.
 As our understanding of the problem progressed, our work transitioned from
 working on whiteboards to testing our ideas out on a computer.
-We often used pair programming at this stage and sometimes we (JM, KO, PS)
+We often used pair programming at this stage and sometimes we
 all sat in front of one computer, while one of us typed code in an interactive
 IPython session.
 This helped ensure that we all understood the problem well and it also helped
@@ -434,14 +434,14 @@ video, independently across raters and across videos, made sense as
 the appropriate invariant under the null hypothesis.
 We chose to use concordance of ratings as our partial test statistic within
 each stratum.
-We (JM, PS) derived a simple expression for efficiently computing the
+We derived a simple expression for efficiently computing the
 concordance.
 %Time: 1h
 To combine tests across strata, we (JM, KO, PS) used the nonparametric
 combination (NPC) of tests \citep{pesarin2010permutation}
 with Fisher's combining function.
 %Time: 1h
-Finally, we (JM, KO, PS) developed a computationally efficient approach to
+Finally, we developed a computationally efficient approach to
 finding the overall $p$-value for the NPC test.
 %Time: 1.5h
 
@@ -615,7 +615,7 @@ This is the standard testing framework\footnote{
     migrate to will have the same basic features and benefits as \texttt{nose}.
 }
 used by the core packages in the scientific Python ecosystem.
-Automating the tests allows us to monitor a proxy for code correctness when
+Automating testing allows us to monitor a proxy for code correctness when
 making changes as well as simplifying the code review process for new code.
 Without automated testing, we would have to manually test all the code every
 time a change is proposed.
@@ -631,19 +631,14 @@ test annotation, profiling, as well as inspecting and testing documentation.
 
   \caption{\label{fig:pull-request}
   \small
-    Each pull request triggers an automated system to run the full test suite on
-    the updated code.
-    This means that when you review a pull request, you can immediately see
-    whether the change breaks any of the tests and whether the new
-    code decreases the overall test coverage.
-    For example, the above report indicates that the associated pull request does not
+    The above report indicates that the associated pull request does not
     break existing code and does not change our test coverage.}
 \end{figure}
 
 Our goal is to test every line of code.
 For example, not only do we want to test every function in our package, but if
-a specific function has internal logic we want to test each possible execution
-path through the function.
+a specific function has a conditional branching structure we test each
+possible execution path through that function.
 Having tested each line of code increases our confidence in our code, but
 more importantly provides some assurance that changes we make do
 not break existing code.
@@ -652,6 +647,19 @@ friction of accepting contributions.
 Currently over 98\% of \texttt{permute}'s lines of code get executed at least
 once by our test system.
 
+We often work on several pull requests simultaneously.
+These pull requests may take several weeks or months before they are reviewed,
+improved, and accepted in our \texttt{upstream} repository.
+While we are working on one pull request, we may merge several others.
+Since the underlying code base is changing, each pull request may potentially
+introduce integration conflicts when we attempt to merge it back into
+the main line.
+To mitigate the difficulty in managing these conflicts we employee
+continuous integration and track our test coverage.
+
+Continuous integration works as follows:
+Each pull request (as well as a new commit to an existing pull request) triggers
+an automated system\footnote{
 We have configured Travis CI\footnote{
   \url{https://travis-ci.org}
 } 
@@ -659,15 +667,21 @@ and
 \texttt{coveralls}\footnote{
   \url{https://coveralls.io}
 }
-to be automatically
-triggered whenever a commit is made to a pull request or the upstream master
-(see Figure~\ref{fig:pull-request}).
+to be automatically triggered whenever a commit is made to a pull request
+or the \texttt{upstream} master.
 These systems run the full test suite using different versions of our
 dependencies (e.g., Python~2.7 and 3.4) every time a new commit is made to a
 repository or a pull is requested.
 Travis CI checks that all the tests pass, while \texttt{coveralls} generates a
 test coverage report so that we can monitor what parts of our code are checked
 by a test and which are not.
+}
+to run the full test suite on the updated code.
+The automated system checks whether any of our automated tests fail as well
+as tracks the percentage of our code that is covered by our automated tests.
+This means that when we go to review a pull request we can immediately see
+whether the proposed changes break any of our tests as well as whether the new
+code decreases the overall test coverage (see Figure~\ref{fig:pull-request}).
 
 \subsection{Documentation}
 
@@ -675,9 +689,9 @@ We use Sphinx\footnote{
    \url{http://sphinx-doc.org}
 } 
 as our documentation system
-and already have good developer documentation and the foundation for
+and have extensive developer documentation and the foundation for
 high-quality user documentation.
-Sphinx is the standard documentation system for Python projects and is used by
+Sphinx is the standard documentation system for Python and is used by
 the core scientific Python packages.
 We use Python docstrings and follow the NumPy docstring
 standard\footnote{
@@ -707,7 +721,10 @@ Python Package Index, or PyPI,\footnote{
    Comprehensive R Archive Network} (CRAN).
 } with release announcements posted to our mailing list.
 
-To install the version of \texttt{permute} used in this case study, type
+By making official releases whenever we reach an important stage of an
+applied project, we are able to easily recover the exact version of our
+analysis at a later date.
+To install the exact version of \texttt{permute} used in this case study, type
 the following command from a shell prompt (assuming you have Python and a
 recent version of \texttt{pip}):
 \begin{verbatim}
