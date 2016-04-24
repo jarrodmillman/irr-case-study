@@ -205,7 +205,9 @@ proposal for a stratified permutation test to assess inter-rater
 reliability using stratified samples.
 We (JM, KO, PS) had recently begun developing a general purpose Python package
 for permutation tests, called
-\texttt{permute},\footnote{\url{http://statlab.github.io/permute/}}
+\texttt{permute},\footnote{
+\url{http://statlab.github.io/permute/}
+}
 based on our collaborations.
 PS suggested this would be an interesting example to include.
 
@@ -238,7 +240,7 @@ problem in a meeting, then that meeting counts as 3~people hours.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{_fig/work_process_bids.png}
+    \includegraphics[width=0.8\textwidth]{_fig/work_process.png}
   \caption{
   \small
     Each box corresponds to one aspect of the project.
@@ -266,10 +268,11 @@ students and collaborators.
 Since we view computational reproducibility as a cross-cutting concern of all
 project aspects, we have adopted a set of computational practices, which we
 (JM, KO, PS) followed (almost) whenever we were working on the
-project.\footnote{Exceptions include that we did not record all of our
+project.\footnote{
+Exceptions include that we did not record all of our
 in-person discussions or whiteboard work.  
-However, we endeavored to
-record summaries of these activities.}
+However, we endeavored to record summaries of these activities.
+}
 These computational practices, described in \citet{millman2014developing},
 are used widely in the open source scientific Python community.
 While developed for managing software contributions, these practices are ideal
@@ -293,7 +296,7 @@ For the classification system to be meaningful and useful, different
 raters must generally agree on whether a given tag applies to a given video segment:
 there must be inter-rater reliability.
 Of course, if a tag is never used or is always used, inter-rater reliability will be perfect,
-but the tag is useless for distinguishing effective clinical interactions.
+but the tag is useless for distinguishing clinical interactions.
 
 That led to a statistical question: how to assess the evidence in the tagged videos
 that different raters
@@ -552,7 +555,7 @@ to look for errors and inconsistencies.
 Not only was this laborious, but it involved inferring what the data
 should have been without any direct way to ensure that these inferences were
 correct: the original raters and videos were not available to us.
-The solution to this pain point is to automate the data collection process as
+The solution to this pain point is to automate data collection as
 much as possible.
 However, when data have already been entered by hand, there is not much that can
 be done other than being cautious when ``fixing'' data entry errors and recording
@@ -596,9 +599,12 @@ successful open source projects \citep{millman2014developing}.
 
 \subsection{Version control and code review}
 
-We (JM, KO, PS) use Git\footnote{\url{http://git-scm.com}} as our version
-control system (VCS) and GitHub\footnote{\url{https://github.com}} as the
-public hosting service for our official \texttt{upstream} repository
+We (JM, KO, PS) use Git\footnote{
+\url{http://git-scm.com}
+}
+as our version control system (VCS) and GitHub\footnote{
+\url{https://github.com}
+} as the public hosting service for our official \texttt{upstream} repository
 (\url{https://github.com/statlab/permute}).
 Each of us has our own copy, or fork, of the \texttt{upstream} repository.
 We each work on our own repositories and use the \texttt{upstream} repository
@@ -629,7 +635,9 @@ as capturing our design discussions and decisions for future reference.
 \subsection{Testing and continuous integration}
 
 We used the \texttt{nose} testing framework for automating our testing
-procedures.\footnote{\url{https://nose.readthedocs.org}}
+procedures.\footnote{
+\url{https://nose.readthedocs.org}
+}
 This is the standard testing framework\footnote{
     As \texttt{nose} has been in
     maintenance mode for the last few years, projects are starting to look
@@ -663,13 +671,12 @@ Our goal is to test every line of code.
 For example, not only do we want to test every function in our package, but if
 a specific function has a conditional branching structure we test each
 possible execution path through that function.
-Having tested each line of code increases our confidence in our code, but
-more importantly provides some assurance that changes we make do
-not break existing code.
+Having tested each line of code increases our confidence in our code and
+provides some assurance that changes we make do not break existing code.
 It also increases our confidence that new code works, which reduces the
 friction of accepting contributions.
-Currently over 98\% of \texttt{permute}'s lines of code get executed at least
-once by our test system.
+Currently over 98\% of the lines of code in \texttt{permute} get executed at
+least once by our test system.
 
 We often work on several pull requests simultaneously.
 These pull requests may take several weeks or months before they are reviewed,
@@ -678,19 +685,14 @@ While we are working on one pull request, we may merge several others.
 Since the underlying code base is changing, each pull request may potentially
 introduce integration conflicts when we attempt to merge it back into
 the main line.
-To mitigate the difficulty in managing these conflicts we employee
+To mitigate the difficulty in managing these conflicts we employ
 continuous integration and track our test coverage.
 
 Continuous integration works as follows:
 Each pull request (as well as a new commit to an existing pull request) triggers
 an automated system\footnote{
-We have configured Travis CI\footnote{
-  \url{https://travis-ci.org}
-} 
-and
-\texttt{coveralls}\footnote{
-  \url{https://coveralls.io}
-}
+We have configured Travis CI (\url{https://travis-ci.org}) 
+and \texttt{coveralls} (\url{https://coveralls.io})
 to be automatically triggered whenever a commit is made to a pull request
 or the \texttt{upstream} master.
 These systems run the full test suite using different versions of our
@@ -725,7 +727,9 @@ to document all the modules and functions in \texttt{permute}.
 Using Sphinx and some NumPy extensions, we have a system for autogenerating the
 project documentation (as HTML or PDF) using the docstrings as well as
 stand-alone text written in a light-weight markdown-like language, called
-reStructuredText.\footnote{\url{http://docutils.sourceforge.net/rst.html}}
+reStructuredText.\footnote{
+\url{http://docutils.sourceforge.net/rst.html}
+}
 This system enables us to easily embed references, figures, code that is
 auto-run during documentation generation, as well as mathematics using \LaTeX.
 
