@@ -807,6 +807,7 @@ The null distribution arises from permuting the assignments each given rater mak
 of category $c$ to items within each stratum $s$, permuting independently
 across raters and across strata.
 
+Let $y_{si} = \sum_{r=1}^R L_{s,i,r}$ be the number of raters who tagged item $i$ in stratum $s$.
 The test statistic within stratum $s$ is
 \begin{align*}
 \rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
@@ -817,6 +818,7 @@ The test statistic within stratum $s$ is
 
 That is, within each stratum, we count the number of concordant pairs of
 assignments.
+The statistic simplifies to the second line, which counts the pairs of raters who tag the item plus the pairs of raters who do not tag the item.
 If all $R$ raters agree whether item $i$ in stratum $s$ belongs to category
 $c$, that contributes a term ${R \choose 2}$ to the sum.
 If only half agree, the term for item $i$ contributes $2 {N/2 \choose 2}$ to
